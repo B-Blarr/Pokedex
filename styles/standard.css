@@ -1,0 +1,9 @@
+* {
+  margin: 0;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  text-decoration: none;
+  position: relative;
+  object-fit: cover;
+  font-family: "Roboto";
+}
