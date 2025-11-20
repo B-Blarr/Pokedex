@@ -52,10 +52,20 @@ main {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
+  gap: 48px;
 }
 
 .pokemon-entry{
   color: white;
   min-width: 90px;
   min-height: 120px;
+}
+
+.pokemon-entry header{
+  display: flex;
+  justify-content: space-between;
+}
+
+section img{
+  max-width: 150px;
 }
