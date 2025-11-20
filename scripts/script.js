@@ -1,7 +1,9 @@
 const refContainer = document.getElementById("pokemon-listing");
 
-function init() {
-  loadPokemonInfos();
+async function init() {
+    showLoadingSpinner();
+    await loadPokemonInfos();
+    hideLoadingSpinner();
 }
 
 async function fetchName(id, pokemonImage) {
@@ -34,9 +36,8 @@ async function fetchName(id, pokemonImage) {
 }
 
 async function loadPokemonInfos() {
-  for (let id = 1; id <= 2; id++) {
+  for (let id = 1; id <= 15; id++) {
     const pokemonImage = await getPokemonImage(id);
-    // const pokemonType = await getType(id);
     await fetchName(id, pokemonImage);
     
   }
@@ -55,10 +56,8 @@ async function getType(id) {
     let data = await response.json();
     for (let i = 0; i < data.types.length; i++) {
         let pokemonType = data.types[i].type.name;
-        // let germanType =  getGermanType(pokemonType);
         let germanType = document.getElementById(`pokemon-entry-footer[${id}]`);
         germanType.innerHTML += getGermanType(pokemonType);
-        // return germanType;
     }
     
 }
@@ -86,15 +85,11 @@ function getGermanType(pokemonType) {
   if (pokemonType === "unknown") return `<div>Unbekannt</div>`;
 }
 
+function showLoadingSpinner() {
+  document.getElementById("loading-overlay").style.display = "flex";
+}
 
+function hideLoadingSpinner() {
+  document.getElementById("loading-overlay").style.display = "none";
+}
 
-
-
-
-
-// Typ Änderung
-
-// "grass" = "Pflanze"
-// "poison" = "Gift"
-// "ground" = "Boden"
-// "psychic" = "Psycho"
