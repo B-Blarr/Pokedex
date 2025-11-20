@@ -6,9 +6,7 @@ function init() {
 
 async function fetchName(id, pokemonImage) {
   let newName = "";
-  let response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon-species/${id}/`
-  );
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
   let data = await response.json();
   let pokemon = data.names;
   for (let i = 0; i < pokemon.length; i++) {
@@ -19,6 +17,7 @@ async function fetchName(id, pokemonImage) {
    
 }
  refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage);
+  const pokemonType = await getType(id);
 }
   
   function loadPokemonTemplate(newName, id, pokemonImage) {
@@ -35,9 +34,11 @@ async function fetchName(id, pokemonImage) {
 }
 
 async function loadPokemonInfos() {
-  for (let id = 1; id <= 15; id++) {
+  for (let id = 1; id <= 2; id++) {
     const pokemonImage = await getPokemonImage(id);
+    // const pokemonType = await getType(id);
     await fetchName(id, pokemonImage);
+    
   }
 }
 
@@ -47,3 +48,53 @@ async function getPokemonImage(id) {
   let pokemonImage = data.sprites.other["official-artwork"].front_default;
   return pokemonImage;
 }
+
+
+async function getType(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    for (let i = 0; i < data.types.length; i++) {
+        let pokemonType = data.types[i].type.name;
+        // let germanType =  getGermanType(pokemonType);
+        let germanType = document.getElementById(`pokemon-entry-footer[${id}]`);
+        germanType.innerHTML += getGermanType(pokemonType);
+        // return germanType;
+    }
+    
+}
+
+function getGermanType(pokemonType) {
+    if (pokemonType == "grass") return `<div>Pflanze</div>`;
+  if (pokemonType === "normal") return `<div>Normal</div>`;
+  if (pokemonType === "fighting") return `<div>Kampf`;
+  if (pokemonType === "flying") return `<div>Flug</div>`;
+  if (pokemonType === "poison") return `<div>Gift</div>`;
+  if (pokemonType === "ground") return `<div>Boden</div>`;
+  if (pokemonType === "rock") return `<div>Gestein</div>`;
+  if (pokemonType === "bug") return `<div>Käfer</div>`;
+  if (pokemonType === "ghost") return `<div>Geist</div>`;
+  if (pokemonType === "steel") return `<div>Stahl</div>`;
+  if (pokemonType === "fire") return `<div>Feuer</div>`;
+  if (pokemonType === "water") return `<div>Wasser</div>`;
+  if (pokemonType === "electric") return `<div>Elektro</div>`;
+  if (pokemonType === "psychic") return `<div>Psycho</div>`;
+  if (pokemonType === "ice") return `<div>Eis</div>`;
+  if (pokemonType === "dragon") return `<div>Drache</div>`;
+  if (pokemonType === "dark") return `<div>Dunkel</div>`;
+  if (pokemonType === "fairy") return `<div>Fee</div>`;
+  if (pokemonType === "stellar") return `<div>??</div>`;
+  if (pokemonType === "unknown") return `<div>Unbekannt</div>`;
+}
+
+
+
+
+
+
+
+// Typ Änderung
+
+// "grass" = "Pflanze"
+// "poison" = "Gift"
+// "ground" = "Boden"
+// "psychic" = "Psycho"

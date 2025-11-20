@@ -59,13 +59,19 @@ main {
   color: white;
   min-width: 90px;
   min-height: 120px;
+  border: 2px solid red;
+
 }
 
 .pokemon-entry header{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
 }
 
 section img{
   max-width: 150px;
+    background: rgb(4, 53, 4);
 }
