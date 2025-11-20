@@ -23,7 +23,6 @@ body {
   font-size: 32px;
 }
 
-
 .main-wrapper {
   display: flex;
   justify-content: center;
@@ -31,8 +30,6 @@ body {
   width: 100%;
   background: linear-gradient(#05171e, #0b191f);
 }
-
-
 
 main {
   display: flex;
@@ -49,4 +46,16 @@ main {
   height: 120px;
   margin-top: auto;
   background-color: #082129;
+}
+
+#pokemon-listing{
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.pokemon-entry{
+  color: white;
+  min-width: 90px;
+  min-height: 120px;
 }

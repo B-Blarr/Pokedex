@@ -10,7 +10,7 @@
     <script src="./scripts/script.js" defer></script>
     <script src="./scripts/template.js" defer></script>
 </head>
-<body>
+<body onload="init()">
     <div class="section-wrapper">
     <header class="main-header">
         <div>
@@ -22,7 +22,11 @@
     </div>
     <div class="main-wrapper">
     <main>
-
+        <article id="pokemon-listing">
+            <header id="pokemon-entry-header"></header>
+            <section id="pokemon-entry-image"></section>
+            <footer id="pokemon-entry-footer"></footer>
+        </article>
     </main>
     </div>
     <div class="section-wrapper">
