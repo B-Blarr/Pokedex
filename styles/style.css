@@ -77,7 +77,7 @@ main {
   color: white;
   min-width: 210px;
   min-height: 250px;
-  /* border: 2px solid red; */
+  /* border: 2px solid white; */
 transition: 0.25s ease;
 }
 
@@ -95,16 +95,6 @@ transition: 0.25s ease;
   padding: 6px 12px;
 }
 
-.pokemon-entry section img {
-  /* transition: 0.25s ease; */
-}
-
-.pokemon-entry section img:hover {
-  /* transform: scale(1.06) translateY(-4px);
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.15)); */
-
-}
-
 section img{
   max-width: 210px;
   display: block;
@@ -115,5 +105,21 @@ section img{
   display: flex;
   justify-content: space-between;
   background: #082129;
-  padding: 12px 16px;
+  padding: 12px 8px;
+}
+
+.loadButton{
+  border-radius: 16px;
+  border: none;
+  background-color: chocolate;
+  height: 48px;
+  width: 240px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.loadButton:hover{
+  transform: scale(1.1);
 }
