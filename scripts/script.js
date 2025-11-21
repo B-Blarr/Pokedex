@@ -3,6 +3,7 @@ let startId = loadedIds;
 const refContainer = document.getElementById("pokemon-listing");
 const dialogRef = document.getElementById("image-dialog");
 let refDialogId = 0;
+let currentPokemon = [];
 
 async function init() {
   showLoadingSpinner();
@@ -24,19 +25,16 @@ async function fetchName(id, pokemonImage) {
     for (let i = 0; i < pokemon.length; i++) {
       if (pokemon[i].language.name === "de") {
         newName = pokemon[i].name;
+        currentPokemon.push(newName);
         break;
       }
     }
   }
   const pokemonType = await getPokemonType(id);
-  refContainer.innerHTML += loadPokemonTemplate(
-    newName,
-    id,
-    pokemonImage,
-    pokemonType
-  );
+  refContainer.innerHTML += loadPokemonTemplate(newName,id,pokemonImage,pokemonType);
   getType(id);
 }
+
 async function getPokemonType(id) {
   let pokemonType = "";
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
