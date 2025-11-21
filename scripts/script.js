@@ -66,7 +66,7 @@ async function loadPokemonInfos() {
 
 async function loadMorePokemon() {
     showLoadingSpinner();
-    for (let id = loadedIds; id <= startId + 10; id++) {
+    for (let id = loadedIds + 1; id <= startId + 10; id++) {
         loadedIds++;
     const pokemonImage = await getPokemonImage(id);
     await fetchName(id, pokemonImage);
