@@ -34,6 +34,43 @@
         <button class="loadButton" onclick="loadMorePokemon()">Weitere Pokemon laden</button>    
     </footer>
     </div>
+    
+        <dialog id="image-dialog" aria-labelledby="dialog-headline">
+            <header>
+                <span id="dialog-id"></span>
+              <h2 id="dialog-headline"></h2>
+            </header>
+            <section>
+                <img id="dialog-image" src="" alt="">
+              <div id="dialog-type"></div>
+            </section>
+            <footer class="dialog-footer">
+                <section id="footer-section">
+                    <div>
+                    <button>
+
+                    </button>
+                    <button>
+
+                    </button>
+                    <button>
+
+                    </button>
+                    </div>
+                    <article id="info-area"></article>
+                </section>
+                <div id="dialog-button-area">
+              <button aria-label="Vorheriges Pokemon" onclick="previousPokemon()">
+                <img src="./img/left-arrow.png" alt="backwards arrow" />
+              </button>
+              <span id="dialog-numeration"></span>
+              <button aria-label="Nächstes Pokemon" onclick="nextPokemon()">
+                <img src="./img/right-arrow.png" alt="forward arrow" />
+              </button>
+              </div>
+            </footer>
+          </dialog>
+    
 </body>
 </html>
 

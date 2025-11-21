@@ -123,3 +123,18 @@ section img{
 .loadButton:hover{
   transform: scale(1.1);
 }
+
+#image-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5%;
+  background: #0e2a31;
+  border: 3px solid #d47a1c;
+  box-shadow: 0 0 22px rgba(212, 122, 28, 0.35),
+    inset 0 0 6px rgba(212, 122, 28, 0.15);
+  background: #0e2a31ee;
+  backdrop-filter: blur(8px);
+  height: 300px;
+}
