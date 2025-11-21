@@ -1,0 +1,184 @@
+.type{
+display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  margin: 0 8px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  /* color: #ffffff; */
+  /* background: rgba(255, 255, 255, 0.08); */
+  /* box-shadow: 0 0 6px rgba(0, 0, 0, 0.7); */
+  /* transition: 0.2s ease; */
+}
+
+/* .type:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px currentColor;
+} */
+
+.type::before {
+  content: "";
+  /* display: inline-block; */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+
+  /* transition: 0.2s ease; */
+}
+
+/* .type:hover::before {
+  transform: scale(1.35); */
+/* } */
+
+.grass {
+  background: linear-gradient(135deg, #1f5f38, #3dab57);
+}
+
+.grass::before {
+  background: #8ce38f;
+}
+
+.fire {
+  background: linear-gradient(135deg, #7a2410, #ff8a3a);
+}
+
+.fire::before {
+  background: #ffd38a;
+}
+
+.water {
+  background: linear-gradient(135deg, #15406e, #3f8cff);
+}
+
+.water::before {
+  background: #8dd2ff;
+}
+
+.electric {
+  background: linear-gradient(135deg, #6a5404, #e4c22e);
+}
+
+.electric::before {
+  background: #ffe96a;
+}
+
+.poison {
+  background: linear-gradient(135deg, #4c1b5c, #a645c7);
+}
+
+.poison::before {
+  background: #e3a8ff;
+}
+
+.ground {
+  background: linear-gradient(135deg, #5a3a16, #c7904a);
+}
+
+.ground::before {
+  background: #f3d1a2;
+}
+
+.rock {
+  background: linear-gradient(135deg, #4d3d1d, #b59b63);
+}
+.rock::before {
+  background: #e8d8a9;
+}
+
+.bug {
+  background: linear-gradient(135deg, #4a5f0d, #9bc02d);
+}
+
+.bug::before {
+  background: #d8f27f;
+}
+
+.flying {
+  background: linear-gradient(135deg, #5b6fb8, #889de9);
+}
+
+.flying::before {
+  background: #c7d5ff;
+}
+
+.psychic {
+  background: linear-gradient(135deg, #a1134b, #ff4f8b);
+}
+
+.psychic::before {
+  background: #ffb3d0;
+}
+
+.ice {
+  background: linear-gradient(135deg, #3f7e8c, #87d7e0);
+}
+
+.ice::before {
+  background: #dffbff;
+}
+
+.dragon {
+  background: linear-gradient(135deg, #2b2277, #5d48e5);
+}
+
+.dragon::before {
+  background: #b5a7ff;
+}
+
+.steel {
+  background: linear-gradient(135deg, #4b4f54, #9ea8b2);
+}
+
+.steel::before {
+  background: #d6dde5;
+}
+
+.dark {
+  background: linear-gradient(135deg, #2c1e22, #5e4754);
+}
+
+.dark::before {
+  background: #bfa4b7;
+}
+
+.ghost {
+  background: linear-gradient(135deg, #3b2a6e, #6e59a9);
+}
+
+.ghost::before {
+  background: #cfc1ff;
+}
+
+.fighting {
+  background: linear-gradient(135deg, #702d1f, #b64936);
+}
+
+.fighting::before {
+  background: #ffb1a4;
+}
+
+.fairy {
+  background: linear-gradient(135deg, #b53f9c, #ff9fe8);
+}
+
+.fairy::before {
+  background: #ffe2f7;
+}
+
+.normal {
+  background: linear-gradient(135deg, #7c7570, #bdb5ac);
+}
+
+.normal::before {
+  background: #e8e4df;
+}
+
+.stellar {
+  background: linear-gradient(135deg, #3a3a3a, #909090);
+}
+
+.stellar::before {
+  background: #fff;
+}

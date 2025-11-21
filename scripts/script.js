@@ -16,27 +16,43 @@ async function fetchName(id, pokemonImage) {
       newName = pokemon[i].name;
       break;
     }
-   
 }
- refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage);
-  const pokemonType = await getType(id);
+  const pokemonType = await getPokemonType(id);
+ refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
+getType(id);
 }
-  
-  function loadPokemonTemplate(newName, id, pokemonImage) {
-  return`
-            <div class="pokemon-entry">
-                <header id="pokemon-entry-header[${id}]">
-                   <span id="pokemon-id[${id}]"># ${id}</span>
-                   <h3>${newName}</h3>
-                </header>
-                <section id="pokemon-entry-image[${id}]"><img src="${pokemonImage}" alt="${newName}"></section>
-                <footer id="pokemon-entry-footer[${id}]"></footer>
-            </div>
+async function getPokemonType(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    for (let i = 0; i < data.types.length; i++) {
+        let pokemonType = data.types[i].type.name;
+        return pokemonType;
+}
+
+    }
+
+
+
+
+
+
+
+
+  function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
+return`
+    <div class="pokemon-entry">
+        <header id="pokemon-entry-header[${id}]">
+            <span id="pokemon-id[${id}]"># ${id}</span>
+            <h3>${newName}</h3>
+        </header>
+        <section id="pokemon-entry-image[${id}]"><img class="${pokemonType}" src="${pokemonImage}" alt="${newName}"></section>
+        <footer id="pokemon-entry-footer[${id}]"></footer>
+    </div>
         `;
 }
 
 async function loadPokemonInfos() {
-  for (let id = 1; id <= 15; id++) {
+  for (let id = 1; id <= 10; id++) {
     const pokemonImage = await getPokemonImage(id);
     await fetchName(id, pokemonImage);
     
@@ -52,37 +68,38 @@ async function getPokemonImage(id) {
 
 
 async function getType(id) {
+    let pokemonType = "";
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     let data = await response.json();
     for (let i = 0; i < data.types.length; i++) {
-        let pokemonType = data.types[i].type.name;
+        pokemonType = data.types[i].type.name;
         let germanType = document.getElementById(`pokemon-entry-footer[${id}]`);
         germanType.innerHTML += getGermanType(pokemonType);
     }
-    
+    return pokemonType;
 }
 
 function getGermanType(pokemonType) {
-    if (pokemonType == "grass") return `<div>Pflanze</div>`;
-  if (pokemonType === "normal") return `<div>Normal</div>`;
-  if (pokemonType === "fighting") return `<div>Kampf`;
-  if (pokemonType === "flying") return `<div>Flug</div>`;
-  if (pokemonType === "poison") return `<div>Gift</div>`;
-  if (pokemonType === "ground") return `<div>Boden</div>`;
-  if (pokemonType === "rock") return `<div>Gestein</div>`;
-  if (pokemonType === "bug") return `<div>Käfer</div>`;
-  if (pokemonType === "ghost") return `<div>Geist</div>`;
-  if (pokemonType === "steel") return `<div>Stahl</div>`;
-  if (pokemonType === "fire") return `<div>Feuer</div>`;
-  if (pokemonType === "water") return `<div>Wasser</div>`;
-  if (pokemonType === "electric") return `<div>Elektro</div>`;
-  if (pokemonType === "psychic") return `<div>Psycho</div>`;
-  if (pokemonType === "ice") return `<div>Eis</div>`;
-  if (pokemonType === "dragon") return `<div>Drache</div>`;
-  if (pokemonType === "dark") return `<div>Dunkel</div>`;
-  if (pokemonType === "fairy") return `<div>Fee</div>`;
-  if (pokemonType === "stellar") return `<div>??</div>`;
-  if (pokemonType === "unknown") return `<div>Unbekannt</div>`;
+  if (pokemonType == "grass") return `<div class='type grass'>Pflanze</div>`;
+  if (pokemonType === "normal") return `<div class='type normal'>Normal</div>`;
+  if (pokemonType === "fighting") return `<div class='type fighting'>Kampf`;
+  if (pokemonType === "flying") return `<div class='type flying'>Flug</div>`;
+  if (pokemonType === "poison") return `<div class='type poison'>Gift</div>`;
+  if (pokemonType === "ground") return `<div class='type ground'>Boden</div>`;
+  if (pokemonType === "rock") return `<div class='type rock'>Gestein</div>`;
+  if (pokemonType === "bug") return `<div class='type bug'>Käfer</div>`;
+  if (pokemonType === "ghost") return `<div class='type ghost'>Geist</div>`;
+  if (pokemonType === "steel") return `<div class='type steel'>Stahl</div>`;
+  if (pokemonType === "fire") return `<div class='type fire'>Feuer</div>`;
+  if (pokemonType === "water") return `<div class='type water'>Wasser</div>`;
+  if (pokemonType === "electric") return `<div class='type electric'>Elektro</div>`;
+  if (pokemonType === "psychic") return `<div class='type psychic'>Psycho</div>`;
+  if (pokemonType === "ice") return `<div class='type ice'>Eis</div>`;
+  if (pokemonType === "dragon") return `<div class='type dragon'>Drache</div>`;
+  if (pokemonType === "dark") return `<div class='type dark'>Unlicht</div>`;
+  if (pokemonType === "fairy") return `<div class='type fairy'>Fee</div>`;
+  if (pokemonType === "stellar") return `<div class='type stellar'>Stellar</div>`;
+  if (pokemonType === "unknown") return `<div class='type unknown'>Unbekannt</div>`;
 }
 
 function showLoadingSpinner() {
