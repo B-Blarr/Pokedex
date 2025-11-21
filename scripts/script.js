@@ -1,3 +1,6 @@
+
+let loadedIds = 0;
+let startId = loadedIds;
 const refContainer = document.getElementById("pokemon-listing");
 
 async function init() {
@@ -41,22 +44,36 @@ async function getPokemonType(id) {
   function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
 return`
     <div class="pokemon-entry">
-        <header id="pokemon-entry-header[${id}]">
-            <span id="pokemon-id[${id}]"># ${id}</span>
+        <header id="pokemon-entry-header-${id}">
+            <span id="pokemon-id-${id}"># ${id}</span>
             <h3>${newName}</h3>
         </header>
-        <section id="pokemon-entry-image[${id}]"><img class="${pokemonType}" src="${pokemonImage}" alt="${newName}"></section>
-        <footer id="pokemon-entry-footer[${id}]"></footer>
+        <section id="pokemon-entry-image-${id}"><img class="${pokemonType}" src="${pokemonImage}" alt="${newName}"></section>
+        <footer id="pokemon-entry-footer-${id}"></footer>
     </div>
         `;
 }
 
 async function loadPokemonInfos() {
-  for (let id = 1; id <= 10; id++) {
+  for (let id = 1; id <= startId + 10; id++) {
+    loadedIds++;
     const pokemonImage = await getPokemonImage(id);
     await fetchName(id, pokemonImage);
     
   }
+  startId = startId + 10;
+}
+
+async function loadMorePokemon() {
+    showLoadingSpinner();
+    for (let id = loadedIds; id <= startId + 10; id++) {
+        loadedIds++;
+    const pokemonImage = await getPokemonImage(id);
+    await fetchName(id, pokemonImage);
+    
+  }
+  hideLoadingSpinner();
+  startId = startId + 10;
 }
 
 async function getPokemonImage(id) {
@@ -73,7 +90,7 @@ async function getType(id) {
     let data = await response.json();
     for (let i = 0; i < data.types.length; i++) {
         pokemonType = data.types[i].type.name;
-        let germanType = document.getElementById(`pokemon-entry-footer[${id}]`);
+        let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
         germanType.innerHTML += getGermanType(pokemonType);
     }
     return pokemonType;
@@ -82,7 +99,7 @@ async function getType(id) {
 function getGermanType(pokemonType) {
   if (pokemonType == "grass") return `<div class='type grass'>Pflanze</div>`;
   if (pokemonType === "normal") return `<div class='type normal'>Normal</div>`;
-  if (pokemonType === "fighting") return `<div class='type fighting'>Kampf`;
+  if (pokemonType === "fighting") return `<div class='type fighting'>Kampf</div>`;
   if (pokemonType === "flying") return `<div class='type flying'>Flug</div>`;
   if (pokemonType === "poison") return `<div class='type poison'>Gift</div>`;
   if (pokemonType === "ground") return `<div class='type ground'>Boden</div>`;

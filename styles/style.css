@@ -70,7 +70,7 @@ main {
   flex: 1;
   flex-wrap: wrap;
   gap: 48px;
-  margin-top: 40px;
+  margin: 40px 0;
 }
 
 .pokemon-entry{
