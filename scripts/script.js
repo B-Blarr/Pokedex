@@ -12,6 +12,10 @@ async function init() {
 async function fetchName(id, pokemonImage) {
   let newName = "";
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
+  if (!response.ok) {
+    console.log("Species-Fehler bei der ID:", id, "Statuscode:", response.status);
+    newName = "Unbekannt";
+  }else{
   let data = await response.json();
   let pokemon = data.names;
   for (let i = 0; i < pokemon.length; i++) {
@@ -19,27 +23,25 @@ async function fetchName(id, pokemonImage) {
       newName = pokemon[i].name;
       break;
     }
+    }
 }
   const pokemonType = await getPokemonType(id);
  refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
 getType(id);
 }
 async function getPokemonType(id) {
+    let pokemonType = "";
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    if (!response.ok) {
+        pokemonType = "Unbekannt";}
+        else{
     let data = await response.json();
     for (let i = 0; i < data.types.length; i++) {
-        let pokemonType = data.types[i].type.name;
+        pokemonType = data.types[i].type.name;
         return pokemonType;
-}
-
     }
-
-
-
-
-
-
-
+}
+}
 
   function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
 return`
@@ -55,13 +57,13 @@ return`
 }
 
 async function loadPokemonInfos() {
-  for (let id = 1; id <= startId + 10; id++) {
+  for (let id = 1; id <= startId + 25; id++) {
     loadedIds++;
     const pokemonImage = await getPokemonImage(id);
     await fetchName(id, pokemonImage);
     
   }
-  startId = startId + 10;
+  startId = startId + 25;
 }
 
 async function loadMorePokemon() {
@@ -78,15 +80,23 @@ async function loadMorePokemon() {
 
 async function getPokemonImage(id) {
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  if (!response.ok) {
+    return "../assets/img/Download.png";
+  }
+  else{
   let data = await response.json();
   let pokemonImage = data.sprites.other["official-artwork"].front_default;
   return pokemonImage;
 }
-
+}
 
 async function getType(id) {
     let pokemonType = "";
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    if (!response.ok) {
+        pokemonType = "unknown";
+    }
+    else{
     let data = await response.json();
     for (let i = 0; i < data.types.length; i++) {
         pokemonType = data.types[i].type.name;
@@ -94,6 +104,7 @@ async function getType(id) {
         germanType.innerHTML += getGermanType(pokemonType);
     }
     return pokemonType;
+}
 }
 
 function getGermanType(pokemonType) {
