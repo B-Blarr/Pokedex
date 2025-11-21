@@ -33,6 +33,7 @@ async function getPokemonType(id) {
     let pokemonType = "";
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     if (!response.ok) {
+        console.log("Type-Fehler bei der ID:", id, "Statuscode:", response.status);
         pokemonType = "Unbekannt";}
         else{
     let data = await response.json();
@@ -81,7 +82,8 @@ async function loadMorePokemon() {
 async function getPokemonImage(id) {
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   if (!response.ok) {
-    return "../assets/img/Download.png";
+    console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
+    return "../assets/img/faq.png";
   }
   else{
   let data = await response.json();
@@ -94,7 +96,10 @@ async function getType(id) {
     let pokemonType = "";
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     if (!response.ok) {
-        pokemonType = "unknown";
+        console.log("Type-Fehler bei der ID:", id, "Statuscode:", response.status);
+       pokemonType = "unknown";
+       let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
+       germanType.innerHTML += getGermanType(pokemonType);
     }
     else{
     let data = await response.json();
