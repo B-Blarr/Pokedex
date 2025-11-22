@@ -3,6 +3,7 @@ let startId = loadedIds;
 const refContainer = document.getElementById("pokemon-listing");
 const dialogRef = document.getElementById("image-dialog");
 let refDialogImage = document.getElementById("dialog-image");
+let refDialogImageSection = document.getElementById("dialog-image-section");
 let refDialogId = 0;
 let currentPokemon = [];
 
@@ -174,7 +175,7 @@ async function addTypeColorToDialog(id) {
     let data = await response.json();
     for (let i = 0; i < data.types.length; i++) {
      let pokemonType = data.types[i].type.name;
-     refDialogImage.classList.add(pokemonType);
+     refDialogImageSection.classList.add(pokemonType);
      break;
     }
 }
@@ -183,7 +184,7 @@ function closeDialog(event) {
   if (event.target === dialogRef) {
     let refDialogType = document.getElementById("dialog-type");
     refDialogType.innerHTML = "";
-    refDialogImage.classList.remove(refDialogImage.classList);
+    refDialogImageSection.classList.remove(refDialogImageSection.classList);
     dialogRef.close();
   }
 }
