@@ -140,7 +140,7 @@ main {
   /* background: #0e2a31ee; */
   /* backdrop-filter: blur(8px); */
   min-height: 640px;
-  width: 480px;
+  width: 380px;
   padding: 0px 0;
 }
 
@@ -259,10 +259,17 @@ button img {
 #info-area{
   width: 100%;
   color: white;
+  padding-top: 12px;
 }
 
 table{
-  width: 60%;
+  width: 75%;
+}
+
+tbody{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 tbody tr{

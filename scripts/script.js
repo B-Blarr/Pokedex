@@ -249,3 +249,48 @@ async function renderBaseExperience(id) {
     let refPokemonBaseExperience = document.getElementById("base-experience");
     refPokemonBaseExperience.innerText = data.base_experience;
 }
+
+function toggleDialogMain() {
+const mainButton = document.getElementById('main-button');
+const mainArea = document.getElementById('main-area');
+const statsArea = document.getElementById('stats-area');
+const shinyArea = document.getElementById('shiny-area');
+
+mainButton.addEventListener('click', function() {
+  
+    mainArea.style.display = 'block';
+    statsArea.style.display = 'none';
+    shinyArea.style.display = 'none'; 
+  }
+);
+}
+
+function toggleDialogStats() {
+const statsButton = document.getElementById('stats-button');
+const mainArea = document.getElementById('main-area');
+const statsArea = document.getElementById('stats-area');
+const shinyArea = document.getElementById('shiny-area');
+
+statsButton.addEventListener('click', function() {
+  
+    mainArea.style.display = 'none';
+    statsArea.style.display = 'block';
+    shinyArea.style.display = 'none'; 
+  }
+);
+}
+
+function toggleDialogShiny() {
+const shinyButton = document.getElementById('shiny-button');
+const mainArea = document.getElementById('main-area');
+const statsArea = document.getElementById('stats-area');
+const shinyArea = document.getElementById('shiny-area');
+
+shinyButton.addEventListener('click', function() {
+  
+    mainArea.style.display = 'none';
+    statsArea.style.display = 'none';
+    shinyArea.style.display = 'block'; 
+  }
+);
+}
