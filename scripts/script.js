@@ -20,7 +20,12 @@ async function fetchName(id, pokemonImage) {
     `https://pokeapi.co/api/v2/pokemon-species/${id}/`
   );
   if (!response.ok) {
-    console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
+    console.log(
+      "Species-Fehler bei der ID:",
+      id,
+      "Statuscode:",
+      response.status
+    );
     newName = "Unbekannt";
   } else {
     let data = await response.json();
@@ -34,7 +39,12 @@ async function fetchName(id, pokemonImage) {
     }
   }
   const pokemonType = await getPokemonType(id);
-  refContainer.innerHTML += loadPokemonTemplate(newName,id,pokemonImage,pokemonType);
+  refContainer.innerHTML += loadPokemonTemplate(
+    newName,
+    id,
+    pokemonImage,
+    pokemonType
+  );
   getType(id);
 }
 
@@ -125,7 +135,8 @@ async function getType(id) {
 function getGermanType(pokemonType) {
   if (pokemonType == "grass") return `<div class='type grass'>Pflanze</div>`;
   if (pokemonType === "normal") return `<div class='type normal'>Normal</div>`;
-  if (pokemonType === "fighting") return `<div class='type fighting'>Kampf</div>`;
+  if (pokemonType === "fighting")
+    return `<div class='type fighting'>Kampf</div>`;
   if (pokemonType === "flying") return `<div class='type flying'>Flug</div>`;
   if (pokemonType === "poison") return `<div class='type poison'>Gift</div>`;
   if (pokemonType === "ground") return `<div class='type ground'>Boden</div>`;
@@ -135,14 +146,18 @@ function getGermanType(pokemonType) {
   if (pokemonType === "steel") return `<div class='type steel'>Stahl</div>`;
   if (pokemonType === "fire") return `<div class='type fire'>Feuer</div>`;
   if (pokemonType === "water") return `<div class='type water'>Wasser</div>`;
-  if (pokemonType === "electric") return `<div class='type electric'>Elektro</div>`;
-  if (pokemonType === "psychic") return `<div class='type psychic'>Psycho</div>`;
+  if (pokemonType === "electric")
+    return `<div class='type electric'>Elektro</div>`;
+  if (pokemonType === "psychic")
+    return `<div class='type psychic'>Psycho</div>`;
   if (pokemonType === "ice") return `<div class='type ice'>Eis</div>`;
   if (pokemonType === "dragon") return `<div class='type dragon'>Drache</div>`;
   if (pokemonType === "dark") return `<div class='type dark'>Unlicht</div>`;
   if (pokemonType === "fairy") return `<div class='type fairy'>Fee</div>`;
-  if (pokemonType === "stellar") return `<div class='type stellar'>Stellar</div>`;
-  if (pokemonType === "unknown") return `<div class='type unknown'>Unbekannt</div>`;
+  if (pokemonType === "stellar")
+    return `<div class='type stellar'>Stellar</div>`;
+  if (pokemonType === "unknown")
+    return `<div class='type unknown'>Unbekannt</div>`;
 }
 
 function showLoadingSpinner() {
@@ -173,13 +188,13 @@ async function openDialog(newName, id, pokemonImage) {
 }
 
 async function addTypeColorToDialog(id) {
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    let data = await response.json();
-    for (let i = 0; i < data.types.length; i++) {
-     let pokemonType = data.types[i].type.name;
-     refDialogImageSection.classList.add(pokemonType);
-     break;
-    }
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  let data = await response.json();
+  for (let i = 0; i < data.types.length; i++) {
+    let pokemonType = data.types[i].type.name;
+    refDialogImageSection.classList.add(pokemonType);
+    break;
+  }
 }
 
 function closeDialog(event) {
@@ -194,103 +209,117 @@ function closeDialog(event) {
 dialogRef.addEventListener("click", closeDialog);
 
 async function renderDialogInfos(id) {
-    renderDialogMain(id);
-    // renderDialogStats();
-    // renderDIalogShiny();
+  renderDialogMain(id);
+  // renderDialogStats();
+  renderDialogShiny(id);
 }
 
 async function renderDialogMain(id) {
-    renderPokemonHeight(id);
-    renderPokemonWeight(id);
-    renderAbilities(id);
-    renderBaseExperience(id);
+  renderPokemonHeight(id);
+  renderPokemonWeight(id);
+  renderAbilities(id);
+  renderBaseExperience(id);
 }
 
 async function renderPokemonHeight(id) {
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    let data = await response.json();
-    let refPokemonHeight = document.getElementById("pokemonHeight");
-    refPokemonHeight.innerText = (":  " + (data.height / 10) + " m").replaceAll(".",",");
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  let data = await response.json();
+  let refPokemonHeight = document.getElementById("pokemonHeight");
+  refPokemonHeight.innerText = (":  " + data.height / 10 + " m").replaceAll(
+    ".",
+    ","
+  );
 }
 
 async function renderPokemonWeight(id) {
-     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    let data = await response.json();
-    let refPokemonWeight = document.getElementById("pokemonWeight");
-    refPokemonWeight.innerText = (":  " + (data.weight / 10) + " kg").replaceAll(".",",");
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  let data = await response.json();
+  let refPokemonWeight = document.getElementById("pokemonWeight");
+  refPokemonWeight.innerText = (":  " + data.weight / 10 + " kg").replaceAll(
+    ".",
+    ","
+  );
 }
 
 async function renderAbilities(id) {
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-//   if (!response.ok) {
-//     console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
-//     newName = "Unbekannt";
-//   } else {
-    let data = await response.json();
-    
-    for (let i = 0; i < data.abilities.length; i++) {
-        let abilityUrl = data.abilities[i].ability.url;
-        let newResponse = await fetch(abilityUrl);
-         let newData = await newResponse.json();
-        for (let j = 0; j < newData.names.length; j++) {
-         if (newData.names[j].language.name === "de") {
-            newAbility = newData.names[j].name;
-            refAbilities.innerHTML += `<div class="ability" >${newAbility}</div>`;
-      } 
+  //   if (!response.ok) {
+  //     console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
+  //     newName = "Unbekannt";
+  //   } else {
+  let data = await response.json();
+
+  for (let i = 0; i < data.abilities.length; i++) {
+    let abilityUrl = data.abilities[i].ability.url;
+    let newResponse = await fetch(abilityUrl);
+    let newData = await newResponse.json();
+    for (let j = 0; j < newData.names.length; j++) {
+      if (newData.names[j].language.name === "de") {
+        newAbility = newData.names[j].name;
+        refAbilities.innerHTML += `<div class="ability" >${newAbility}</div>`;
       }
     }
-//     }
-//   }
+  }
+  //     }
+  //   }
 }
 
 async function renderBaseExperience(id) {
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    let data = await response.json();
-    let refPokemonBaseExperience = document.getElementById("base-experience");
-    refPokemonBaseExperience.innerText = data.base_experience;
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  let data = await response.json();
+  let refPokemonBaseExperience = document.getElementById("base-experience");
+  refPokemonBaseExperience.innerText = data.base_experience;
 }
 
 function toggleDialogMain() {
-const mainButton = document.getElementById('main-button');
-const mainArea = document.getElementById('main-area');
-const statsArea = document.getElementById('stats-area');
-const shinyArea = document.getElementById('shiny-area');
+  const mainButton = document.getElementById("main-button");
+  const mainArea = document.getElementById("main-area");
+  const statsArea = document.getElementById("stats-area");
+  const shinyArea = document.getElementById("shiny-area");
 
-mainButton.addEventListener('click', function() {
-  
-    mainArea.style.display = 'block';
-    statsArea.style.display = 'none';
-    shinyArea.style.display = 'none'; 
-  }
-);
+  mainButton.addEventListener("click", function () {
+    mainArea.style.display = "block";
+    statsArea.style.display = "none";
+    shinyArea.style.display = "none";
+  });
 }
 
 function toggleDialogStats() {
-const statsButton = document.getElementById('stats-button');
-const mainArea = document.getElementById('main-area');
-const statsArea = document.getElementById('stats-area');
-const shinyArea = document.getElementById('shiny-area');
+  const statsButton = document.getElementById("stats-button");
+  const mainArea = document.getElementById("main-area");
+  const statsArea = document.getElementById("stats-area");
+  const shinyArea = document.getElementById("shiny-area");
 
-statsButton.addEventListener('click', function() {
-  
-    mainArea.style.display = 'none';
-    statsArea.style.display = 'block';
-    shinyArea.style.display = 'none'; 
-  }
-);
+  statsButton.addEventListener("click", function () {
+    mainArea.style.display = "none";
+    statsArea.style.display = "block";
+    shinyArea.style.display = "none";
+  });
 }
 
 function toggleDialogShiny() {
-const shinyButton = document.getElementById('shiny-button');
-const mainArea = document.getElementById('main-area');
-const statsArea = document.getElementById('stats-area');
-const shinyArea = document.getElementById('shiny-area');
+  const shinyButton = document.getElementById("shiny-button");
+  const mainArea = document.getElementById("main-area");
+  const statsArea = document.getElementById("stats-area");
+  const shinyArea = document.getElementById("shiny-area");
 
-shinyButton.addEventListener('click', function() {
-  
-    mainArea.style.display = 'none';
-    statsArea.style.display = 'none';
-    shinyArea.style.display = 'block'; 
+  shinyButton.addEventListener("click", function () {
+    mainArea.style.display = "none";
+    statsArea.style.display = "none";
+    shinyArea.style.display = "flex";
+  });
+}
+
+async function renderDialogShiny(id) {
+    
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  if (!response.ok) {
+    console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
+    return "../assets/img/faq.png";
+  } else {
+    let data = await response.json();
+    let shinyImage = data.sprites.other["official-artwork"].front_shiny;
+    refShinyImage = document.getElementById("shiny-image");
+    refShinyImage.src = shinyImage;
   }
-);
 }

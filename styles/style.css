@@ -155,7 +155,7 @@ dialog header {
   display: flex;
   justify-content: space-between;
   padding: 12px 32px;
-  padding-right: 210px;
+  padding-right: 140px;
 }
 
 dialog header span {
@@ -257,6 +257,7 @@ button img {
 }
 
 #info-area{
+  
   width: 100%;
   color: white;
   padding-top: 12px;
@@ -309,4 +310,11 @@ display: none;
 
 #shiny-area{
 display: none;
+align-items: center;
+justify-content: center;
+width: 100%;
+}
+
+#shiny-area img{
+width: 210px;
 }
