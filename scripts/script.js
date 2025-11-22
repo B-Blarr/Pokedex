@@ -203,6 +203,7 @@ async function renderDialogMain(id) {
     renderPokemonHeight(id);
     renderPokemonWeight(id);
     renderAbilities(id);
+    renderBaseExperience(id);
 }
 
 async function renderPokemonHeight(id) {
@@ -234,10 +235,17 @@ async function renderAbilities(id) {
         for (let j = 0; j < newData.names.length; j++) {
          if (newData.names[j].language.name === "de") {
             newAbility = newData.names[j].name;
-            refAbilities.innerHTML += `<div>${newAbility}</div>`;
+            refAbilities.innerHTML += `<div class="ability" >${newAbility}</div>`;
       } 
       }
     }
 //     }
 //   }
+}
+
+async function renderBaseExperience(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    let refPokemonBaseExperience = document.getElementById("base-experience");
+    refPokemonBaseExperience.innerText = data.base_experience;
 }

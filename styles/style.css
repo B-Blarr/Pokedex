@@ -261,6 +261,37 @@ button img {
   color: white;
 }
 
+table{
+  width: 60%;
+}
+
+tbody tr{
+display: flex;
+flex-direction: row;
+}
+
+tbody tr td{
+  display: flex;
+  flex-direction: column;
+  font-size: 21px;
+}
+
+td:first-child{
+  padding-left: 16px;
+}
+
+#height{
+padding-right: 62px;
+}
+
+#weight{
+padding-right: 43px;
+}
+
+#ability{
+  padding-right: 4px;
+}
+
 #main-area{
   display: block;
 }
