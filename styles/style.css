@@ -255,3 +255,20 @@ h2 {
 button img {
   width: 36px;
 }
+
+#info-area{
+  width: 100%;
+  color: white;
+}
+
+#main-area{
+  display: block;
+}
+
+#stats-area{
+display: none;
+}
+
+#shiny-area{
+display: none;
+}

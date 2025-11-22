@@ -1,78 +1,118 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokedex</title>
-    <link rel="stylesheet" href="./styles/fonts.css">
-    <link rel="stylesheet" href="./styles/standard.css">
-    <link rel="stylesheet" href="./styles/style.css">
-    <link rel="stylesheet" href="./styles/types.css">
+    <link rel="stylesheet" href="./styles/fonts.css" />
+    <link rel="stylesheet" href="./styles/standard.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/types.css" />
     <script src="./scripts/script.js" defer></script>
     <script src="./scripts/template.js" defer></script>
-</head>
-<body onload="init()">
-    <div id="loading-overlay"><img src="./assets/img/flamara.gif" alt=""></div>
+  </head>
+  <body onload="init()">
+    <div id="loading-overlay">
+      <img src="./assets/img/flamara.gif" alt="" />
+    </div>
     <div class="section-wrapper">
-    <header class="main-header">
+      <header class="main-header">
         <div>
-        <img src="" alt="">
-        <h1>Pokedex</h1>
+          <img src="" alt="" />
+          <h1>Pokedex</h1>
         </div>
-        <input type="search" name="search-input" id="search-input">
-    </header>
+        <input type="search" name="search-input" id="search-input" />
+      </header>
     </div>
     <div class="main-wrapper">
-    <main>
-        <article id="pokemon-listing">
-            
-        </article>
-    </main>
+      <main>
+        <article id="pokemon-listing"></article>
+      </main>
     </div>
     <div class="section-wrapper">
-    <footer class="main-footer">
-        <button class="loadButton" onclick="loadMorePokemon()">Weitere Pokemon laden</button>    
-    </footer>
+      <footer class="main-footer">
+        <button class="loadButton" onclick="loadMorePokemon()">
+          Weitere Pokemon laden
+        </button>
+      </footer>
     </div>
-    
-        <dialog id="image-dialog" aria-labelledby="dialog-headline">
-            <div class="dialog-wrapper">
-            <header>
-                <span id="dialog-id"></span>
-              <h2 id="dialog-headline"></h2>
-            </header>
-            <section id="dialog-image-section">
-                <img id="dialog-image" src="" alt="">
-              <aside id="dialog-type"></aside>
-            </section>
-            <footer class="dialog-footer">
-                <section id="footer-section">
-                    <div class ="button-area">
-                    <button class="dialog-category-button">
-                        Main
-                    </button>
-                    <button class="dialog-category-button">
-                        Stats
-                    </button>
-                    <button class="dialog-category-button">
-                        Shiny
-                    </button>
-                    </div>
-                    <article id="info-area"></article>
-                </section>
-                <div id="dialog-footer-button">
-              <button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon()">
-                <img src="./assets/icons/left-arrow.png" alt="backwards arrow" />
-              </button>
-              <span id="dialog-numeration"></span>
-              <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon()">
-                <img src="./assets/icons/right-arrow.png" alt="forward arrow" />
-              </button>
-              </div>
-            </footer>
-            </div>
-          </dialog>
-    
-</body>
-</html>
 
+    <dialog id="image-dialog" aria-labelledby="dialog-headline">
+      <div class="dialog-wrapper">
+        <header>
+          <span id="dialog-id"></span>
+          <h2 id="dialog-headline"></h2>
+        </header>
+        <section id="dialog-image-section">
+          <img id="dialog-image" src="" alt="" />
+          <aside id="dialog-type"></aside>
+        </section>
+        <footer class="dialog-footer">
+          <section id="footer-section">
+            <div class="button-area">
+              <button
+                onclick="toggleDialogMain()"
+                class="dialog-category-button"
+              >
+                Main
+              </button>
+              <button
+                onclick="toggleDialogStats()"
+                class="dialog-category-button"
+              >
+                Stats
+              </button>
+              <button
+                onclick="toggleDialogShiny()"
+                class="dialog-category-button"
+              >
+                Shiny
+              </button>
+            </div>
+            <article id="info-area">
+              <div id="main-area">
+                <table>
+                  <tr>
+                    <td>Größe</td>
+                    <td id="pokemonHeight"></td>
+                  </tr>
+                  <tr>
+                    <td>Gewicht</td>
+                    <td id="pokemonWeight"></td>
+                  </tr>
+                  <tr>
+                    <td>#</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Fähigkeiten</td>
+                    <td id="pokemonAbilities"></td>
+                  </tr>
+                </table>
+              </div>
+              <div id="stats-area"></div>
+              <div id="shiny-area">Shiny</div>
+            </article>
+          </section>
+          <div id="dialog-footer-button">
+            <button
+              class="button-arrow"
+              aria-label="Vorheriges Pokemon"
+              onclick="previousPokemon()"
+            >
+              <img src="./assets/icons/left-arrow.png" alt="backwards arrow" />
+            </button>
+            <span id="dialog-numeration"></span>
+            <button
+              class="button-arrow"
+              aria-label="Nächstes Pokemon"
+              onclick="nextPokemon()"
+            >
+              <img src="./assets/icons/right-arrow.png" alt="forward arrow" />
+            </button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
+  </body>
+</html>

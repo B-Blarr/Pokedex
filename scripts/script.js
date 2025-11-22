@@ -166,6 +166,7 @@ async function openDialog(newName, id, pokemonImage) {
     let refDialogType = document.getElementById("dialog-type");
     addTypeColorToDialog(id);
     refDialogType.innerHTML += getGermanType(pokemonType);
+    renderDialogInfos(id);
     dialogRef.showModal();
   }
 }
@@ -189,3 +190,28 @@ function closeDialog(event) {
   }
 }
 dialogRef.addEventListener("click", closeDialog);
+
+async function renderDialogInfos(id) {
+    renderDialogMain(id);
+    // renderDialogStats();
+    // renderDIalogShiny();
+}
+
+async function renderDialogMain(id) {
+    renderPokemonHeight(id);
+    renderPokemonWeight(id);
+}
+
+async function renderPokemonHeight(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    let refPokemonHeight = document.getElementById("pokemonHeight");
+    refPokemonHeight.innerText = (":  " + (data.height / 10) + " m").replaceAll(".",",");
+}
+
+async function renderPokemonWeight(id) {
+     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    let refPokemonWeight = document.getElementById("pokemonWeight");
+    refPokemonWeight.innerText = (":  " + (data.weight / 10) + " kg").replaceAll(".",",");
+}
