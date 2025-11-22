@@ -2,6 +2,7 @@ let loadedIds = 0;
 let startId = loadedIds;
 const refContainer = document.getElementById("pokemon-listing");
 const dialogRef = document.getElementById("image-dialog");
+let refDialogImage = document.getElementById("dialog-image");
 let refDialogId = 0;
 let currentPokemon = [];
 
@@ -57,7 +58,7 @@ function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
             <span id="pokemon-id-${id}"># ${id}</span>
             <h3>${newName}</h3>
         </header>
-        <section id="pokemon-entry-image-${id}"><img class="${pokemonType}" src="${pokemonImage}" alt="${newName}"></section>
+        <section id="pokemon-entry-image-${id}"><img class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}"></section>
         <footer id="pokemon-entry-footer-${id}"></footer>
     </div>
         `;
@@ -152,7 +153,7 @@ function hideLoadingSpinner() {
 
 async function openDialog(newName, id, pokemonImage) {
   refDialogId = document.getElementById("dialog-id");
-  refDialogId.innerText = id;
+  refDialogId.innerText = "# " + id;
   let refHeadline = document.getElementById("dialog-headline");
   refHeadline.innerText = newName;
   let refDialogImage = document.getElementById("dialog-image");
@@ -162,15 +163,27 @@ async function openDialog(newName, id, pokemonImage) {
   for (let i = 0; i < data.types.length; i++) {
     let pokemonType = data.types[i].type.name;
     let refDialogType = document.getElementById("dialog-type");
+    addTypeColorToDialog(id);
     refDialogType.innerHTML += getGermanType(pokemonType);
     dialogRef.showModal();
   }
+}
+
+async function addTypeColorToDialog(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    for (let i = 0; i < data.types.length; i++) {
+     let pokemonType = data.types[i].type.name;
+     refDialogImage.classList.add(pokemonType);
+     break;
+    }
 }
 
 function closeDialog(event) {
   if (event.target === dialogRef) {
     let refDialogType = document.getElementById("dialog-type");
     refDialogType.innerHTML = "";
+    refDialogImage.classList.remove(refDialogImage.classList);
     dialogRef.close();
   }
 }

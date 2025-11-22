@@ -36,39 +36,41 @@
     </div>
     
         <dialog id="image-dialog" aria-labelledby="dialog-headline">
+            <div class="dialog-wrapper">
             <header>
                 <span id="dialog-id"></span>
               <h2 id="dialog-headline"></h2>
             </header>
-            <section>
+            <section class="dialog-image-section">
                 <img id="dialog-image" src="" alt="">
               <div id="dialog-type"></div>
             </section>
             <footer class="dialog-footer">
                 <section id="footer-section">
-                    <div>
-                    <button>
-
+                    <div class ="button-area">
+                    <button class="dialog-category-button">
+                        Main
                     </button>
-                    <button>
-
+                    <button class="dialog-category-button">
+                        Stats
                     </button>
-                    <button>
-
+                    <button class="dialog-category-button">
+                        Shiny
                     </button>
                     </div>
                     <article id="info-area"></article>
                 </section>
-                <div id="dialog-button-area">
-              <button aria-label="Vorheriges Pokemon" onclick="previousPokemon()">
-                <img src="./img/left-arrow.png" alt="backwards arrow" />
+                <div id="dialog-footer-button">
+              <button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon()">
+                <img src="./assets/icons/left-arrow.png" alt="backwards arrow" />
               </button>
               <span id="dialog-numeration"></span>
-              <button aria-label="Nächstes Pokemon" onclick="nextPokemon()">
-                <img src="./img/right-arrow.png" alt="forward arrow" />
+              <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon()">
+                <img src="./assets/icons/right-arrow.png" alt="forward arrow" />
               </button>
               </div>
             </footer>
+            </div>
           </dialog>
     
 </body>
