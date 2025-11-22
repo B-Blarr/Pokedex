@@ -4,6 +4,7 @@ const refContainer = document.getElementById("pokemon-listing");
 const dialogRef = document.getElementById("image-dialog");
 let refDialogImage = document.getElementById("dialog-image");
 let refDialogImageSection = document.getElementById("dialog-image-section");
+let refAbilities = document.getElementById("pokemonAbilities");
 let refDialogId = 0;
 let currentPokemon = [];
 
@@ -166,9 +167,9 @@ async function openDialog(newName, id, pokemonImage) {
     let refDialogType = document.getElementById("dialog-type");
     addTypeColorToDialog(id);
     refDialogType.innerHTML += getGermanType(pokemonType);
-    renderDialogInfos(id);
-    dialogRef.showModal();
   }
+  dialogRef.showModal();
+  renderDialogInfos(id);
 }
 
 async function addTypeColorToDialog(id) {
@@ -186,6 +187,7 @@ function closeDialog(event) {
     let refDialogType = document.getElementById("dialog-type");
     refDialogType.innerHTML = "";
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
+    refAbilities.innerText = "";
     dialogRef.close();
   }
 }
@@ -200,6 +202,7 @@ async function renderDialogInfos(id) {
 async function renderDialogMain(id) {
     renderPokemonHeight(id);
     renderPokemonWeight(id);
+    renderAbilities(id);
 }
 
 async function renderPokemonHeight(id) {
@@ -214,4 +217,27 @@ async function renderPokemonWeight(id) {
     let data = await response.json();
     let refPokemonWeight = document.getElementById("pokemonWeight");
     refPokemonWeight.innerText = (":  " + (data.weight / 10) + " kg").replaceAll(".",",");
+}
+
+async function renderAbilities(id) {
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+//   if (!response.ok) {
+//     console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
+//     newName = "Unbekannt";
+//   } else {
+    let data = await response.json();
+    
+    for (let i = 0; i < data.abilities.length; i++) {
+        let abilityUrl = data.abilities[i].ability.url;
+        let newResponse = await fetch(abilityUrl);
+         let newData = await newResponse.json();
+        for (let j = 0; j < newData.names.length; j++) {
+         if (newData.names[j].language.name === "de") {
+            newAbility = newData.names[j].name;
+            refAbilities.innerHTML += `<div>${newAbility}</div>`;
+      } 
+      }
+    }
+//     }
+//   }
 }
