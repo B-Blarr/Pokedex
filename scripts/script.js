@@ -5,6 +5,7 @@ const dialogRef = document.getElementById("image-dialog");
 let refDialogImage = document.getElementById("dialog-image");
 let refDialogImageSection = document.getElementById("dialog-image-section");
 let refAbilities = document.getElementById("pokemonAbilities");
+let refDialogType = document.getElementById("dialog-type");
 let refDialogId = 0;
 let currentPokemon = [];
 
@@ -177,10 +178,12 @@ async function openDialog(newName, id, pokemonImage) {
   refDialogImage.src = pokemonImage;
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await response.json();
+  refDialogType.innerHTML = "";
   for (let i = 0; i < data.types.length; i++) {
     let pokemonType = data.types[i].type.name;
-    let refDialogType = document.getElementById("dialog-type");
+    
     addTypeColorToDialog(id);
+    
     refDialogType.innerHTML += getGermanType(pokemonType);
   }
   dialogRef.showModal();
@@ -249,11 +252,12 @@ async function renderAbilities(id) {
   //     newName = "Unbekannt";
   //   } else {
   let data = await response.json();
-
+  refAbilities.innerHTML = "";
   for (let i = 0; i < data.abilities.length; i++) {
     let abilityUrl = data.abilities[i].ability.url;
     let newResponse = await fetch(abilityUrl);
     let newData = await newResponse.json();
+    
     for (let j = 0; j < newData.names.length; j++) {
       if (newData.names[j].language.name === "de") {
         newAbility = newData.names[j].name;
@@ -326,6 +330,45 @@ async function renderDialogButtonsTemplate(id) {
 
 
 
-async function nextPokemon() {
+async function nextPokemon(id) {
+    let nextId = id + 1;       // ID vom nächsten Pokemon
+    refDialogImageSection.classList.remove(refDialogImageSection.classList);
+let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
+//   if (!response.ok) {
+//     console.log(
+//       "Species-Fehler bei der ID:",
+//       id,
+//       "Statuscode:",
+//       response.status
+//     );
+//     newName = "Unbekannt";
+//   } 
+//   else {
+    let data = await response.json();
+    let pokemon = data.names;
+    for (let i = 0; i < pokemon.length; i++) {
+      if (pokemon[i].language.name === "de") {
+        newName = pokemon[i].name;
+        currentPokemon.push(newName);
+        break;
+      }
+    }
+//   }
+
+let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
+//   if (!imageResponse.ok) {
+//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", imageResponse.status);
+//     return "../assets/img/faq.png";
+//   } else {
+    let nextData = await imageResponse.json();
+    let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
+    openDialog(newName, nextId, nextPokemonImage);
+  
+
+
+    
+
+
+
     
 }
