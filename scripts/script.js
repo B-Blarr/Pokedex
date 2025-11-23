@@ -6,6 +6,7 @@ let refDialogImage = document.getElementById("dialog-image");
 let refDialogImageSection = document.getElementById("dialog-image-section");
 let refAbilities = document.getElementById("pokemonAbilities");
 let refDialogType = document.getElementById("dialog-type");
+const refShinyImage = document.getElementById("shiny-image");
 let refDialogId = 0;
 let currentPokemon = [];
 
@@ -207,6 +208,7 @@ function closeDialog(event) {
     refDialogType.innerHTML = "";
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
     refAbilities.innerText = "";
+    refShinyImage.innerText = "";
     dialogRef.close();
   }
 }
@@ -313,7 +315,7 @@ async function renderDialogShiny(id) {
   } else {
     let data = await response.json();
     let shinyImage = data.sprites.other["official-artwork"].front_shiny;
-    const refShinyImage = document.getElementById("shiny-image");
+    
     refShinyImage.src = shinyImage;
   }
 }
@@ -335,12 +337,7 @@ async function nextPokemon(id) {
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
 let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
 //   if (!response.ok) {
-//     console.log(
-//       "Species-Fehler bei der ID:",
-//       id,
-//       "Statuscode:",
-//       response.status
-//     );
+//      console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
 //     newName = "Unbekannt";
 //   } 
 //   else {
@@ -354,7 +351,39 @@ let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/
       }
     }
 //   }
+let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
+//   if (!imageResponse.ok) {
+//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", imageResponse.status);
+//     return "../assets/img/faq.png";
+//   } else {
+    let nextData = await imageResponse.json();
+    let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
+    openDialog(newName, nextId, nextPokemonImage);   
+}
 
+async function previousPokemon(id) {
+    if (id<=1) {
+        return;
+    }else
+    {
+    let nextId = id - 1;       // ID vom nächsten Pokemon
+    refDialogImageSection.classList.remove(refDialogImageSection.classList);
+let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
+//   if (!response.ok) {
+//      console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
+//     newName = "Unbekannt";
+//   } 
+//   else {
+    let data = await response.json();
+    let pokemon = data.names;
+    for (let i = 0; i < pokemon.length; i++) {
+      if (pokemon[i].language.name === "de") {
+        newName = pokemon[i].name;
+        currentPokemon.push(newName);
+        break;
+      }
+    }
+//   }
 let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
 //   if (!imageResponse.ok) {
 //     console.log("Image-Fehler bei der ID:", id, "Statuscode:", imageResponse.status);
@@ -363,12 +392,5 @@ let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
     let nextData = await imageResponse.json();
     let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
     openDialog(newName, nextId, nextPokemonImage);
-  
-
-
-    
-
-
-
-    
+}
 }
