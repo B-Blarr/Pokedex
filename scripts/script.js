@@ -296,7 +296,7 @@ function showMainArea() {
 
 function showStatsArea() {
   document.getElementById("main-area").style.display = "none";
-  document.getElementById("stats-area").style.display = "block";
+  document.getElementById("stats-area").style.display = "flex";
   document.getElementById("shiny-area").style.display = "none";
 }
 

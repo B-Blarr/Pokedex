@@ -31,12 +31,9 @@
     </div>
     <div class="section-wrapper">
       <footer class="main-footer">
-        <button class="loadButton" onclick="loadMorePokemon()">
-          Weitere Pokemon laden
-        </button>
+        <button class="loadButton" onclick="loadMorePokemon()">Weitere Pokemon laden</button>
       </footer>
     </div>
-
     <dialog id="image-dialog" aria-labelledby="dialog-headline">
       <div class="dialog-wrapper">
         <header>
@@ -50,31 +47,19 @@
         <footer class="dialog-footer">
           <section id="footer-section">
             <div class="button-area">
-              <button
-                onclick="showMainArea()"
-                id="main-button" class="dialog-category-button"
-              >
-                Basis-Info
-              </button>
-              <button
-                onclick="showStatsArea()"
-                id="stats-button" class="dialog-category-button"
-              >
-                Statuswerte
-              </button>
-              <button onclick="showShinyArea()" id="shiny-button" class="dialog-category-button">
-                Shiny
-              </button>
+              <button onclick="showMainArea()" id="main-button" class="dialog-category-button">Basis-Info</button>
+              <button onclick="showStatsArea()" id="stats-button" class="dialog-category-button">Statuswerte</button>
+              <button onclick="showShinyArea()" id="shiny-button" class="dialog-category-button">Shiny</button>
             </div>
             <article id="info-area">
               <div id="main-area">
                 <table>
                   <tr>
-                    <td id="height">Größe </td>
+                    <td id="height">Größe</td>
                     <td id="pokemonHeight"></td>
                   </tr>
                   <tr>
-                    <td id="weight">Gewicht </td>
+                    <td id="weight">Gewicht</td>
                     <td id="pokemonWeight"></td>
                   </tr>
                   <tr>
@@ -87,14 +72,55 @@
                   </tr>
                 </table>
               </div>
-              <div id="stats-area"></div>
+              <div id="stats-area">
+                <div class="stat-row" data-value="78">
+    <span class="stat-name">KP</span>
+    <div class="stat-track">
+      <div class="stat-fill"></div>
+    </div>
+  </div>
+
+  <div class="stat-row" data-value="104">
+    <span class="stat-label">Angriff</span>
+    <div class="stat-track">
+      <div class="stat-fill"></div>
+    </div>
+  </div>
+
+  <div class="stat-row" data-value="78">
+    <span class="stat-label">Verteidigung</span>
+    <div class="stat-track">
+      <div class="stat-fill"></div>
+    </div>
+  </div>
+
+  <div class="stat-row" data-value="159">
+    <span class="stat-label">Spezial-Angriff</span>
+    <div class="stat-track">TEST
+      <div class="stat-fill"></div>
+    </div>
+  </div>
+
+  <div class="stat-row" data-value="115">
+    <span class="stat-label">Spezial-Verteidigung</span>
+    <div class="stat-track">
+      <div class="stat-fill"></div>
+    </div>
+  </div>
+
+  <div class="stat-row" data-value="100">
+    <span class="stat-label">Initiative</span>
+    <div class="stat-track">
+      <div class="stat-fill"></div>
+    </div>
+  </div>
+              </div>
               <div id="shiny-area">
-                <img id="shiny-image" src="" alt="Shiny-Pokemon">
+                <img id="shiny-image" src="" alt="Shiny-Pokemon" />
               </div>
             </article>
           </section>
-          <div id="dialog-footer-button">
-          </div>
+          <div id="dialog-footer-button"></div>
         </footer>
       </div>
     </dialog>
