@@ -185,6 +185,7 @@ async function openDialog(newName, id, pokemonImage) {
   }
   dialogRef.showModal();
   renderDialogInfos(id);
+  renderDialogButtonsTemplate(id);
 }
 
 async function addTypeColorToDialog(id) {
@@ -313,3 +314,18 @@ async function renderDialogShiny(id) {
   }
 }
 
+async function renderDialogButtonsTemplate(id) {
+   const refDialogFooterButton = document.getElementById("dialog-footer-button");
+    refDialogFooterButton.innerHTML = `<button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon(${id})">
+              <img src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
+            </button>
+            <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon(${id})">
+              <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
+            </button>`;
+}
+
+
+
+async function nextPokemon() {
+    
+}
