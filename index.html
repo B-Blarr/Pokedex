@@ -51,18 +51,18 @@
           <section id="footer-section">
             <div class="button-area">
               <button
-                onclick="toggleDialogMain()"
+                onclick="showMainArea()"
                 id="main-button" class="dialog-category-button"
               >
-                Main
+                Basis-Info
               </button>
               <button
-                onclick="toggleDialogStats()"
+                onclick="showStatsArea()"
                 id="stats-button" class="dialog-category-button"
               >
-                Stats
+                Statuswerte
               </button>
-              <button onclick="toggleDialogShiny()" id="shiny-button" class="dialog-category-button">
+              <button onclick="showShinyArea()" id="shiny-button" class="dialog-category-button">
                 Shiny
               </button>
             </div>
@@ -94,20 +94,12 @@
             </article>
           </section>
           <div id="dialog-footer-button">
-            <button
-              class="button-arrow"
-              aria-label="Vorheriges Pokemon"
-              onclick="previousPokemon()"
-            >
-              <img src="./assets/icons/left-arrow.png" alt="backwards arrow" />
+            <button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon()">
+              <img src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
             </button>
             <span id="dialog-numeration"></span>
-            <button
-              class="button-arrow"
-              aria-label="Nächstes Pokemon"
-              onclick="nextPokemon()"
-            >
-              <img src="./assets/icons/right-arrow.png" alt="forward arrow" />
+            <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon()">
+              <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
             </button>
           </div>
         </footer>

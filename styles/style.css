@@ -243,27 +243,35 @@ h2 {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  background-color: #0c2d38;
 }
 
 .button-arrow {
-  margin: 0 32px;
-  background: #082129;
+  margin: 0 16px;
+  background: #0c2d38;
   border: 0;
-  margin-top: 8px;
+  margin-top: 12px;
+  overflow: hidden;
 }
 
 button img {
-  width: 36px;
+  width: 90px;
+  background: #0c2d38;
+  transition: transform 150ms ease;
+  display: block;
+}
+
+button img:hover{
+  transform: scale(1.2);
 }
 
 #info-area{
-  
   width: 100%;
   color: white;
-  padding-top: 12px;
 }
 
 table{
+  padding-top: 12px;
   width: 75%;
 }
 
@@ -313,8 +321,13 @@ display: none;
 align-items: center;
 justify-content: center;
 width: 100%;
+background-image: url(../assets/img/shiny.jpg);
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
 }
 
 #shiny-area img{
 width: 210px;
+/* height: 210px; */
 }

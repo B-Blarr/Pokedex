@@ -271,43 +271,32 @@ async function renderBaseExperience(id) {
   refPokemonBaseExperience.innerText = data.base_experience;
 }
 
-function toggleDialogMain() {
-  const mainButton = document.getElementById("main-button");
-  const mainArea = document.getElementById("main-area");
-  const statsArea = document.getElementById("stats-area");
-  const shinyArea = document.getElementById("shiny-area");
-
-  mainButton.addEventListener("click", function () {
-    mainArea.style.display = "block";
-    statsArea.style.display = "none";
-    shinyArea.style.display = "none";
-  });
-}
-
-function toggleDialogStats() {
+document.addEventListener("DOMContentLoaded", function () {
+  const mainButton  = document.getElementById("main-button");
   const statsButton = document.getElementById("stats-button");
-  const mainArea = document.getElementById("main-area");
-  const statsArea = document.getElementById("stats-area");
-  const shinyArea = document.getElementById("shiny-area");
+  const shinyButton = document.getElementById("shiny-button");
 
-  statsButton.addEventListener("click", function () {
-    mainArea.style.display = "none";
-    statsArea.style.display = "block";
-    shinyArea.style.display = "none";
-  });
+  mainButton.addEventListener("click", showMainArea);
+  statsButton.addEventListener("click", showStatsArea);
+  shinyButton.addEventListener("click", showShinyArea);
+});
+
+function showMainArea() {
+  document.getElementById("main-area").style.display = "block";
+  document.getElementById("stats-area").style.display = "none";
+  document.getElementById("shiny-area").style.display = "none";
 }
 
-function toggleDialogShiny() {
-  const shinyButton = document.getElementById("shiny-button");
-  const mainArea = document.getElementById("main-area");
-  const statsArea = document.getElementById("stats-area");
-  const shinyArea = document.getElementById("shiny-area");
+function showStatsArea() {
+  document.getElementById("main-area").style.display = "none";
+  document.getElementById("stats-area").style.display = "block";
+  document.getElementById("shiny-area").style.display = "none";
+}
 
-  shinyButton.addEventListener("click", function () {
-    mainArea.style.display = "none";
-    statsArea.style.display = "none";
-    shinyArea.style.display = "flex";
-  });
+function showShinyArea() {
+  document.getElementById("main-area").style.display = "none";
+  document.getElementById("stats-area").style.display = "none";
+  document.getElementById("shiny-area").style.display = "flex";
 }
 
 async function renderDialogShiny(id) {
@@ -319,7 +308,8 @@ async function renderDialogShiny(id) {
   } else {
     let data = await response.json();
     let shinyImage = data.sprites.other["official-artwork"].front_shiny;
-    refShinyImage = document.getElementById("shiny-image");
+    const refShinyImage = document.getElementById("shiny-image");
     refShinyImage.src = shinyImage;
   }
 }
+
