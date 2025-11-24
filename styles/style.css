@@ -72,6 +72,10 @@ main {
   width: 100%;
 }
 
+.logo img{
+  width: 350px;
+}
+
 #pokemon-listing {
   display: flex;
   flex: 1;
@@ -87,6 +91,9 @@ main {
   min-width: 210px;
   min-height: 250px;
   transition: 0.25s ease;
+  border-radius: 16px;
+  background: var(--secondary-color);
+  overflow: hidden;
 }
 
 .pokemon-entry:hover {
