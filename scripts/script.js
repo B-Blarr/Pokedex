@@ -2,11 +2,14 @@ let loadedIds = 0;
 let startId = loadedIds;
 const refContainer = document.getElementById("pokemon-listing");
 const dialogRef = document.getElementById("image-dialog");
-let refDialogImage = document.getElementById("dialog-image");
-let refDialogImageSection = document.getElementById("dialog-image-section");
-let refAbilities = document.getElementById("pokemonAbilities");
-let refDialogType = document.getElementById("dialog-type");
+const refDialogImage = document.getElementById("dialog-image");
+const refDialogImageSection = document.getElementById("dialog-image-section");
+const refAbilities = document.getElementById("pokemonAbilities");
+const refDialogType = document.getElementById("dialog-type");
 const refShinyImage = document.getElementById("shiny-image");
+const mainButton  = document.getElementById("main-button");
+const statsButton = document.getElementById("stats-button");
+const shinyButton = document.getElementById("shiny-button");
 let refDialogId = 0;
 let currentPokemon = [];
 
@@ -210,6 +213,9 @@ function closeDialog(event) {
     refAbilities.innerText = "";
     refShinyImage.innerText = "";
     dialogRef.close();
+    document.getElementById("main-area").style.display = "block";
+    document.getElementById("stats-area").style.display = "none";
+    document.getElementById("shiny-area").style.display = "none";
   }
 }
 dialogRef.addEventListener("click", closeDialog);
@@ -279,9 +285,7 @@ async function renderBaseExperience(id) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const mainButton  = document.getElementById("main-button");
-  const statsButton = document.getElementById("stats-button");
-  const shinyButton = document.getElementById("shiny-button");
+
 
   mainButton.addEventListener("click", showMainArea);
   statsButton.addEventListener("click", showStatsArea);

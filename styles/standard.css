@@ -7,3 +7,10 @@
   object-fit: cover;
   font-family: "Roboto";
 }
+
+:root {
+  --primary-color: #0B4DA2;
+  --secondary-color: #07224E;
+}
+
+ 
