@@ -11,6 +11,7 @@ const mainButton  = document.getElementById("main-button");
 const statsButton = document.getElementById("stats-button");
 const shinyButton = document.getElementById("shiny-button");
 let refDialogId = 0;
+let maxStat = 220;
 let currentPokemon = [];
 
 async function init() {
@@ -193,6 +194,7 @@ async function openDialog(newName, id, pokemonImage) {
   dialogRef.showModal();
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
+  renderStats(id);
   setActiveTab('main-button');
 }
 
@@ -409,4 +411,62 @@ function setActiveTab(activeId) {
     buttons[i].classList.remove('active');
     }
     document.getElementById(activeId).classList.add('active');
+}
+
+async function renderStats(id) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    let data = await response.json();
+    renderHp(data);
+    renderAttack(data);
+    renderDefense(data);
+    renderSpecialAttack(data);
+    renderSpecialDefense(data);
+    renderSpeed(data);
+}
+
+function renderHp(data){
+    const refHp = document.getElementById("hp");  
+    let actualStat = data.stats[0].base_stat;
+    const percent = getPercent(actualStat);
+    refHp.style.width = percent + "%";
+}
+
+function renderAttack(data) {
+    const refHp = document.getElementById("attack");  
+    let actualStat = data.stats[1].base_stat;
+    const percent = getPercent(actualStat);
+    refHp.style.width = percent + "%";
+}
+function renderDefense(data) {
+    const refHp = document.getElementById("defense");  
+    let actualStat = data.stats[2].base_stat;
+    const percent = getPercent(actualStat);
+    refHp.style.width = percent + "%";
+}
+
+function renderSpecialAttack(data) {
+    const refHp = document.getElementById("special-attack");  
+    let actualStat = data.stats[3].base_stat;
+    const percent = getPercent(actualStat);
+    refHp.style.width = percent + "%";
+}
+
+function renderSpecialDefense(data) {
+    const refHp = document.getElementById("special-defense");  
+    let actualStat = data.stats[4].base_stat;
+    const percent = getPercent(actualStat);
+    refHp.style.width = percent + "%";
+}
+
+function renderSpeed(data) {
+    const refHp = document.getElementById("speed");  
+    let actualStat = data.stats[5].base_stat;
+    const percent = getPercent(actualStat);
+    refHp.style.width = percent + "%";
+}
+
+function getPercent(actualStat) {
+    let percent = actualStat / maxStat;
+    percent = Math.round(percent * 100);
+    return percent;
 }

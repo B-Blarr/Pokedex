@@ -397,4 +397,16 @@ padding-right: 12px;
 
 .stat-track{
   width: 160px;
+   height: 10px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid #e85b5b;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.stat-fill{
+  
+  height: 100%;
+  background: #e85b5b;
+  border-radius: 999px;
 }
