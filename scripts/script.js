@@ -193,6 +193,7 @@ async function openDialog(newName, id, pokemonImage) {
   dialogRef.showModal();
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
+  setActiveTab('main-button');
 }
 
 async function addTypeColorToDialog(id) {
@@ -293,18 +294,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function showMainArea() {
+  setActiveTab('main-button');
   document.getElementById("main-area").style.display = "block";
   document.getElementById("stats-area").style.display = "none";
   document.getElementById("shiny-area").style.display = "none";
 }
 
 function showStatsArea() {
+    setActiveTab('stats-button');
   document.getElementById("main-area").style.display = "none";
   document.getElementById("stats-area").style.display = "flex";
   document.getElementById("shiny-area").style.display = "none";
 }
 
 function showShinyArea() {
+    setActiveTab('shiny-button');
   document.getElementById("main-area").style.display = "none";
   document.getElementById("stats-area").style.display = "none";
   document.getElementById("shiny-area").style.display = "flex";
@@ -397,4 +401,12 @@ let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
     let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
     openDialog(newName, nextId, nextPokemonImage);
 }
+}
+
+function setActiveTab(activeId) {
+    let buttons = document.querySelectorAll(".dialog-category-button");
+    for (let i = 0; i < buttons.length; i++) {
+    buttons[i].classList.remove('active');
+    }
+    document.getElementById(activeId).classList.add('active');
 }
