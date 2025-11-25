@@ -230,9 +230,9 @@ async function renderDialogInfos(id) {
 }
 
 async function renderDialogMain(id) {
+  renderAbilities(id);
   renderPokemonHeight(id);
   renderPokemonWeight(id);
-  renderAbilities(id);
   renderBaseExperience(id);
 }
 

@@ -5,6 +5,10 @@ body {
   min-height: 100dvh;
 }
 
+body:has(#image-dialog[open]) {
+  overflow: hidden;
+}
+
 .section-wrapper {
   display: flex;
   justify-content: center;
@@ -328,7 +332,7 @@ button img:hover{
 
 table{
   padding-top: 12px;
-  width: 75%;
+  width: 90%;
 }
 
 tbody{
