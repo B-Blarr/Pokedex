@@ -257,6 +257,7 @@ async function renderAbilities(id) {
   //     newName = "Unbekannt";
   //   } else {
   let data = await getAndSavePokemon(id);
+  let abilities = "";
   refAbilities.innerHTML = "";
   for (let i = 0; i < data.abilities.length; i++) {
     let abilityUrl = data.abilities[i].ability.url;
@@ -266,10 +267,11 @@ async function renderAbilities(id) {
     for (let j = 0; j < newData.names.length; j++) {
       if (newData.names[j].language.name === "de") {
         newAbility = newData.names[j].name;
-        refAbilities.innerHTML += `<div class="ability" >${newAbility}</div>`;
+        abilities += `<div class="ability" >${newAbility}</div>`;
       }
     }
   }
+  refAbilities.innerHTML = abilities;
   //     }
   //   }
 }
