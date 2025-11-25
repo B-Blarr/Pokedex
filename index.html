@@ -42,7 +42,9 @@
           <h2 id="dialog-headline"></h2>
         </header>
         <section id="dialog-image-section">
-          <img id="dialog-image" src="" alt="" />
+          <div id="dialog-image-wrapper">
+            <img id="dialog-image" src="" alt="" />
+          </div>
           <aside id="dialog-type"></aside>
         </section>
         <footer class="dialog-footer">
@@ -51,6 +53,7 @@
               <button onclick="showMainArea()" id="main-button" class="dialog-category-button">Basis-Info</button>
               <button onclick="showStatsArea()" id="stats-button" class="dialog-category-button">Statuswerte</button>
               <button onclick="showShinyArea()" id="shiny-button" class="dialog-category-button">Shiny</button>
+              <button onclick="showShinyArea()" id="evo-button" class="dialog-category-button">Evolutionsreihe</button>
             </div>
             <article id="info-area">
               <div id="main-area">
@@ -118,6 +121,11 @@
               </div>
               <div id="shiny-area">
                 <img id="shiny-image" src="" alt="Shiny-Pokemon" />
+              </div>
+              <div id="evo-area">
+                <img id="first-evo-image" src="" alt="First-Evolution" />
+                <img id="second-evo-image" src="" alt="Second-Evolution" />
+                <img id="third-evo-image" src="" alt="Third-Evolution" />
               </div>
             </article>
           </section>

@@ -10,6 +10,7 @@ const refShinyImage = document.getElementById("shiny-image");
 const mainButton = document.getElementById("main-button");
 const statsButton = document.getElementById("stats-button");
 const shinyButton = document.getElementById("shiny-button");
+const evoButton = document.getElementById("evo-button");
 const inputFilter = document.getElementById("search-input");
 let newName = "";
 let refDialogId = 0;
@@ -311,6 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
   mainButton.addEventListener("click", showMainArea);
   statsButton.addEventListener("click", showStatsArea);
   shinyButton.addEventListener("click", showShinyArea);
+  evoButton.addEventListener("click", showEvoArea);
 });
 
 function showMainArea() {
@@ -318,6 +320,7 @@ function showMainArea() {
   document.getElementById("main-area").style.display = "block";
   document.getElementById("stats-area").style.display = "none";
   document.getElementById("shiny-area").style.display = "none";
+  document.getElementById("evo-area").style.display = "none";
 }
 
 function showStatsArea() {
@@ -325,6 +328,7 @@ function showStatsArea() {
   document.getElementById("main-area").style.display = "none";
   document.getElementById("stats-area").style.display = "flex";
   document.getElementById("shiny-area").style.display = "none";
+  document.getElementById("evo-area").style.display = "none";
 }
 
 function showShinyArea() {
@@ -332,6 +336,15 @@ function showShinyArea() {
   document.getElementById("main-area").style.display = "none";
   document.getElementById("stats-area").style.display = "none";
   document.getElementById("shiny-area").style.display = "flex";
+  document.getElementById("evo-area").style.display = "none";
+}
+
+function showEvoArea() {
+  setActiveTab("evo-button");
+  document.getElementById("main-area").style.display = "none";
+  document.getElementById("stats-area").style.display = "none";
+  document.getElementById("shiny-area").style.display = "none";
+  document.getElementById("evo-area").style.display = "flex";
 }
 
 async function renderDialogShiny(id) {
@@ -366,7 +379,8 @@ async function nextPokemon(id) {
   //     newName = "Unbekannt";
   //   }
   //   else {
-  let data = await getAndSaveImage(id);
+    if (!allNames[nextId - 1]) {
+  let data = await getAndSaveImage(nextId);
   let pokemon = data.names;
   for (let i = 0; i < pokemon.length; i++) {
     if (pokemon[i].language.name === "de") {
@@ -375,12 +389,14 @@ async function nextPokemon(id) {
       break;
     }
   }
+}
   //   }
 //   let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
   //   if (!imageResponse.ok) {
   //     console.log("Image-Fehler bei der ID:", id, "Statuscode:", imageResponse.status);
   //     return "../assets/img/faq.png";
   //   } else {
+    newName = allNames[nextId - 1];
   let nextData = await getAndSavePokemon(nextId);
   let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
   openDialog(newName, nextId, nextPokemonImage);
