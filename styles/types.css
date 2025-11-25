@@ -29,11 +29,12 @@ display: inline-flex;
 }
 
 .fire {
-  background: linear-gradient(135deg, #7a2410, #ff8a3a);
+background: linear-gradient(135deg, #991c20, #ce4040);
 }
 
 .fire::before {
-  background: #ffd38a;
+
+ background: #ffe2d0;
 }
 
 .water {
@@ -53,11 +54,11 @@ display: inline-flex;
 }
 
 .poison {
-  background: linear-gradient(135deg, #4c1b5c, #a645c7);
+  background: linear-gradient(135deg, #14352f, #34d1a1);
 }
 
 .poison::before {
-  background: #e3a8ff;
+  background: #b7ffe6;
 }
 
 .ground {
@@ -92,19 +93,19 @@ display: inline-flex;
 }
 
 .psychic {
-  background: linear-gradient(135deg, #a1134b, #ff4f8b);
+  background: linear-gradient(135deg, #432363, #9a5ad8);
 }
 
 .psychic::before {
-  background: #ffb3d0;
+  background: #dcc8ff;
 }
 
 .ice {
-  background: linear-gradient(135deg, #3f7e8c, #87d7e0);
+  background: linear-gradient(135deg, #3b6f88, #b8f2ff);
 }
 
 .ice::before {
-  background: #dffbff;
+  background: #f3fdff;
 }
 
 .dragon {
