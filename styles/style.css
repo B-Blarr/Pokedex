@@ -72,6 +72,10 @@ main {
   width: 100%;
 }
 
+h1{
+  display: none;
+}
+
 .logo img{
   width: 350px;
 }
