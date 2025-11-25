@@ -15,6 +15,7 @@ let newName = "";
 let refDialogId = 0;
 let maxStat = 220;
 let savedPokemon = {};
+let savedImages = {};
 let allNames = [];
 
 async function init() {
@@ -23,27 +24,35 @@ async function init() {
   hideLoadingSpinner();
 }
 
-async function getAndSavePokemon(id) {
-    if (savedPokemon[id]) {
-        return savedPokemon[id];
-    }
-    else{
-      let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-      let data = await response.json();
-      savedPokemon[id] = data;
-      return data;  
-    }
+async function loadPokemonInfos() {
+  for (let id = 1; id <= startId + 15; id++) {
+    loadedIds++;
+    const pokemonImage = await getPokemonImage(id);
+    await fetchData(id, pokemonImage);
+  }
+  startId = startId + 25;
 }
 
+async function getPokemonImage(id) {
+//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+//   if (!response.ok) {
+//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
+//     return "../assets/img/faq.png";
+//   } else {
+    let data = await getAndSavePokemon(id);
+    let pokemonImage = data.sprites.other["official-artwork"].front_default;
+    return pokemonImage;
+  }
+// }
 
 async function fetchData(id, pokemonImage) {
-  let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
-  if (!response.ok) {
-    newName = "Unbekannt";
-  } else {
-    let data = await response.json();
+//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
+//   if (!response.ok) {
+//     newName = "Unbekannt";
+//   } else {
+    let data = await getAndSaveImage(id);
     getGermanName(data, id);
-  }
+//   }
   const pokemonType = await getPokemonType(id);
   refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
   getType(id);
@@ -59,6 +68,37 @@ function getGermanName(data, id) {
     }
   }
 }
+
+async function getAndSavePokemon(id) {
+    if (savedPokemon[id]) {
+        return savedPokemon[id];
+    }
+    else{
+      let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+      let data = await response.json();
+      savedPokemon[id] = data;
+      return data;  
+    }
+}
+
+async function getAndSaveImage(id) {
+    if (savedImages[id]) {
+        return savedImages[id];
+    }
+    else{
+      let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
+      let imageData = await response.json();
+      savedImages[id] = imageData;
+      return imageData;  
+    }
+}
+
+
+
+
+
+
+
 
 async function getPokemonType(id) {
   let pokemonType = "";
@@ -76,7 +116,7 @@ async function getPokemonType(id) {
 
 function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
   return `
-    <div onclick="openDialog('${newName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
+    <div onclick="setActiveTab('main-button'); openDialog('${newName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
         <header id="pokemon-entry-header-${id}">
             <span id="pokemon-id-${id}"># ${id}</span>
             <h3>${newName}</h3>
@@ -87,14 +127,7 @@ function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
         `;
 }
 
-async function loadPokemonInfos() {
-  for (let id = 1; id <= startId + 15; id++) {
-    loadedIds++;
-    const pokemonImage = await getPokemonImage(id);
-    await fetchData(id, pokemonImage);
-  }
-  startId = startId + 25;
-}
+
 
 async function loadMorePokemon() {
   showLoadingSpinner();
@@ -112,17 +145,7 @@ async function loadMorePokemon() {
   startId = startId + 30;
 }
 
-async function getPokemonImage(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-//   if (!response.ok) {
-//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
-//     return "../assets/img/faq.png";
-//   } else {
-    let data = await getAndSavePokemon(id);
-    let pokemonImage = data.sprites.other["official-artwork"].front_default;
-    return pokemonImage;
-  }
-// }
+
 
 async function getType(id) {
   let pokemonType = "";
@@ -195,7 +218,7 @@ async function openDialog(newName, id, pokemonImage) {
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
   renderStats(id);
-  setActiveTab("main-button");
+//   setActiveTab("main-button");
 }
 
 async function addTypeColorToDialog(id) {
@@ -227,6 +250,7 @@ async function renderDialogInfos(id) {
   renderDialogMain(id);
   // renderDialogStats();
   renderDialogShiny(id);
+  
 }
 
 async function renderDialogMain(id) {
@@ -336,13 +360,13 @@ async function renderDialogButtonsTemplate(id) {
 async function nextPokemon(id) {
   let nextId = id + 1; // ID vom nächsten Pokemon
   refDialogImageSection.classList = "";
-  let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
+//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
   //   if (!response.ok) {
   //      console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
   //     newName = "Unbekannt";
   //   }
   //   else {
-  let data = await response.json();
+  let data = await getAndSaveImage(id);
   let pokemon = data.names;
   for (let i = 0; i < pokemon.length; i++) {
     if (pokemon[i].language.name === "de") {
