@@ -14,7 +14,7 @@ const inputFilter = document.getElementById("search-input");
 let newName = "";
 let refDialogId = 0;
 let maxStat = 220;
-let currentPokemon = [];
+let savedPokemon = {};
 let allNames = [];
 
 async function init() {
@@ -23,25 +23,38 @@ async function init() {
   hideLoadingSpinner();
 }
 
+async function getAndSavePokemon(id) {
+    if (savedPokemon[id]) {
+        return savedPokemon[id];
+    }
+    else{
+      let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+      let data = await response.json();
+      savedPokemon[id] = data;
+      return data;  
+    }
+}
+
+
 async function fetchData(id, pokemonImage) {
   let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
   if (!response.ok) {
     newName = "Unbekannt";
   } else {
     let data = await response.json();
-    getGermanName(data);
+    getGermanName(data, id);
   }
   const pokemonType = await getPokemonType(id);
   refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
   getType(id);
 }
 
-function getGermanName(data) {
+function getGermanName(data, id) {
   let pokemon = data.names;
   for (let i = 0; i < pokemon.length; i++) {
     if (pokemon[i].language.name === "de") {
       newName = pokemon[i].name;
-      allNames.push(newName);
+      allNames[id - 1] = newName;
       break;
     }
   }
@@ -49,17 +62,17 @@ function getGermanName(data) {
 
 async function getPokemonType(id) {
   let pokemonType = "";
-  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-  if (!response.ok) {
-    pokemonType = "Unbekannt";
-  } else {
-    let data = await response.json();
+//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+//   if (!response.ok) {
+//     pokemonType = "Unbekannt";
+//   } else {
+    let data = await getAndSavePokemon(id);
     for (let i = 0; i < data.types.length; i++) {
       pokemonType = data.types[i].type.name;
       return pokemonType;
     }
   }
-}
+// }
 
 function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
   return `
@@ -96,20 +109,20 @@ async function loadMorePokemon() {
     }
   }
   hideLoadingSpinner();
-  startId = startId + 80;
+  startId = startId + 30;
 }
 
 async function getPokemonImage(id) {
-  let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-  if (!response.ok) {
-    console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
-    return "../assets/img/faq.png";
-  } else {
-    let data = await response.json();
+//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+//   if (!response.ok) {
+//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
+//     return "../assets/img/faq.png";
+//   } else {
+    let data = await getAndSavePokemon(id);
     let pokemonImage = data.sprites.other["official-artwork"].front_default;
     return pokemonImage;
   }
-}
+// }
 
 async function getType(id) {
   let pokemonType = "";
@@ -332,7 +345,7 @@ async function nextPokemon(id) {
   for (let i = 0; i < pokemon.length; i++) {
     if (pokemon[i].language.name === "de") {
       newName = pokemon[i].name;
-      currentPokemon.push(newName);
+      allNames[nextId - 1] = newName;
       break;
     }
   }
@@ -353,21 +366,25 @@ async function previousPokemon(id) {
   } else {
     let nextId = id - 1; // ID vom nächsten Pokemon
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
+    // let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
+
+
     //   if (!response.ok) {
     //      console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
     //     newName = "Unbekannt";
     //   }
     //   else {
-    let data = await response.json();
-    let pokemon = data.names;
-    for (let i = 0; i < pokemon.length; i++) {
-      if (pokemon[i].language.name === "de") {
-        newName = pokemon[i].name;
-        currentPokemon.push(newName);
-        break;
-      }
-    }
+
+
+    // let data = await response.json();
+    // let pokemon = data.names;
+    // for (let i = 0; i < allNames.length; i++) {
+    //   if (pokemon[i].language.name === "de") {
+        newName = allNames[nextId - 1];
+        // allNames.push(newName);
+        // break;
+    //   }
+    // }
     //   }
     let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
     //   if (!imageResponse.ok) {
@@ -446,8 +463,8 @@ function getPercent(actualStat) {
   return percent;
 }
 
-inputFilter.addEventListener("input", function (e) {
-  let filterWord = e.target.value.toLowerCase().trim();
+inputFilter.addEventListener("input", function (event) {
+  let filterWord = event.target.value.toLowerCase().trim();
   let pokemonEntry = document.querySelectorAll(".pokemon-entry");
 
   for (let i = 0; i < pokemonEntry.length; i++) {
