@@ -12,6 +12,12 @@ const statsButton = document.getElementById("stats-button");
 const shinyButton = document.getElementById("shiny-button");
 const evoButton = document.getElementById("evo-button");
 const inputFilter = document.getElementById("search-input");
+const evoArea = document.getElementById("evo-area");
+const POKEMON_TYPES = [
+  "grass","normal","fighting","flying","poison","ground","rock",
+  "bug","ghost","steel","fire","water","electric","psychic",
+  "ice","dragon","dark","fairy","stellar","unknown"
+];
 let newName = "";
 let refDialogId = 0;
 let maxStat = 220;
@@ -175,6 +181,7 @@ async function getType(id) {
       let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
       germanType.innerHTML += getGermanType(pokemonType);
     }
+   
     return pokemonType;
   }
 // }
@@ -220,13 +227,15 @@ async function openDialog(newName, id, pokemonImage) {
 //   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   refDialogType.innerHTML = "";
+  setEvoAreaType(data);
   for (let i = 0; i < data.types.length; i++) {
     let pokemonType = data.types[i].type.name;
-
-    addTypeColorToDialog(id);
+  addTypeColorToDialog(id);
 
     refDialogType.innerHTML += getGermanType(pokemonType);
+   
   }
+   
   dialogRef.showModal();
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
@@ -572,27 +581,24 @@ async function fillEvoSlot(pokeName, imgElement) {
 async function renderEvoChain(id) {
   const chain = await getEvoChainForPokemon(id);   // hast du schon
   const names = getAllEvoNames(chain);
-
-  const container = document.getElementById("evo-area");
-  container.innerHTML = "";
+  evoArea.innerHTML = "";
 
   if (chain.species.name === "eevee") {
-    container.classList.add("evo-eevee");
+    evoArea.classList.add("evo-eevee");
   } else {
-    container.classList.remove("evo-eevee");
+    evoArea.classList.remove("evo-eevee");
   }
   for (let i = 0; i < names.length; i++) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
-    container.appendChild(img);
+    evoArea.appendChild(img);
     await fillEvoSlot(names[i], img);              // deine bestehende Funktion
   }
 }
 
 
 function prepareLinearEvoSlots() {
-  const container = document.getElementById("evo-area");
-  container.innerHTML = "";
+  evoArea.innerHTML = "";
 
   const ids = ["first-evo-image", "second-evo-image", "third-evo-image"];
   const slots = [];
@@ -601,15 +607,14 @@ function prepareLinearEvoSlots() {
     const img = document.createElement("img");
     img.id = ids[i];
     img.classList.add("evo-image");
-    container.appendChild(img);
+    evoArea.appendChild(img);
     slots.push(img);
   }
   return slots;
 }
 
 async function renderBranchingEvo(chain) {
-  const container = document.getElementById("evo-area");
-  container.innerHTML = "";
+  evoArea.innerHTML = "";
 
   const names = [chain.species.name];
   const evo = chain.evolves_to;
@@ -620,10 +625,23 @@ async function renderBranchingEvo(chain) {
   for (let i = 0; i < names.length; i++) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
-    container.appendChild(img);
+    evoArea.appendChild(img);
     await fillEvoSlot(names[i], img);
   }
 }
+
+function resetEvoAreaType() {
+  for (let i = 0; i < POKEMON_TYPES.length; i++) {
+    evoArea.classList.remove(POKEMON_TYPES[i]);
+  }
+}
+
+function setEvoAreaType(data) {
+  resetEvoAreaType();
+  const type = data.types[0].type.name;   
+  evoArea.classList.add(type);
+}
+
 
 
 //     let refFirstEvo = document.getElementById("first-evo-image");
