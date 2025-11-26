@@ -17,6 +17,7 @@ let refDialogId = 0;
 let maxStat = 220;
 let savedPokemon = {};
 let savedImages = {};
+let savedEvoChain = {};  
 let allNames = [];
 
 async function init() {
@@ -57,6 +58,7 @@ async function fetchData(id, pokemonImage) {
   const pokemonType = await getPokemonType(id);
   refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
   getType(id);
+  getAndSaveEvoChain(id);
 }
 
 function getGermanName(data, id) {
@@ -94,7 +96,17 @@ async function getAndSaveImage(id) {
     }
 }
 
-
+async function getAndSaveEvoChain(id) {
+    if (savedEvoChain[id]) {
+        return savedEvoChain[id];
+    }
+    else{
+        let response = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${id}/`);
+        let data = await response.json();
+        savedEvoChain[id] = data;
+        return data;
+    }
+}
 
 
 
@@ -219,6 +231,7 @@ async function openDialog(newName, id, pokemonImage) {
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
   renderStats(id);
+  renderEvoChain(id);
 //   setActiveTab("main-button");
 }
 
@@ -504,7 +517,6 @@ function getPercent(actualStat) {
   percent = Math.round(percent * 100);
   return percent;
 }
-
 inputFilter.addEventListener("input", function (event) {
   let filterWord = event.target.value.toLowerCase().trim();
   let pokemonEntry = document.querySelectorAll(".pokemon-entry");
@@ -523,3 +535,28 @@ inputFilter.addEventListener("input", function (event) {
     }
   }
 });
+
+async function renderEvoChain(id) {
+    const evoData = await getAndSaveEvoChain(id);
+    const chain = evoData.chain;
+
+    let refFirstEvo = document.getElementById("first-evo-image");
+    let refSecondEvo = document.getElementById("second-evo-image");
+    let refThirdEvo = document.getElementById("third-evo-image");
+
+    // const speciesData = await getAndSaveImage(id);
+
+    let firstEvoName = chain.species.name;
+    let secondEvoName = chain.evolves_to[0].species.name;
+    let thirdEvoName = chain.evolves_to[0].evolves_to[0].species.name;
+
+    const FirstData = await getAndSavePokemon(firstEvoName);
+    const SecondData = await getAndSavePokemon(secondEvoName);
+    const ThirdData = await getAndSavePokemon(thirdEvoName);
+
+    refFirstEvo.src = FirstData.sprites.other["official-artwork"].front_default;
+    refSecondEvo.src = SecondData.sprites.other["official-artwork"].front_default;
+    refThirdEvo.src = ThirdData.sprites.other["official-artwork"].front_default;
+
+}
+

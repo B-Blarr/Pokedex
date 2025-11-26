@@ -413,7 +413,11 @@ display: none;
 align-items: center;
 justify-content: center;
 width: 100%;
+}
 
+.evo-image{
+  display: flex;
+  width: 33%;
 }
 
 /* Stats-Area */

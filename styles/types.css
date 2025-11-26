@@ -21,20 +21,19 @@ display: inline-flex;
 }
 
 .grass {
-  background: linear-gradient(135deg, #1f5f38, #3dab57);
+  background: linear-gradient(135deg, #184d37, #2f8c57);
 }
 
 .grass::before {
-  background: #8ce38f;
+  background: #b4f2c9;
 }
 
 .fire {
-background: linear-gradient(135deg, #991c20, #ce4040);
+background: linear-gradient(135deg, #781216, #e0573c);
 }
 
 .fire::before {
-
- background: #ffe2d0;
+ background: #ffe0cc;
 }
 
 .water {
@@ -46,11 +45,11 @@ background: linear-gradient(135deg, #991c20, #ce4040);
 }
 
 .electric {
-  background: linear-gradient(135deg, #6a5404, #e4c22e);
+  background: linear-gradient(135deg, #8c6b00, #ffe04a);
 }
 
 .electric::before {
-  background: #ffe96a;
+  background: #fff7a8;
 }
 
 .poison {
@@ -77,11 +76,11 @@ background: linear-gradient(135deg, #991c20, #ce4040);
 }
 
 .bug {
-  background: linear-gradient(135deg, #4a5f0d, #9bc02d);
+  background: linear-gradient(135deg, #596d0b, #c6d94a);
 }
 
 .bug::before {
-  background: #d8f27f;
+  background: #f2ffb3;
 }
 
 .flying {
@@ -141,11 +140,13 @@ background: linear-gradient(135deg, #991c20, #ce4040);
 }
 
 .fighting {
-  background: linear-gradient(135deg, #702d1f, #b64936);
+  /* background: linear-gradient(135deg, #702d1f, #b64936); */
+   background: linear-gradient(135deg, #6a2d1b, #a85a32);
 }
 
 .fighting::before {
-  background: #ffb1a4;
+  /* background: #ffb1a4; */
+  background: #ffbda1;
 }
 
 .fairy {
