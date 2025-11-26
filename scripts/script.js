@@ -58,7 +58,7 @@ async function fetchData(id, pokemonImage) {
   const pokemonType = await getPokemonType(id);
   refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
   getType(id);
-  getAndSaveEvoChain(id);
+//   getAndSaveEvoChain(id);
 }
 
 function getGermanName(data, id) {
@@ -96,14 +96,14 @@ async function getAndSaveImage(id) {
     }
 }
 
-async function getAndSaveEvoChain(id) {
-    if (savedEvoChain[id]) {
-        return savedEvoChain[id];
+async function getAndSaveEvoChain(url) {
+    if (savedEvoChain[url]) {
+        return savedEvoChain[url];
     }
     else{
-        let response = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${id}/`);
+        let response = await fetch(url);
         let data = await response.json();
-        savedEvoChain[id] = data;
+        savedEvoChain[url] = data;
         return data;
     }
 }
@@ -536,27 +536,141 @@ inputFilter.addEventListener("input", function (event) {
   }
 });
 
-async function renderEvoChain(id) {
-    const evoData = await getAndSaveEvoChain(id);
-    const chain = evoData.chain;
-
-    let refFirstEvo = document.getElementById("first-evo-image");
-    let refSecondEvo = document.getElementById("second-evo-image");
-    let refThirdEvo = document.getElementById("third-evo-image");
-
-    // const speciesData = await getAndSaveImage(id);
-
-    let firstEvoName = chain.species.name;
-    let secondEvoName = chain.evolves_to[0].species.name;
-    let thirdEvoName = chain.evolves_to[0].evolves_to[0].species.name;
-
-    const FirstData = await getAndSavePokemon(firstEvoName);
-    const SecondData = await getAndSavePokemon(secondEvoName);
-    const ThirdData = await getAndSavePokemon(thirdEvoName);
-
-    refFirstEvo.src = FirstData.sprites.other["official-artwork"].front_default;
-    refSecondEvo.src = SecondData.sprites.other["official-artwork"].front_default;
-    refThirdEvo.src = ThirdData.sprites.other["official-artwork"].front_default;
-
+async function getEvoChainForPokemon(id) {
+    const speciesData = await getAndSaveImage(id);
+    const evoUrl = speciesData.evolution_chain.url;
+    const evoData = await getAndSaveEvoChain(evoUrl);
+    return evoData.chain;
 }
 
+function getAllEvoNames(chain) {
+  const names = [];
+
+  function visit(node) {
+    names.push(node.species.name);
+    if (!node.evolves_to) return;
+    for (let i = 0; i < node.evolves_to.length; i++) {
+      visit(node.evolves_to[i]);
+    }
+  }
+
+  visit(chain);
+  return names;
+}
+
+async function fillEvoSlot(pokeName, imgElement) {
+  if (!pokeName) {
+    imgElement.style.display = "none";
+    return;
+  }
+  const data = await getAndSavePokemon(pokeName);
+  imgElement.src = data.sprites.other["official-artwork"].front_default;
+  imgElement.alt = pokeName;
+  imgElement.style.display = "block";
+}
+
+async function renderEvoChain(id) {
+  const chain = await getEvoChainForPokemon(id);   // hast du schon
+  const names = getAllEvoNames(chain);
+
+  const container = document.getElementById("evo-area");
+  container.innerHTML = "";
+
+  if (chain.species.name === "eevee") {
+    container.classList.add("evo-eevee");
+  } else {
+    container.classList.remove("evo-eevee");
+  }
+  for (let i = 0; i < names.length; i++) {
+    const img = document.createElement("img");
+    img.classList.add("evo-image");
+    container.appendChild(img);
+    await fillEvoSlot(names[i], img);              // deine bestehende Funktion
+  }
+}
+
+
+function prepareLinearEvoSlots() {
+  const container = document.getElementById("evo-area");
+  container.innerHTML = "";
+
+  const ids = ["first-evo-image", "second-evo-image", "third-evo-image"];
+  const slots = [];
+
+  for (let i = 0; i < ids.length; i++) {
+    const img = document.createElement("img");
+    img.id = ids[i];
+    img.classList.add("evo-image");
+    container.appendChild(img);
+    slots.push(img);
+  }
+  return slots;
+}
+
+async function renderBranchingEvo(chain) {
+  const container = document.getElementById("evo-area");
+  container.innerHTML = "";
+
+  const names = [chain.species.name];
+  const evo = chain.evolves_to;
+  for (let i = 0; i < evo.length; i++) {
+    names.push(evo[i].species.name);
+  }
+
+  for (let i = 0; i < names.length; i++) {
+    const img = document.createElement("img");
+    img.classList.add("evo-image");
+    container.appendChild(img);
+    await fillEvoSlot(names[i], img);
+  }
+}
+
+
+//     let refFirstEvo = document.getElementById("first-evo-image");
+//     let refSecondEvo = document.getElementById("second-evo-image");
+//     let refThirdEvo = document.getElementById("third-evo-image");
+
+//     let firstEvoName = chain.species.name;
+//     let secondEvoName = null;
+//     let thirdEvoName  = null;
+
+//     if (chain.evolves_to.length > 0) {
+
+//   if (chain.evolves_to.length > 1) {
+//     secondEvoName = chain.evolves_to[0].species.name; // Aquana
+//     thirdEvoName  = chain.evolves_to[1].species.name; // Blitza
+//   } else {
+//     secondEvoName = chain.evolves_to[0].species.name;
+
+    // 3. Gibt es von dieser Weiterentwicklung noch eine Weiterentwicklung?
+//     const secondStage = chain.evolves_to[0];
+//     if (secondStage.evolves_to && secondStage.evolves_to.length > 0) {
+//       thirdEvoName = secondStage.evolves_to[0].species.name;
+//     }
+//   }
+//     }
+    // const FirstData = await getAndSavePokemon(firstEvoName);
+    // const SecondData = await getAndSavePokemon(secondEvoName);
+    // const ThirdData = await getAndSavePokemon(thirdEvoName);
+
+//   await fillEvo(firstEvoName,  refFirstEvo);
+//   await fillEvo(secondEvoName, refSecondEvo);
+//   await fillEvo(thirdEvoName,  refThirdEvo);
+
+    // refFirstEvo.src = FirstData.sprites.other["official-artwork"].front_default;
+    // refSecondEvo.src = SecondData.sprites.other["official-artwork"].front_default;
+    // refThirdEvo.src = ThirdData.sprites.other["official-artwork"].front_default;
+
+// }
+
+// async function fillEvo(pokeName, imgElement) {
+//   if (!pokeName) {
+//     imgElement.style.display = "none";
+//     return;
+//   }
+
+//   const data = await getAndSavePokemon(pokeName);
+//   imgElement.src = data.sprites.other["official-artwork"].front_default;
+//   imgElement.alt = pokeName;
+//   imgElement.style.display = "block";
+// }
