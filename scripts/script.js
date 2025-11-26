@@ -85,7 +85,8 @@ async function getAndSavePokemon(id) {
     else{
       let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
       let data = await response.json();
-      savedPokemon[id] = data;
+      savedPokemon[data.id] = data;
+      savedPokemon[data.name] = data;
       return data;  
     }
 }
@@ -579,9 +580,10 @@ async function fillEvoSlot(pokeName, imgElement) {
 }
 
 async function renderEvoChain(id) {
-  const chain = await getEvoChainForPokemon(id);   // hast du schon
+  const chain = await getEvoChainForPokemon(id); 
   const names = getAllEvoNames(chain);
   evoArea.innerHTML = "";
+ const imgElements = [];
 
   if (chain.species.name === "eevee") {
     evoArea.classList.add("evo-eevee");
@@ -592,9 +594,14 @@ async function renderEvoChain(id) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
     evoArea.appendChild(img);
-    await fillEvoSlot(names[i], img);              // deine bestehende Funktion
+     // fillEvoSlot ist async → gibt ein Promise zurück
+    const task = fillEvoSlot(names[i], img);
+    imgElements.push(task);
   }
-}
+ // Warten, bis ALLE fillEvoSlot-Aufgaben fertig sind
+  await Promise.all(imgElements);
+  }
+
 
 
 function prepareLinearEvoSlots() {
