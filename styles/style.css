@@ -61,6 +61,7 @@ main {
   /* background-color: #082129; */
   /* background-color: #07224E; */
   background: var(--secondary-color);
+  position: relative;
 }
 
 #loading-overlay {
@@ -119,7 +120,6 @@ input{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background: #082129; */
   background: var(--secondary-color);
   min-height: 32px;
   padding: 6px 12px;
@@ -156,6 +156,22 @@ input{
 .loadButton:hover {
   transform: scale(1.1);
   background-color: #E6B800;
+  cursor: pointer;
+}
+
+.impressum-link{
+  font-size: 16px;
+color: white;
+}
+
+a.impressum-link:hover{
+
+text-decoration: underline;
+}
+
+.impressum-wrapper{
+ position: absolute;
+  right: 40px; 
 }
 
 /* Dialog */

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./styles/standard.css" />
     <link rel="stylesheet" href="./styles/style.css" />
     <link rel="stylesheet" href="./styles/types.css" />
-    <link rel="shortcut icon" href="./assets/img/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="./assets/img/favicon.png" type="image/png" />
     <script src="./scripts/script.js" defer></script>
     <script src="./scripts/template.js" defer></script>
   </head>
@@ -19,7 +19,7 @@
     <div class="section-wrapper">
       <header class="main-header">
         <div class="logo">
-            <h1>Pokedex</h1>
+          <h1>Pokedex</h1>
           <img src="assets/img/pokedex-logo.png" alt="Pokedex-Logo" />
         </div>
         <input type="search" name="search-input" id="search-input" placeholder="Pokemon suchen..." />
@@ -33,6 +33,9 @@
     <div class="section-wrapper">
       <footer class="main-footer">
         <button class="loadButton" onclick="loadMorePokemon()">Weitere Pokemon laden</button>
+        <div class="impressum-wrapper">
+        <a class="impressum-link" href="./impressum.html">Impressum</a>
+        </div>
       </footer>
     </div>
     <dialog id="image-dialog" aria-labelledby="dialog-headline">
@@ -78,46 +81,46 @@
               </div>
               <div id="stats-area">
                 <div class="stat-row" data-value="78">
-    <span class="stat-label">KP</span>
-    <div class="stat-track">
-      <div id="hp" class="stat-fill"></div>
-    </div>
-  </div>
+                  <span class="stat-label">KP</span>
+                  <div class="stat-track">
+                    <div id="hp" class="stat-fill"></div>
+                  </div>
+                </div>
 
-  <div class="stat-row" data-value="104">
-    <span class="stat-label">Angriff</span>
-    <div class="stat-track">
-      <div id="attack" class="stat-fill"></div>
-    </div>
-  </div>
+                <div class="stat-row" data-value="104">
+                  <span class="stat-label">Angriff</span>
+                  <div class="stat-track">
+                    <div id="attack" class="stat-fill"></div>
+                  </div>
+                </div>
 
-  <div class="stat-row" data-value="78">
-    <span class="stat-label">Verteidigung</span>
-    <div class="stat-track">
-      <div id="defense" class="stat-fill"></div>
-    </div>
-  </div>
+                <div class="stat-row" data-value="78">
+                  <span class="stat-label">Verteidigung</span>
+                  <div class="stat-track">
+                    <div id="defense" class="stat-fill"></div>
+                  </div>
+                </div>
 
-  <div class="stat-row" data-value="159">
-    <span class="stat-label">Spezial-Angriff</span>
-    <div class="stat-track">
-      <div id="special-attack" class="stat-fill"></div>
-    </div>
-  </div>
+                <div class="stat-row" data-value="159">
+                  <span class="stat-label">Spezial-Angriff</span>
+                  <div class="stat-track">
+                    <div id="special-attack" class="stat-fill"></div>
+                  </div>
+                </div>
 
-  <div class="stat-row" data-value="115">
-    <span class="stat-label">Spezial-Verteidigung</span>
-    <div class="stat-track">
-      <div id="special-defense" class="stat-fill"></div>
-    </div>
-  </div>
+                <div class="stat-row" data-value="115">
+                  <span class="stat-label">Spezial-Verteidigung</span>
+                  <div class="stat-track">
+                    <div id="special-defense" class="stat-fill"></div>
+                  </div>
+                </div>
 
-  <div class="stat-row" data-value="100">
-    <span class="stat-label">Initiative</span>
-    <div class="stat-track">
-      <div id="speed" class="stat-fill"></div>
-    </div>
-  </div>
+                <div class="stat-row" data-value="100">
+                  <span class="stat-label">Initiative</span>
+                  <div class="stat-track">
+                    <div id="speed" class="stat-fill"></div>
+                  </div>
+                </div>
               </div>
               <div id="shiny-area">
                 <img id="shiny-image" src="" alt="Shiny-Pokemon" />
