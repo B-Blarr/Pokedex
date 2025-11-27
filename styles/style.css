@@ -423,22 +423,34 @@ height: 210px;
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 30%;
+  /* max-width: 30%; */
   max-height: 45%;
-  /* min-height: 210px; */
-   flex: 1 1 30%;
+  flex: 1 1 30%;
   object-fit: contain;
 }
 
 #evo-area.evo-eevee {
-  flex-wrap: wrap;
-  justify-content: center;
+  /* flex-wrap: wrap;
+  justify-content: center; */
 }
 
 #evo-area.evo-eevee .evo-image {
-  width: 80px;  
+  /* width: 80px; */
+  /* flex-wrap: wrap;   */
+  max-width: 18%;
+}
 
-  flex-wrap: wrap;     /* z.B. halb so groß */
+#evo-area .evo-image:first-child:nth-last-child(2),
+#evo-area .evo-image:nth-child(2):nth-last-child(1) {
+  max-width: 45%; 
+  max-height: 80%; 
+  flex: 0 0 45%; 
+}
+
+#evo-area .evo-image:only-child {
+  max-width: 98%;   
+  max-height: 95%;  
+  flex: 0 0 auto;  
 }
 
 /* Stats-Area */
