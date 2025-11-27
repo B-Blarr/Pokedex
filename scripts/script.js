@@ -447,40 +447,46 @@ function renderHp(data) {
   let actualStat = data.stats[0].base_stat;
   const percent = getPercent(actualStat);
   refHp.style.width = percent + "%";
+  refHp.title = "Kraftpunkte: "+ actualStat;
 }
 
 function renderAttack(data) {
-  const refHp = document.getElementById("attack");
+  const refAttack = document.getElementById("attack");
   let actualStat = data.stats[1].base_stat;
   const percent = getPercent(actualStat);
-  refHp.style.width = percent + "%";
+  refAttack.style.width = percent + "%";
+  refAttack.title = "Angriffspunkte: "+ actualStat;
 }
 function renderDefense(data) {
-  const refHp = document.getElementById("defense");
+  const refDefense = document.getElementById("defense");
   let actualStat = data.stats[2].base_stat;
   const percent = getPercent(actualStat);
-  refHp.style.width = percent + "%";
+  refDefense.style.width = percent + "%";
+  refDefense.title = "Verteidigungspunkte: "+ actualStat;
 }
 
 function renderSpecialAttack(data) {
-  const refHp = document.getElementById("special-attack");
+  const refSpecialAttack = document.getElementById("special-attack");
   let actualStat = data.stats[3].base_stat;
   const percent = getPercent(actualStat);
-  refHp.style.width = percent + "%";
+  refSpecialAttack.style.width = percent + "%";
+  refSpecialAttack.title = "Spezial-Attacke: "+ actualStat + " Punkte";
 }
 
 function renderSpecialDefense(data) {
-  const refHp = document.getElementById("special-defense");
+  const refSpecialDefense = document.getElementById("special-defense");
   let actualStat = data.stats[4].base_stat;
   const percent = getPercent(actualStat);
-  refHp.style.width = percent + "%";
+  refSpecialDefense.style.width = percent + "%";
+  refSpecialDefense.title = "Spezial-Verteidigung: "+ actualStat + " Punkte";
 }
 
 function renderSpeed(data) {
-  const refHp = document.getElementById("speed");
+  const refSpeed = document.getElementById("speed");
   let actualStat = data.stats[5].base_stat;
   const percent = getPercent(actualStat);
-  refHp.style.width = percent + "%";
+  refSpeed.style.width = percent + "%";
+  refSpeed.title = "Initiative: "+ actualStat + " Punkte";
 }
 
 function getPercent(actualStat) {
