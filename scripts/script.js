@@ -240,6 +240,10 @@ async function openDialog(newName, id, pokemonImage) {
   dialogRef.showModal();
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
+  if (id <= 1) {
+    const previousButton = document.getElementById("footer-previous-button");
+    previousButton.style.display = "none";
+  }
   renderStats(id);
   renderEvoChain(id);
 //   setActiveTab("main-button");
@@ -386,7 +390,7 @@ async function renderDialogShiny(id) {
 async function renderDialogButtonsTemplate(id) {
   const refDialogFooterButton = document.getElementById("dialog-footer-button");
   refDialogFooterButton.innerHTML = `<button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon(${id})">
-              <img src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
+              <img id="footer-previous-button" src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
             </button>
             <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon(${id})">
               <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
@@ -426,9 +430,6 @@ async function nextPokemon(id) {
 }
 
 async function previousPokemon(id) {
-  if (id <= 1) {
-    return;
-  } else {
     let nextId = id - 1; // ID vom nächsten Pokemon
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
     // let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
@@ -460,7 +461,6 @@ async function previousPokemon(id) {
     let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
     openDialog(newName, nextId, nextPokemonImage);
   }
-}
 
 function setActiveTab(activeId) {
   let buttons = document.querySelectorAll(".dialog-category-button");
