@@ -42,29 +42,44 @@ async function loadPokemonInfos() {
 }
 
 async function getPokemonImage(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-//   if (!response.ok) {
-//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
-//     return "../assets/img/faq.png";
-//   } else {
     let data = await getAndSavePokemon(id);
+    if (!data) {
+    return `../assets/img/faq.png`;
+  }
     let pokemonImage = data.sprites.other["official-artwork"].front_default;
     return pokemonImage;
   }
-// }
 
 async function fetchData(id, pokemonImage) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
-//   if (!response.ok) {
-//     newName = "Unbekannt";
-//   } else {
     let data = await getAndSaveImage(id);
-    getGermanName(data, id);
-//   }
+  
+   if (!data) {
+    newName = "Unbekannt";
+    const pokemonType = "unknown";
+  refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
+  return;
+  }
+  getGermanName(data, id);
   const pokemonType = await getPokemonType(id);
   refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
   getType(id);
-//   getAndSaveEvoChain(id);
+   
+}
+
+async function loadJsonSafely(url) {
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.error("HTTP error:", response.status);
+      return null;
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 }
 
 function getGermanName(data, id) {
@@ -83,8 +98,12 @@ async function getAndSavePokemon(id) {
         return savedPokemon[id];
     }
     else{
-      let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-      let data = await response.json();
+      let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
+      let data = await loadJsonSafely(url);
+        if (!data) {
+    console.error(`Could not load pokemon data for id: ${id}`);
+    return null;
+  }
       savedPokemon[data.id] = data;
       savedPokemon[data.name] = data;
       return data;  
@@ -96,10 +115,14 @@ async function getAndSaveImage(id) {
         return savedImages[id];
     }
     else{
-      let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
-      let imageData = await response.json();
-      savedImages[id] = imageData;
-      return imageData;  
+      let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+      let data = await loadJsonSafely(url);
+      if (!data) {
+    console.error(`Could not load species data for id: ${id}`);
+    return null;
+      }
+      savedImages[id] = data;
+      return data;  
     }
 }
 
@@ -122,11 +145,10 @@ async function getAndSaveEvoChain(url) {
 
 async function getPokemonType(id) {
   let pokemonType = "";
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-//   if (!response.ok) {
-//     pokemonType = "Unbekannt";
-//   } else {
     let data = await getAndSavePokemon(id);
+    if (!data) {
+  return "unknown";
+}
     for (let i = 0; i < data.types.length; i++) {
       pokemonType = data.types[i].type.name;
       return pokemonType;
@@ -169,13 +191,6 @@ async function loadMorePokemon() {
 
 async function getType(id) {
   let pokemonType = "";
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-//   if (!response.ok) {
-//     console.log("Type-Fehler bei der ID:", id, "Statuscode:", response.status);
-//     pokemonType = "unknown";
-//     let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
-//     germanType.innerHTML += getGermanType(pokemonType);
-//   } else {
     let data = await getAndSavePokemon(id);
     for (let i = 0; i < data.types.length; i++) {
       pokemonType = data.types[i].type.name;
@@ -225,7 +240,6 @@ async function openDialog(newName, id, pokemonImage) {
   refHeadline.innerText = newName;
   let refDialogImage = document.getElementById("dialog-image");
   refDialogImage.src = pokemonImage;
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   refDialogType.innerHTML = "";
   setEvoAreaType(data);
@@ -246,11 +260,9 @@ async function openDialog(newName, id, pokemonImage) {
   }
   renderStats(id);
   renderEvoChain(id);
-//   setActiveTab("main-button");
 }
 
 async function addTypeColorToDialog(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   for (let i = 0; i < data.types.length; i++) {
     let pokemonType = data.types[i].type.name;
@@ -276,7 +288,6 @@ dialogRef.addEventListener("click", closeDialog);
 
 async function renderDialogInfos(id) {
   renderDialogMain(id);
-  // renderDialogStats();
   renderDialogShiny(id);
   
 }
@@ -289,25 +300,18 @@ async function renderDialogMain(id) {
 }
 
 async function renderPokemonHeight(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   let refPokemonHeight = document.getElementById("pokemonHeight");
   refPokemonHeight.innerText = (":  " + data.height / 10 + " m").replaceAll(".", ",");
 }
 
 async function renderPokemonWeight(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   let refPokemonWeight = document.getElementById("pokemonWeight");
   refPokemonWeight.innerText = (":  " + data.weight / 10 + " kg").replaceAll(".", ",");
 }
 
 async function renderAbilities(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-  //   if (!response.ok) {
-  //     console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
-  //     newName = "Unbekannt";
-  //   } else {
   let data = await getAndSavePokemon(id);
   let abilities = "";
   refAbilities.innerHTML = "";
@@ -324,12 +328,9 @@ async function renderAbilities(id) {
     }
   }
   refAbilities.innerHTML = abilities;
-  //     }
-  //   }
 }
 
 async function renderBaseExperience(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   let refPokemonBaseExperience = document.getElementById("base-experience");
   refPokemonBaseExperience.innerText = data.base_experience;
@@ -375,17 +376,14 @@ function showEvoArea() {
 }
 
 async function renderDialogShiny(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-//   if (!response.ok) {
-//     console.log("Image-Fehler bei der ID:", id, "Statuscode:", response.status);
-//     return "../assets/img/faq.png";
-//   } else {
     let data = await getAndSavePokemon(id);
+    if (!data) {
+    return `../assets/img/faq.png`;
+  }
     let shinyImage = data.sprites.other["official-artwork"].front_shiny;
 
     refShinyImage.src = shinyImage;
   }
-// }
 
 async function renderDialogButtonsTemplate(id) {
   const refDialogFooterButton = document.getElementById("dialog-footer-button");
@@ -398,14 +396,8 @@ async function renderDialogButtonsTemplate(id) {
 }
 
 async function nextPokemon(id) {
-  let nextId = id + 1; // ID vom nächsten Pokemon
+  let nextId = id + 1;
   refDialogImageSection.classList = "";
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
-  //   if (!response.ok) {
-  //      console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
-  //     newName = "Unbekannt";
-  //   }
-  //   else {
     if (!allNames[nextId - 1]) {
   let data = await getAndSaveImage(nextId);
   let pokemon = data.names;
@@ -417,12 +409,6 @@ async function nextPokemon(id) {
     }
   }
 }
-  //   }
-//   let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
-  //   if (!imageResponse.ok) {
-  //     console.log("Image-Fehler bei der ID:", id, "Statuscode:", imageResponse.status);
-  //     return "../assets/img/faq.png";
-  //   } else {
     newName = allNames[nextId - 1];
   let nextData = await getAndSavePokemon(nextId);
   let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
@@ -430,33 +416,9 @@ async function nextPokemon(id) {
 }
 
 async function previousPokemon(id) {
-    let nextId = id - 1; // ID vom nächsten Pokemon
+    let nextId = id - 1; 
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
-    // let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nextId}/`);
-
-
-    //   if (!response.ok) {
-    //      console.log("Species-Fehler bei der ID:",id,"Statuscode:",response.status);
-    //     newName = "Unbekannt";
-    //   }
-    //   else {
-
-
-    // let data = await response.json();
-    // let pokemon = data.names;
-    // for (let i = 0; i < allNames.length; i++) {
-    //   if (pokemon[i].language.name === "de") {
         newName = allNames[nextId - 1];
-        // allNames.push(newName);
-        // break;
-    //   }
-    // }
-    //   }
-    // let imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextId}/`);
-    //   if (!imageResponse.ok) {
-    //     console.log("Image-Fehler bei der ID:", id, "Statuscode:", imageResponse.status);
-    //     return "../assets/img/faq.png";
-    //   } else {
     let nextData = await getAndSavePokemon(nextId);
     let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
     openDialog(newName, nextId, nextPokemonImage);
@@ -471,7 +433,6 @@ function setActiveTab(activeId) {
 }
 
 async function renderStats(id) {
-//   let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   let data = await getAndSavePokemon(id);
   renderHp(data);
   renderAttack(data);
@@ -527,6 +488,7 @@ function getPercent(actualStat) {
   percent = Math.round(percent * 100);
   return percent;
 }
+
 inputFilter.addEventListener("input", function (event) {
   let filterWord = event.target.value.toLowerCase().trim();
   let pokemonEntry = document.querySelectorAll(".pokemon-entry");
