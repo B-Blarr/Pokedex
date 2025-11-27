@@ -177,6 +177,12 @@ input{
   min-height: 640px;
   width: 410px;
   padding: 0px 0;
+  backdrop-filter: blur(8px);
+}
+
+#image-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
 }
 
 .dialog-wrapper {

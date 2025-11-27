@@ -33,12 +33,12 @@ async function init() {
 }
 
 async function loadPokemonInfos() {
-  for (let id = 1; id <= startId + 15; id++) {
+  for (let id = 1; id <= startId + 35; id++) {
     loadedIds++;
     const pokemonImage = await getPokemonImage(id);
     await fetchData(id, pokemonImage);
   }
-  startId = startId + 25;
+  startId = startId + 35;
 }
 
 async function getPokemonImage(id) {
@@ -151,7 +151,7 @@ function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
 
 async function loadMorePokemon() {
   showLoadingSpinner();
-  for (let id = loadedIds + 1; id <= startId + 30; id++) {
+  for (let id = loadedIds + 1; id <= startId + 15; id++) {
     loadedIds++;
     if (loadedIds <= 1025) {
       const pokemonImage = await getPokemonImage(id);
@@ -162,7 +162,7 @@ async function loadMorePokemon() {
     }
   }
   hideLoadingSpinner();
-  startId = startId + 30;
+  startId = startId + 15;
 }
 
 
