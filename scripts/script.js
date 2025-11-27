@@ -602,8 +602,6 @@ async function renderEvoChain(id) {
   await Promise.all(imgElements);
   }
 
-
-
 function prepareLinearEvoSlots() {
   evoArea.innerHTML = "";
 
@@ -628,7 +626,6 @@ async function renderBranchingEvo(chain) {
   for (let i = 0; i < evo.length; i++) {
     names.push(evo[i].species.name);
   }
-
   for (let i = 0; i < names.length; i++) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
@@ -651,51 +648,3 @@ function setEvoAreaType(data) {
 
 
 
-//     let refFirstEvo = document.getElementById("first-evo-image");
-//     let refSecondEvo = document.getElementById("second-evo-image");
-//     let refThirdEvo = document.getElementById("third-evo-image");
-
-//     let firstEvoName = chain.species.name;
-//     let secondEvoName = null;
-//     let thirdEvoName  = null;
-
-//     if (chain.evolves_to.length > 0) {
-
-//   if (chain.evolves_to.length > 1) {
-//     secondEvoName = chain.evolves_to[0].species.name; // Aquana
-//     thirdEvoName  = chain.evolves_to[1].species.name; // Blitza
-//   } else {
-//     secondEvoName = chain.evolves_to[0].species.name;
-
-    // 3. Gibt es von dieser Weiterentwicklung noch eine Weiterentwicklung?
-//     const secondStage = chain.evolves_to[0];
-//     if (secondStage.evolves_to && secondStage.evolves_to.length > 0) {
-//       thirdEvoName = secondStage.evolves_to[0].species.name;
-//     }
-//   }
-//     }
-    // const FirstData = await getAndSavePokemon(firstEvoName);
-    // const SecondData = await getAndSavePokemon(secondEvoName);
-    // const ThirdData = await getAndSavePokemon(thirdEvoName);
-
-//   await fillEvo(firstEvoName,  refFirstEvo);
-//   await fillEvo(secondEvoName, refSecondEvo);
-//   await fillEvo(thirdEvoName,  refThirdEvo);
-
-    // refFirstEvo.src = FirstData.sprites.other["official-artwork"].front_default;
-    // refSecondEvo.src = SecondData.sprites.other["official-artwork"].front_default;
-    // refThirdEvo.src = ThirdData.sprites.other["official-artwork"].front_default;
-
-// }
-
-// async function fillEvo(pokeName, imgElement) {
-//   if (!pokeName) {
-//     imgElement.style.display = "none";
-//     return;
-//   }
-
-//   const data = await getAndSavePokemon(pokeName);
-//   imgElement.src = data.sprites.other["official-artwork"].front_default;
-//   imgElement.alt = pokeName;
-//   imgElement.style.display = "block";
-// }
