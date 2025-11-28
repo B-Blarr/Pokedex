@@ -288,6 +288,7 @@ function closeDialog(event) {
     document.getElementById("main-area").style.display = "block";
     document.getElementById("stats-area").style.display = "none";
     document.getElementById("shiny-area").style.display = "none";
+    document.getElementById("evo-area").style.display = "none";
   }
 }
 dialogRef.addEventListener("click", closeDialog);
