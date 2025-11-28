@@ -55,7 +55,7 @@ async function loadPokemonInfos() {
     loadedIds++;
     const pokemonImage = await getPokemonImage(id);
     await fetchData(id, pokemonImage);
-    renderAbilities(id);
+    fetchAbilities(id);
   }
   startId = startId + 35;
 }
@@ -165,19 +165,6 @@ async function getPokemonType(id) {
   }
 }
 
-function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
-  return `
-    <div onclick="setActiveTab('main-button'); openDialog('${newName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
-        <header id="pokemon-entry-header-${id}">
-            <span id="pokemon-id-${id}"># ${id}</span>
-            <h3>${newName}</h3>
-        </header>
-        <section id="pokemon-entry-image-${id}"><img loading="lazy" class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}"></section>
-        <footer id="pokemon-entry-footer-${id}"></footer>
-    </div>
-        `;
-}
-
 async function loadMorePokemon() {
   showLoadingSpinner();
   for (let id = loadedIds + 1; id <= startId + 15; id++) {
@@ -185,7 +172,7 @@ async function loadMorePokemon() {
     if (loadedIds <= 1025) {
       const pokemonImage = await getPokemonImage(id);
       await fetchData(id, pokemonImage);
-      renderAbilities(id);
+      fetchAbilities(id);
     } else {
       hideLoadingSpinner();
       return;
@@ -203,31 +190,7 @@ async function getType(id) {
     let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
     germanType.innerHTML += getGermanType(pokemonType);
   }
-
   return pokemonType;
-}
-
-function getGermanType(pokemonType) {
-  if (pokemonType == "grass") return `<div class='type grass'>Pflanze</div>`;
-  if (pokemonType === "normal") return `<div class='type normal'>Normal</div>`;
-  if (pokemonType === "fighting") return `<div class='type fighting'>Kampf</div>`;
-  if (pokemonType === "flying") return `<div class='type flying'>Flug</div>`;
-  if (pokemonType === "poison") return `<div class='type poison'>Gift</div>`;
-  if (pokemonType === "ground") return `<div class='type ground'>Boden</div>`;
-  if (pokemonType === "rock") return `<div class='type rock'>Gestein</div>`;
-  if (pokemonType === "bug") return `<div class='type bug'>Käfer</div>`;
-  if (pokemonType === "ghost") return `<div class='type ghost'>Geist</div>`;
-  if (pokemonType === "steel") return `<div class='type steel'>Stahl</div>`;
-  if (pokemonType === "fire") return `<div class='type fire'>Feuer</div>`;
-  if (pokemonType === "water") return `<div class='type water'>Wasser</div>`;
-  if (pokemonType === "electric") return `<div class='type electric'>Elektro</div>`;
-  if (pokemonType === "psychic") return `<div class='type psychic'>Psycho</div>`;
-  if (pokemonType === "ice") return `<div class='type ice'>Eis</div>`;
-  if (pokemonType === "dragon") return `<div class='type dragon'>Drache</div>`;
-  if (pokemonType === "dark") return `<div class='type dark'>Unlicht</div>`;
-  if (pokemonType === "fairy") return `<div class='type fairy'>Fee</div>`;
-  if (pokemonType === "stellar") return `<div class='type stellar'>Stellar</div>`;
-  if (pokemonType === "unknown") return `<div class='type unknown'>Unbekannt</div>`;
 }
 
 function showLoadingSpinner() {
@@ -265,7 +228,7 @@ async function openDialog(newName, id, pokemonImage) {
   }
   renderStats(id);
   renderEvoChain(id);
-  renderAbilities(id+1)
+  fetchAbilities(id + 1);
 }
 
 async function addTypeColorToDialog(id) {
@@ -299,11 +262,10 @@ async function renderDialogInfos(id) {
 }
 
 async function renderDialogMain(id) {
-  //   renderAbilities(id);
   renderPokemonHeight(id);
   renderPokemonWeight(id);
   renderBaseExperience(id);
-  renderAbilitiesTemplate(id);
+  renderAbilities(id);
 }
 
 async function renderPokemonHeight(id) {
@@ -318,14 +280,13 @@ async function renderPokemonWeight(id) {
   refPokemonWeight.innerText = (":  " + data.weight / 10 + " kg").replaceAll(".", ",");
 }
 
-async function renderAbilities(id) {
+async function fetchAbilities(id) {
   let data = await getAndSavePokemon(id);
-  //   let abilities = "";
   if (!data) {
     return;
   }
   savedAbilities[id] = [];
-  
+
   for (let i = 0; i < data.abilities.length; i++) {
     let abilityUrl = data.abilities[i].ability.url;
     let newResponse = await fetch(abilityUrl);
@@ -335,28 +296,23 @@ async function renderAbilities(id) {
       if (newData.names[j].language.name === "de") {
         newAbility = newData.names[j].name;
         savedAbilities[id].push(newAbility);
-
         break;
-
-        // refAbilities.innerHTML += `<div class="ability" >${newAbility}</div>`;
       }
     }
   }
-  //   refAbilities.innerHTML = abilities;
 }
 
-function renderAbilitiesTemplate(id) {
-    refAbilities.innerHTML = "";
+function renderAbilities(id) {
+  refAbilities.innerHTML = "";
 
-if (!savedAbilities[id] || savedAbilities[id].length === 0) {
+  if (!savedAbilities[id] || savedAbilities[id].length === 0) {
     refAbilities.innerHTML = "Unbekannt";
     return;
   }
 
   for (let i = 0; i < savedAbilities[id].length; i++) {
-    refAbilities.innerHTML += `
-      <div class="ability">${savedAbilities[id][i]}</div>
-    `;
+    newAbility = savedAbilities[id][i];
+    refAbilities.innerHTML += renderAbilitiesTemplate(newAbility);
   }
 }
 
@@ -413,16 +369,6 @@ async function renderDialogShiny(id) {
   let shinyImage = data.sprites.other["official-artwork"].front_shiny;
 
   refShinyImage.src = shinyImage;
-}
-
-async function renderDialogButtonsTemplate(id) {
-  const refDialogFooterButton = document.getElementById("dialog-footer-button");
-  refDialogFooterButton.innerHTML = `<button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon(${id})">
-              <img id="footer-previous-button" src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
-            </button>
-            <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon(${id})">
-              <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
-            </button>`;
 }
 
 async function nextPokemon(id) {
@@ -551,19 +497,20 @@ async function getEvoChainForPokemon(id) {
   return evoData.chain;
 }
 
-function getAllEvoNames(chain) {
+function getAllEvoNames(evoChain) {
   const names = [];
-
-  function visit(node) {
-    names.push(node.species.name);
-    if (!node.evolves_to) return;
-    for (let i = 0; i < node.evolves_to.length; i++) {
-      visit(node.evolves_to[i]);
-    }
-  }
-
-  visit(chain);
+  collectNames(evoChain, names);
   return names;
+}
+
+function collectNames(evoChain, names) {
+  names.push(evoChain.species.name);
+  if (!evoChain.evolves_to) {
+    return;
+  }
+  for (let i = 0; i < evoChain.evolves_to.length; i++) {
+    collectNames(evoChain.evolves_to[i], names);
+  }
 }
 
 async function fillEvoSlot(pokeName, imgElement) {
