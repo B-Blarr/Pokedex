@@ -13,8 +13,6 @@ body:has(#image-dialog[open]) {
   display: flex;
   justify-content: center;
   width: 100%;
-  /* background-color: #082129; */
-  /* background-color: #07224E; */
   background: var(--secondary-color);
 }
 
@@ -24,11 +22,9 @@ body:has(#image-dialog[open]) {
   justify-content: space-between;
   width: 1440px;
   height: 120px;
-  /* background-color: #082129; */
-  /* background-color: #07224E; */
   background: var(--secondary-color);
-  color: #FFCB05;
-  font-size: 32px;
+  /* color: #FFCB05; */
+  /* font-size: 32px; */
   padding: 0 40px;
 }
 
@@ -37,9 +33,6 @@ body:has(#image-dialog[open]) {
   justify-content: center;
   flex: 1;
   width: 100%;
-  /* background: linear-gradient(#05171e, #0b191f); */
-  /* background-color: #4A77C8 */
-  /* background-color: #0B4DA2; */
   background: var(--primary-color);
 }
 
@@ -58,8 +51,6 @@ main {
   max-width: 1440px;
   height: 120px;
   margin-top: auto;
-  /* background-color: #082129; */
-  /* background-color: #07224E; */
   background: var(--secondary-color);
   position: relative;
 }
@@ -89,11 +80,12 @@ input{
   width: 210px;
   height: 32px;
   font-size: 16px;
-  margin-top: 64px;
+  margin-top: 78px;
 }
 
 #pokemon-listing {
   display: flex;
+  justify-content: center;
   flex: 1;
   flex-wrap: wrap;
   gap: 48px;
@@ -126,6 +118,10 @@ input{
   padding: 6px 12px;
 }
 
+h3{
+  font-size: 19px;
+}
+
 .image-preview {
   max-width: 210px;
   display: block;
@@ -135,7 +131,6 @@ input{
 .pokemon-entry footer {
   display: flex;
   justify-content: space-between;
-  /* background: #082129; */
   background: var(--secondary-color);
   padding: 12px 8px;
 }
@@ -143,11 +138,9 @@ input{
 .loadButton {
   border-radius: 16px;
   border: none;
-  /* background-color: chocolate; */
   background-color: #FFCB05;
   height: 48px;
   width: 240px;
-  /* color: white; */
   color: #07224E;
   font-size: 16px;
   font-weight: 600;
@@ -162,16 +155,15 @@ input{
 
 .impressum-link{
   font-size: 16px;
-color: white;
+  color: white;
 }
 
 a.impressum-link:hover{
-
-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .impressum-wrapper{
- position: absolute;
+  position: absolute;
   right: 40px; 
 }
 
@@ -183,14 +175,8 @@ text-decoration: underline;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 5%;
-  /* background: #082129; */
   background: var(--secondary-color);
-  /* border: 3px solid #d47a1c; */
   border: 3px solid #E6B800;
-  /* box-shadow: 0 0 22px rgba(212, 122, 28, 0.35),
-    inset 0 0 6px rgba(212, 122, 28, 0.15); */
-  /* background: #0e2a31ee; */
-  /* backdrop-filter: blur(8px); */
   min-height: 640px;
   width: 410px;
   padding: 0px 0;
@@ -234,7 +220,6 @@ h2 {
   width: 100%;
   min-height: 210px;
   height: 280px;
-  /* background: linear-gradient(135deg, #7a2410, #ff8a3a); */
   padding-top: 32px;
 }
 
@@ -509,4 +494,180 @@ padding-right: 12px;
   height: 100%;
   background: #e85b5b;
   border-radius: 999px;
+}
+
+@media(max-width: 821px){
+.main-header {
+padding: 0 24px;
+}
+
+main {
+  padding: 0 24px;
+}
+
+.logo img{
+  width: 325px;
+}
+
+input{
+  width: 160px;
+  height: 28px;
+  font-size: 16px;
+  margin-top: 64px;
+}
+
+#pokemon-listing {
+  gap: 28px;
+  margin: 36px 0;
+}
+
+.pokemon-entry {
+  min-width: 0px;
+  width: 150px;
+  min-height: 220px;
+}
+
+.pokemon-entry header {
+  align-items: flex-end;
+  min-height: 32px;
+  padding: 2px 12px;
+}
+
+h3{
+  font-size: 17px;
+}
+
+header span{
+  font-size: 17px;
+}
+
+.image-preview {
+  max-width: 150px;
+}
+}
+
+@media(max-width: 569px){
+.main-header {
+padding: 0 18px;
+}
+
+main {
+  padding: 0 18px;
+}
+
+.logo img{
+  width: 240px;
+}
+
+input{
+  height: 26px;
+}
+
+#pokemon-listing {
+  gap: 21px;
+  margin: 32px 0;
+}
+
+.pokemon-entry {
+  width: 120px;
+  min-height: 0px;
+  height: 180px;
+}
+
+.pokemon-entry header {
+  min-height: 28px;
+  padding: 2px 12px;
+}
+
+h3{
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+}
+
+header span{
+  display: none;
+}
+
+.image-preview {
+  max-width: 120px;
+}
+
+.pokemon-entry footer {
+  justify-content: space-between;
+  padding: 8px 6px;
+   min-height: 28px;
+}
+
+.main-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex: 0;
+  max-width: 1440px;
+  height: 120px;
+  margin-top: auto;
+}
+
+.loadButton {
+  height: 40px;
+  width: 210px;
+  margin-bottom: 16px;
+  margin-right: 56px;
+}
+
+.impressum-link{
+  margin-top: 16px;
+text-align: center;
+}
+
+.impressum-wrapper{
+  position: relative;
+ display: flex;
+  justify-content: center;
+  /* width: 100%; */
+}
+
+}
+
+@media(max-width: 453px){
+.main-header {
+  flex-direction: column;
+padding: 0 12px;
+}
+
+.logo{
+  height: 80px;
+}
+
+.logo img{
+  width: 350px;
+  height: 80px;
+}
+
+input{
+  width: 160px;
+  height: 28px;
+  font-size: 16px;
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+main {
+  padding: 0 12px;
+}
+
+.logo img{
+  width: 180px;
+}
+
+.loadButton {
+  font-size: 15px;
+  height: 36px;
+  width: 180px;
+  margin-bottom: 4px;
+  margin-right: 56px;
+}
 }

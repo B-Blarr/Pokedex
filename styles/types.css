@@ -1,16 +1,14 @@
 .type{
-display: inline-flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 4px 10px;
   margin: 0 8px;
   border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 500;
-  /* color: #ffffff; */
-  /* background: rgba(255, 255, 255, 0.08); */
-  /* box-shadow: 0 0 6px rgba(0, 0, 0, 0.7); */
-  /* transition: 0.2s ease; */
+  width: 80px;
 }
 
 .type::before {
@@ -179,4 +177,29 @@ background: linear-gradient(135deg, #781216, #e0573c);
 
 .unknown::before {
   background: #e8e4df;
+}
+
+@media(max-width:821px){
+
+  .type{
+  gap: 4px;
+  padding: 4px 10px;
+  margin: 0 6px;
+  font-size: 0.75rem;
+  width: 64px;
+}
+
+.type::before {
+  content: none;
+}
+}
+
+@media(max-width: 569px){
+  .type{
+  gap: 2px;
+  padding: 2px 8px;
+  margin: 0 6px;
+  font-size: 0.75rem;
+  width: 48px;
+}
 }
