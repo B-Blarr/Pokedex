@@ -89,6 +89,7 @@ input{
   width: 210px;
   height: 32px;
   font-size: 16px;
+  margin-top: 64px;
 }
 
 #pokemon-listing {

@@ -14,16 +14,34 @@ const evoButton = document.getElementById("evo-button");
 const inputFilter = document.getElementById("search-input");
 const evoArea = document.getElementById("evo-area");
 const POKEMON_TYPES = [
-  "grass","normal","fighting","flying","poison","ground","rock",
-  "bug","ghost","steel","fire","water","electric","psychic",
-  "ice","dragon","dark","fairy","stellar","unknown"
+  "grass",
+  "normal",
+  "fighting",
+  "flying",
+  "poison",
+  "ground",
+  "rock",
+  "bug",
+  "ghost",
+  "steel",
+  "fire",
+  "water",
+  "electric",
+  "psychic",
+  "ice",
+  "dragon",
+  "dark",
+  "fairy",
+  "stellar",
+  "unknown",
 ];
 let newName = "";
 let refDialogId = 0;
 let maxStat = 220;
 let savedPokemon = {};
 let savedImages = {};
-let savedEvoChain = {};  
+let savedEvoChain = {};
+let savedAbilities = {};
 let allNames = [];
 
 async function init() {
@@ -37,33 +55,33 @@ async function loadPokemonInfos() {
     loadedIds++;
     const pokemonImage = await getPokemonImage(id);
     await fetchData(id, pokemonImage);
+    renderAbilities(id);
   }
   startId = startId + 35;
 }
 
 async function getPokemonImage(id) {
-    let data = await getAndSavePokemon(id);
-    if (!data) {
+  let data = await getAndSavePokemon(id);
+  if (!data) {
     return `../assets/img/faq.png`;
   }
-    let pokemonImage = data.sprites.other["official-artwork"].front_default;
-    return pokemonImage;
-  }
+  let pokemonImage = data.sprites.other["official-artwork"].front_default;
+  return pokemonImage;
+}
 
 async function fetchData(id, pokemonImage) {
-    let data = await getAndSaveImage(id);
-  
-   if (!data) {
+  let data = await getAndSaveImage(id);
+
+  if (!data) {
     newName = "Unbekannt";
     const pokemonType = "unknown";
-  refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
-  return;
+    refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
+    return;
   }
   getGermanName(data, id);
   const pokemonType = await getPokemonType(id);
   refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
   getType(id);
-   
 }
 
 async function loadJsonSafely(url) {
@@ -94,67 +112,58 @@ function getGermanName(data, id) {
 }
 
 async function getAndSavePokemon(id) {
-    if (savedPokemon[id]) {
-        return savedPokemon[id];
+  if (savedPokemon[id]) {
+    return savedPokemon[id];
+  } else {
+    let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
+    let data = await loadJsonSafely(url);
+    if (!data) {
+      console.error(`Could not load pokemon data for id: ${id}`);
+      return null;
     }
-    else{
-      let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
-      let data = await loadJsonSafely(url);
-        if (!data) {
-    console.error(`Could not load pokemon data for id: ${id}`);
-    return null;
+    savedPokemon[data.id] = data;
+    savedPokemon[data.name] = data;
+    return data;
   }
-      savedPokemon[data.id] = data;
-      savedPokemon[data.name] = data;
-      return data;  
-    }
 }
 
 async function getAndSaveImage(id) {
-    if (savedImages[id]) {
-        return savedImages[id];
+  if (savedImages[id]) {
+    return savedImages[id];
+  } else {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+    let data = await loadJsonSafely(url);
+    if (!data) {
+      console.error(`Could not load species data for id: ${id}`);
+      return null;
     }
-    else{
-      let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
-      let data = await loadJsonSafely(url);
-      if (!data) {
-    console.error(`Could not load species data for id: ${id}`);
-    return null;
-      }
-      savedImages[id] = data;
-      return data;  
-    }
+    savedImages[id] = data;
+    return data;
+  }
 }
 
 async function getAndSaveEvoChain(url) {
-    if (savedEvoChain[url]) {
-        return savedEvoChain[url];
-    }
-    else{
-        let response = await fetch(url);
-        let data = await response.json();
-        savedEvoChain[url] = data;
-        return data;
-    }
+  if (savedEvoChain[url]) {
+    return savedEvoChain[url];
+  } else {
+    let response = await fetch(url);
+    let data = await response.json();
+    savedEvoChain[url] = data;
+    return data;
+  }
 }
-
-
-
-
-
 
 async function getPokemonType(id) {
   let pokemonType = "";
-    let data = await getAndSavePokemon(id);
-    if (!data) {
-  return "unknown";
-}
-    for (let i = 0; i < data.types.length; i++) {
-      pokemonType = data.types[i].type.name;
-      return pokemonType;
-    }
+  let data = await getAndSavePokemon(id);
+  if (!data) {
+    return "unknown";
   }
-// }
+  for (let i = 0; i < data.types.length; i++) {
+    pokemonType = data.types[i].type.name;
+    return pokemonType;
+  }
+}
 
 function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
   return `
@@ -169,8 +178,6 @@ function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
         `;
 }
 
-
-
 async function loadMorePokemon() {
   showLoadingSpinner();
   for (let id = loadedIds + 1; id <= startId + 15; id++) {
@@ -178,6 +185,7 @@ async function loadMorePokemon() {
     if (loadedIds <= 1025) {
       const pokemonImage = await getPokemonImage(id);
       await fetchData(id, pokemonImage);
+      renderAbilities(id);
     } else {
       hideLoadingSpinner();
       return;
@@ -187,20 +195,17 @@ async function loadMorePokemon() {
   startId = startId + 15;
 }
 
-
-
 async function getType(id) {
   let pokemonType = "";
-    let data = await getAndSavePokemon(id);
-    for (let i = 0; i < data.types.length; i++) {
-      pokemonType = data.types[i].type.name;
-      let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
-      germanType.innerHTML += getGermanType(pokemonType);
-    }
-   
-    return pokemonType;
+  let data = await getAndSavePokemon(id);
+  for (let i = 0; i < data.types.length; i++) {
+    pokemonType = data.types[i].type.name;
+    let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
+    germanType.innerHTML += getGermanType(pokemonType);
   }
-// }
+
+  return pokemonType;
+}
 
 function getGermanType(pokemonType) {
   if (pokemonType == "grass") return `<div class='type grass'>Pflanze</div>`;
@@ -235,6 +240,7 @@ function hideLoadingSpinner() {
 
 async function openDialog(newName, id, pokemonImage) {
   refDialogId = document.getElementById("dialog-id");
+  id = Number(id);
   refDialogId.innerText = "# " + id;
   let refHeadline = document.getElementById("dialog-headline");
   refHeadline.innerText = newName;
@@ -245,12 +251,11 @@ async function openDialog(newName, id, pokemonImage) {
   setEvoAreaType(data);
   for (let i = 0; i < data.types.length; i++) {
     let pokemonType = data.types[i].type.name;
-  addTypeColorToDialog(id);
+    addTypeColorToDialog(id);
 
     refDialogType.innerHTML += getGermanType(pokemonType);
-   
   }
-   
+
   dialogRef.showModal();
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
@@ -260,6 +265,7 @@ async function openDialog(newName, id, pokemonImage) {
   }
   renderStats(id);
   renderEvoChain(id);
+  renderAbilities(id+1)
 }
 
 async function addTypeColorToDialog(id) {
@@ -289,14 +295,14 @@ dialogRef.addEventListener("click", closeDialog);
 async function renderDialogInfos(id) {
   renderDialogMain(id);
   renderDialogShiny(id);
-  
 }
 
 async function renderDialogMain(id) {
-  renderAbilities(id);
+  //   renderAbilities(id);
   renderPokemonHeight(id);
   renderPokemonWeight(id);
   renderBaseExperience(id);
+  renderAbilitiesTemplate(id);
 }
 
 async function renderPokemonHeight(id) {
@@ -313,8 +319,12 @@ async function renderPokemonWeight(id) {
 
 async function renderAbilities(id) {
   let data = await getAndSavePokemon(id);
-  let abilities = "";
-  refAbilities.innerHTML = "";
+  //   let abilities = "";
+  if (!data) {
+    return;
+  }
+  savedAbilities[id] = [];
+  
   for (let i = 0; i < data.abilities.length; i++) {
     let abilityUrl = data.abilities[i].ability.url;
     let newResponse = await fetch(abilityUrl);
@@ -323,11 +333,30 @@ async function renderAbilities(id) {
     for (let j = 0; j < newData.names.length; j++) {
       if (newData.names[j].language.name === "de") {
         newAbility = newData.names[j].name;
-        abilities += `<div class="ability" >${newAbility}</div>`;
+        savedAbilities[id].push(newAbility);
+
+        break;
+
+        // refAbilities.innerHTML += `<div class="ability" >${newAbility}</div>`;
       }
     }
   }
-  refAbilities.innerHTML = abilities;
+  //   refAbilities.innerHTML = abilities;
+}
+
+function renderAbilitiesTemplate(id) {
+    refAbilities.innerHTML = "";
+
+if (!savedAbilities[id] || savedAbilities[id].length === 0) {
+    refAbilities.innerHTML = "Unbekannt";
+    return;
+  }
+
+  for (let i = 0; i < savedAbilities[id].length; i++) {
+    refAbilities.innerHTML += `
+      <div class="ability">${savedAbilities[id][i]}</div>
+    `;
+  }
 }
 
 async function renderBaseExperience(id) {
@@ -376,14 +405,14 @@ function showEvoArea() {
 }
 
 async function renderDialogShiny(id) {
-    let data = await getAndSavePokemon(id);
-    if (!data) {
+  let data = await getAndSavePokemon(id);
+  if (!data) {
     return `../assets/img/faq.png`;
   }
-    let shinyImage = data.sprites.other["official-artwork"].front_shiny;
+  let shinyImage = data.sprites.other["official-artwork"].front_shiny;
 
-    refShinyImage.src = shinyImage;
-  }
+  refShinyImage.src = shinyImage;
+}
 
 async function renderDialogButtonsTemplate(id) {
   const refDialogFooterButton = document.getElementById("dialog-footer-button");
@@ -398,31 +427,31 @@ async function renderDialogButtonsTemplate(id) {
 async function nextPokemon(id) {
   let nextId = id + 1;
   refDialogImageSection.classList = "";
-    if (!allNames[nextId - 1]) {
-  let data = await getAndSaveImage(nextId);
-  let pokemon = data.names;
-  for (let i = 0; i < pokemon.length; i++) {
-    if (pokemon[i].language.name === "de") {
-      newName = pokemon[i].name;
-      allNames[nextId - 1] = newName;
-      break;
+  if (!allNames[nextId - 1]) {
+    let data = await getAndSaveImage(nextId);
+    let pokemon = data.names;
+    for (let i = 0; i < pokemon.length; i++) {
+      if (pokemon[i].language.name === "de") {
+        newName = pokemon[i].name;
+        allNames[nextId - 1] = newName;
+        break;
+      }
     }
   }
-}
-    newName = allNames[nextId - 1];
+  newName = allNames[nextId - 1];
   let nextData = await getAndSavePokemon(nextId);
   let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
   openDialog(newName, nextId, nextPokemonImage);
 }
 
 async function previousPokemon(id) {
-    let nextId = id - 1; 
-    refDialogImageSection.classList.remove(refDialogImageSection.classList);
-        newName = allNames[nextId - 1];
-    let nextData = await getAndSavePokemon(nextId);
-    let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
-    openDialog(newName, nextId, nextPokemonImage);
-  }
+  let nextId = id - 1;
+  refDialogImageSection.classList.remove(refDialogImageSection.classList);
+  newName = allNames[nextId - 1];
+  let nextData = await getAndSavePokemon(nextId);
+  let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
+  openDialog(newName, nextId, nextPokemonImage);
+}
 
 function setActiveTab(activeId) {
   let buttons = document.querySelectorAll(".dialog-category-button");
@@ -447,7 +476,7 @@ function renderHp(data) {
   let actualStat = data.stats[0].base_stat;
   const percent = getPercent(actualStat);
   refHp.style.width = percent + "%";
-  refHp.title = "Kraftpunkte: "+ actualStat;
+  refHp.title = "Kraftpunkte: " + actualStat;
 }
 
 function renderAttack(data) {
@@ -455,14 +484,14 @@ function renderAttack(data) {
   let actualStat = data.stats[1].base_stat;
   const percent = getPercent(actualStat);
   refAttack.style.width = percent + "%";
-  refAttack.title = "Angriffspunkte: "+ actualStat;
+  refAttack.title = "Angriffspunkte: " + actualStat;
 }
 function renderDefense(data) {
   const refDefense = document.getElementById("defense");
   let actualStat = data.stats[2].base_stat;
   const percent = getPercent(actualStat);
   refDefense.style.width = percent + "%";
-  refDefense.title = "Verteidigungspunkte: "+ actualStat;
+  refDefense.title = "Verteidigungspunkte: " + actualStat;
 }
 
 function renderSpecialAttack(data) {
@@ -470,7 +499,7 @@ function renderSpecialAttack(data) {
   let actualStat = data.stats[3].base_stat;
   const percent = getPercent(actualStat);
   refSpecialAttack.style.width = percent + "%";
-  refSpecialAttack.title = "Spezial-Attacke: "+ actualStat + " Punkte";
+  refSpecialAttack.title = "Spezial-Attacke: " + actualStat + " Punkte";
 }
 
 function renderSpecialDefense(data) {
@@ -478,7 +507,7 @@ function renderSpecialDefense(data) {
   let actualStat = data.stats[4].base_stat;
   const percent = getPercent(actualStat);
   refSpecialDefense.style.width = percent + "%";
-  refSpecialDefense.title = "Spezial-Verteidigung: "+ actualStat + " Punkte";
+  refSpecialDefense.title = "Spezial-Verteidigung: " + actualStat + " Punkte";
 }
 
 function renderSpeed(data) {
@@ -486,7 +515,7 @@ function renderSpeed(data) {
   let actualStat = data.stats[5].base_stat;
   const percent = getPercent(actualStat);
   refSpeed.style.width = percent + "%";
-  refSpeed.title = "Initiative: "+ actualStat + " Punkte";
+  refSpeed.title = "Initiative: " + actualStat + " Punkte";
 }
 
 function getPercent(actualStat) {
@@ -515,10 +544,10 @@ inputFilter.addEventListener("input", function (event) {
 });
 
 async function getEvoChainForPokemon(id) {
-    const speciesData = await getAndSaveImage(id);
-    const evoUrl = speciesData.evolution_chain.url;
-    const evoData = await getAndSaveEvoChain(evoUrl);
-    return evoData.chain;
+  const speciesData = await getAndSaveImage(id);
+  const evoUrl = speciesData.evolution_chain.url;
+  const evoData = await getAndSaveEvoChain(evoUrl);
+  return evoData.chain;
 }
 
 function getAllEvoNames(chain) {
@@ -548,10 +577,10 @@ async function fillEvoSlot(pokeName, imgElement) {
 }
 
 async function renderEvoChain(id) {
-  const chain = await getEvoChainForPokemon(id); 
+  const chain = await getEvoChainForPokemon(id);
   const names = getAllEvoNames(chain);
   evoArea.innerHTML = "";
- const imgElements = [];
+  const imgElements = [];
 
   if (chain.species.name === "eevee") {
     evoArea.classList.add("evo-eevee");
@@ -562,13 +591,13 @@ async function renderEvoChain(id) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
     evoArea.appendChild(img);
-     // fillEvoSlot ist async → gibt ein Promise zurück
+    // fillEvoSlot ist async → gibt ein Promise zurück
     const task = fillEvoSlot(names[i], img);
     imgElements.push(task);
   }
- // Warten, bis ALLE fillEvoSlot-Aufgaben fertig sind
+  // Warten, bis ALLE fillEvoSlot-Aufgaben fertig sind
   await Promise.all(imgElements);
-  }
+}
 
 function prepareLinearEvoSlots() {
   evoArea.innerHTML = "";
@@ -610,9 +639,6 @@ function resetEvoAreaType() {
 
 function setEvoAreaType(data) {
   resetEvoAreaType();
-  const type = data.types[0].type.name;   
+  const type = data.types[0].type.name;
   evoArea.classList.add(type);
 }
-
-
-
