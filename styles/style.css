@@ -68,15 +68,15 @@ main {
   width: 100%;
 }
 
-h1{
+h1 {
   display: none;
 }
 
-.logo img{
+.logo img {
   width: 350px;
 }
 
-input{
+input {
   width: 210px;
   height: 32px;
   font-size: 16px;
@@ -118,7 +118,7 @@ input{
   padding: 6px 12px;
 }
 
-h3{
+h3 {
   font-size: 19px;
 }
 
@@ -138,10 +138,10 @@ h3{
 .loadButton {
   border-radius: 16px;
   border: none;
-  background-color: #FFCB05;
+  background-color: #ffcb05;
   height: 48px;
   width: 240px;
-  color: #07224E;
+  color: #07224e;
   font-size: 16px;
   font-weight: 600;
   transition: 0.2s ease;
@@ -149,22 +149,22 @@ h3{
 
 .loadButton:hover {
   transform: scale(1.1);
-  background-color: #E6B800;
+  background-color: #e6b800;
   cursor: pointer;
 }
 
-.impressum-link{
+.impressum-link {
   font-size: 16px;
   color: white;
 }
 
-a.impressum-link:hover{
+a.impressum-link:hover {
   text-decoration: underline;
 }
 
-.impressum-wrapper{
+.impressum-wrapper {
   position: absolute;
-  right: 40px; 
+  right: 40px;
 }
 
 /* Dialog */
@@ -176,7 +176,7 @@ a.impressum-link:hover{
   transform: translate(-50%, -50%);
   border-radius: 5%;
   background: var(--secondary-color);
-  border: 3px solid #E6B800;
+  border: 3px solid #e6b800;
   min-height: 640px;
   width: 410px;
   padding: 0px 0;
@@ -195,11 +195,13 @@ a.impressum-link:hover{
   min-height: 640px;
 }
 
-dialog header {
+.dialog-header {
   display: flex;
   justify-content: space-between;
-  padding: 12px 32px;
-  padding-right: 140px;
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 6px;
+  padding-right: 150px;
 }
 
 dialog header span {
@@ -223,7 +225,7 @@ h2 {
   padding-top: 32px;
 }
 
-#dialog-image-wrapper{
+#dialog-image-wrapper {
   width: 100%;
   height: 215px;
   display: flex;
@@ -241,15 +243,13 @@ h2 {
   justify-content: center;
   width: 100%;
   padding: 16px 0;
-
   margin-bottom: 16px;
-  /* background: #082129; */
   background: var(--secondary-color);
   min-height: 62px;
   height: 62px;
 }
 
-#dialog-type div{
+#dialog-type div {
   gap: 6px;
   padding: 6px 16px;
   font-size: 0.95rem;
@@ -264,10 +264,7 @@ h2 {
   justify-content: center;
   flex: 1;
   width: 100%;
-  /* height: 120px; */
   margin-top: auto;
-  /* background-color: #082129; */
-  /* background: var(--primary-color); */
 }
 
 #footer-section {
@@ -284,43 +281,25 @@ h2 {
 
 .dialog-category-button {
   width: 25%;
-  /* background-color: #0c2d38; */
   background: var(--secondary-color);
   color: white;
   border: none;
 }
 
 .dialog-category-button:hover {
-  /* background-color: #114050; */
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.dialog-category-button.active{
-  /* color: #FFCB05;               
-  border-bottom-color: #FFCB05; */
-
-  /* background: rgba(255,255,255,0.08);
-  color: #FFCB05;
-   */
-
-  color: #FFCB05;
-  box-shadow: inset 0 -3px 0 #FFCB05, 0 -2px 6px rgba(0,0,0,0.35);
-  /* box-shadow: inset 0 -3px 0 #FFCB05; */
-  /* border-bottom: 3px solid #FFCB05; */
-  text-shadow: 0 0 6px rgba(255,203,5,0.55);
-}
-
-#info-area {
-  height: 210px;
-  /* background-color: #082129; */
-  background: var(--primary-color);
+.dialog-category-button.active {
+  color: #ffcb05;
+  box-shadow: inset 0 -3px 0 #ffcb05, 0 -2px 6px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 0 6px rgba(255, 203, 5, 0.55);
 }
 
 #dialog-footer-button {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  /* background-color: #0c2d38; */
   min-height: 104px;
   background: var(--secondary-color);
 }
@@ -342,332 +321,636 @@ button img {
   display: block;
 }
 
-button img:hover{
+button img:hover {
   transform: scale(1.2);
 }
 
 /* Info-Area */
 
-#info-area{
+#info-area {
+  height: 210px;
+  background: var(--primary-color);
   width: 100%;
   color: white;
 }
 
-table{
+table {
   padding-top: 12px;
   width: 90%;
 }
 
-tbody{
+tbody {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-tbody tr{
-display: flex;
-flex-direction: row;
+tbody tr {
+  display: flex;
+  flex-direction: row;
 }
 
-tbody tr td{
+tbody tr td {
   display: flex;
   flex-direction: column;
   font-size: 21px;
 }
 
-td:first-child{
+td:first-child {
   padding-left: 16px;
 }
 
-#height{
-padding-right: 62px;
+#height {
+  padding-right: 62px;
 }
 
-#weight{
-padding-right: 43px;
+#weight {
+  padding-right: 43px;
 }
 
-#ability{
+#ability {
   padding-right: 4px;
 }
 
-#main-area{
+#main-area {
   display: block;
   min-height: 210px;
 }
 
 /* Shiny-Area */
 
-#shiny-area{
-display: none;
-align-items: center;
-justify-content: center;
-width: 100%;
-background-image: url(../assets/img/shiny.jpg);
-background-size: cover;
-background-repeat: no-repeat;
-background-position: center;
+#shiny-area {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-image: url(../assets/img/shiny.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-#shiny-area img{
-width: 210px;
-height: 210px;
+#shiny-area img {
+  width: 210px;
+  height: 210px;
 }
 
 /* Evo-Area */
 
-#evo-area{
-display: none;
-align-items: center;
-/* align-content: center; */
-justify-content: center;
-flex-wrap: wrap;
-gap: 8px;
-width: 100%;
-height: 210px;
+#evo-area {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  height: 210px;
 }
 
-.evo-image{
+.evo-image {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* max-width: 30%; */
   max-height: 45%;
   flex: 1 1 30%;
   object-fit: contain;
 }
 
-#evo-area.evo-eevee {
-  /* flex-wrap: wrap;
-  justify-content: center; */
-}
-
 #evo-area.evo-eevee .evo-image {
-  /* width: 80px; */
-  /* flex-wrap: wrap;   */
   max-width: 18%;
 }
 
 #evo-area .evo-image:first-child:nth-last-child(2),
 #evo-area .evo-image:nth-child(2):nth-last-child(1) {
-  max-width: 45%; 
-  max-height: 80%; 
-  flex: 0 0 45%; 
+  max-width: 45%;
+  max-height: 80%;
+  flex: 0 0 45%;
 }
 
 #evo-area .evo-image:only-child {
-  max-width: 98%;   
-  max-height: 95%;  
-  flex: 0 0 auto;  
+  max-width: 98%;
+  max-height: 95%;
+  flex: 0 0 auto;
 }
 
 /* Stats-Area */
 
-#stats-area{
-display: none;
-flex-direction: column;
-gap: 14px;
-padding-top: 12px;
-padding-left: 12px;
-padding-right: 12px;
+#stats-area {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
-.stat-row{
+.stat-row {
   display: flex;
+  align-items: center;
 }
 
-.stat-label{
+.stat-label {
   width: 160px;
 }
 
-.stat-track{
-  width: 160px;
-   height: 10px;
-  background: rgba(0,0,0,0.45);
+.stat-track {
+  width: 210px;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.45);
   border: 1px solid #e85b5b;
   border-radius: 999px;
   overflow: hidden;
 }
 
-.stat-fill{
-  
+.stat-fill {
   height: 100%;
   background: #e85b5b;
   border-radius: 999px;
 }
 
-@media(max-width: 821px){
-.main-header {
-padding: 0 24px;
-}
-
-main {
-  padding: 0 24px;
-}
-
-.logo img{
-  width: 325px;
-}
-
-input{
-  width: 160px;
-  height: 28px;
-  font-size: 16px;
-  margin-top: 64px;
-}
-
-#pokemon-listing {
-  gap: 28px;
-  margin: 36px 0;
-}
-
-.pokemon-entry {
-  min-width: 0px;
-  width: 150px;
-  min-height: 220px;
-}
-
-.pokemon-entry header {
-  align-items: flex-end;
-  min-height: 32px;
-  padding: 2px 12px;
-}
-
-h3{
-  font-size: 17px;
-}
-
-header span{
-  font-size: 17px;
-}
-
-.image-preview {
-  max-width: 150px;
-}
-}
-
-@media(max-width: 569px){
-.main-header {
-padding: 0 18px;
-}
-
-main {
-  padding: 0 18px;
-}
-
-.logo img{
-  width: 240px;
-}
-
-input{
-  height: 26px;
-}
-
-#pokemon-listing {
-  gap: 21px;
-  margin: 32px 0;
-}
-
-.pokemon-entry {
-  width: 120px;
-  min-height: 0px;
-  height: 180px;
-}
-
-.pokemon-entry header {
-  min-height: 28px;
-  padding: 2px 12px;
-}
-
-h3{
-  font-size: 16px;
-  width: 100%;
+.impressum-headline{
+  display: block;
   text-align: center;
 }
 
-header span{
-  display: none;
-}
-
-.image-preview {
-  max-width: 120px;
-}
-
-.pokemon-entry footer {
-  justify-content: space-between;
-  padding: 8px 6px;
-   min-height: 28px;
-}
-
-.main-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex: 0;
-  max-width: 1440px;
-  height: 120px;
-  margin-top: auto;
-}
-
-.loadButton {
-  height: 40px;
-  width: 210px;
-  margin-bottom: 16px;
-  margin-right: 56px;
-}
-
-.impressum-link{
-  margin-top: 16px;
+.impressum-main{
 text-align: center;
 }
 
-.impressum-wrapper{
-  position: relative;
- display: flex;
-  justify-content: center;
-  /* width: 100%; */
+@media (max-width: 821px) {
+  .main-header {
+    padding: 0 24px;
+  }
+
+  main {
+    padding: 0 24px;
+  }
+
+  .logo img {
+    width: 325px;
+  }
+
+  input {
+    width: 160px;
+    height: 28px;
+    font-size: 16px;
+    margin-top: 64px;
+  }
+
+  #pokemon-listing {
+    gap: 28px;
+    margin: 36px 0;
+  }
+
+  .pokemon-entry {
+    min-width: 0px;
+    width: 150px;
+    min-height: 220px;
+  }
+
+  .pokemon-entry header {
+    align-items: flex-end;
+    min-height: 32px;
+    padding: 2px 12px;
+  }
+
+  h3 {
+    font-size: 17px;
+  }
+
+  header span {
+    font-size: 17px;
+  }
+
+  .image-preview {
+    max-width: 150px;
+  }
 }
 
+@media (max-width: 732px) {
+  #image-dialog {
+    width: 350px;
+    min-height: 570px;
+  }
+
+  .dialog-wrapper {
+    min-height: 545px;
+  }
+
+  .dialog-header {
+    padding-top: 8px;
+    padding-right: 25px;
+    padding-bottom: 2px;
+  }
+
+  dialog header span {
+    margin-top: 2px;
+    font-size: 21px;
+  }
+
+  h2 {
+    font-size: 21px;
+    margin-top: 2px;
+  }
+
+  #dialog-image-section {
+    min-height: 230px;
+    height: 230px;
+    padding-top: 0px;
+  }
+
+  #dialog-image-wrapper {
+    max-height: 180px;
+  }
+
+  #dialog-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  #dialog-type {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 0px;
+    min-height: 50px;
+    height: 50px;
+  }
+
+  #dialog-type div {
+    padding: 6px 0px;
+    font-size: 0.95rem;
+  }
+
+  #dialog-type {
+    /* display: flex;
+  align-items: center; */
+  }
+
+  #dialog-type div {
+    /* padding: 4px 0px;
+  font-size: 0.85rem; */
+  }
+
+  .dialog-footer {
+    height: 290px;
+    max-height: 290px;
+    margin-top: 0px;
+    flex: 0 0 auto;
+  }
+
+  #footer-section {
+    height: 210px;
+  }
+
+  /* Nichts geändert */
+  .button-area {
+    display: flex;
+    flex: 1;
+    height: 30px;
+    min-height: 30px;
+  }
+
+  .dialog-category-button {
+    flex: 1;
+  }
+
+  #info-area {
+    height: 180px;
+  }
+
+  #dialog-footer-button {
+    min-height: 80px;
+    align-items: center;
+  }
+
+  .button-arrow {
+    margin: 0 0px;
+    margin-top: 8px;
+  }
+
+  button img {
+    width: 80px;
+  }
+
+  table {
+    padding-top: 8px;
+  }
+
+  tbody {
+    gap: 8px;
+  }
+
+  tbody tr td {
+    font-size: 18px;
+  }
+
+  td:first-child {
+    padding-left: 12px;
+  }
+
+  #height {
+    padding-right: 53px;
+  }
+
+  #weight {
+    padding-right: 37px;
+  }
+
+  #main-area {
+    min-height: 180px;
+  }
+
+  #shiny-area {
+    height: 180px;
+  }
+
+  #shiny-area img {
+    width: 150px;
+    height: 150px;
+  }
+
+  #evo-area {
+    gap: 6px;
+    height: 180px;
+  }
+
+  #stats-area {
+    gap: 10px;
+    padding-top: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .stat-label {
+    width: 180px;
+    font-size: 16px;
+  }
+
+  .stat-track {
+    width: 190px;
+    height: 12px;
+  }
 }
 
-@media(max-width: 453px){
-.main-header {
-  flex-direction: column;
-padding: 0 12px;
+@media (max-width: 569px) {
+  .main-header {
+    padding: 0 18px;
+  }
+
+  main {
+    padding: 0 18px;
+  }
+
+  .loading-image {
+    width: 240px;
+  }
+
+  .logo img {
+    width: 240px;
+  }
+
+  input {
+    height: 26px;
+  }
+
+  #pokemon-listing {
+    gap: 21px;
+    margin: 32px 0;
+  }
+
+  .pokemon-entry {
+    width: 120px;
+    min-height: 0px;
+    height: 180px;
+  }
+
+  .pokemon-entry header {
+    min-height: 28px;
+    padding: 2px 12px;
+  }
+
+  h3 {
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+  }
+
+  header span {
+    display: none;
+  }
+
+  #dialog-id {
+    display: block;
+  }
+
+  .image-preview {
+    max-width: 120px;
+  }
+
+  .pokemon-entry footer {
+    justify-content: space-between;
+    padding: 8px 6px;
+    min-height: 28px;
+  }
+
+  .main-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 0;
+    max-width: 1440px;
+    height: 120px;
+    margin-top: auto;
+  }
+
+  .loadButton {
+    height: 40px;
+    width: 210px;
+    margin-bottom: 0px;
+    margin-right: 48px;
+  }
+
+  .impressum-link {
+    margin-top: 16px;
+    margin-left: 12px;
+    text-align: center;
+  }
+
+  .impressum-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
 }
 
-.logo{
-  height: 80px;
+@media (max-width: 453px) {
+h1{
+  font-size: 36px;
 }
 
-.logo img{
-  width: 350px;
-  height: 80px;
-}
 
-input{
-  width: 160px;
-  height: 28px;
-  font-size: 16px;
-  margin-top: 0px;
-  margin-bottom: 8px;
-}
+  #image-dialog {
+    min-height: 0px;
+    height: 555px;
+    width: 320px;
+  }
 
-main {
-  padding: 0 12px;
-}
+  .main-header {
+    flex-direction: column;
+    padding: 0 12px;
+  }
 
-.logo img{
-  width: 180px;
-}
+  .loading-image {
+    width: 180px;
+  }
 
-.loadButton {
-  font-size: 15px;
-  height: 36px;
-  width: 180px;
-  margin-bottom: 4px;
-  margin-right: 56px;
-}
+  .logo {
+    height: 80px;
+  }
+
+  .logo img {
+    width: 350px;
+    height: 80px;
+  }
+
+  input {
+    width: 160px;
+    height: 28px;
+    font-size: 16px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
+
+  main {
+    padding: 0 12px;
+  }
+
+  .logo img {
+    width: 180px;
+  }
+
+  .loadButton {
+    font-size: 15px;
+    height: 36px;
+    width: 180px;
+    margin-bottom: 4px;
+    margin-right: 0px;
+  }
+
+   .impressum-link {
+    margin-top: 16px;
+    margin-left: 66px;
+    text-align: center;
+  }
+
+  .dialog-wrapper {
+    min-height: 480px;
+  }
+
+  dialog header span {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+  #dialog-image-section {
+    min-height: 215px;
+    height: 215px;
+  }
+
+  #dialog-type {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 0px;
+    min-height: 38px;
+    height: 38px;
+  }
+
+  #dialog-type div {
+    padding: 4px 0px;
+    font-size: 0.85rem;
+  }
+
+  .dialog-footer {
+    /* height: 290px;
+  max-height: 290px;
+  margin-top: 0px; */
+  }
+
+  .button-area {
+    height: 36px;
+    min-height: 36px;
+  }
+
+  .dialog-category-button {
+    /* width: 20%; */
+    font-size: 12px;
+  }
+
+  #stats-button {
+    padding-right: 12px;
+  }
+
+  #info-area {
+    height: 180px;
+  }
+
+  #main-area {
+    min-height: 0px;
+    height: 150px;
+  }
+
+  tbody tr td {
+    font-size: 16px;
+  }
+
+  td:first-child {
+    padding-left: 8px;
+  }
+
+  #height {
+    padding-right: 48px;
+  }
+
+  #weight {
+    padding-right: 33px;
+  }
+
+   #shiny-area {
+    /* height: 150px; */
+  }
+
+    #evo-area {
+    gap: 6px;
+    height: 170px;
+  }
+
+  #stats-area {
+    gap: 10px;
+    padding-top: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 170px;
+  }
+
+  .stat-label {
+    width: 180px;
+    font-size: 15px;
+  }
+
+  .stat-track {
+    width: 140px;
+    height: 10px;
+  }
+
+   #dialog-footer-button {
+    min-height: 0px;
+    height: 75px;
+    align-items: center;
+  }
 }

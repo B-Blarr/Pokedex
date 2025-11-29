@@ -198,8 +198,8 @@ background: linear-gradient(135deg, #781216, #e0573c);
   .type{
   gap: 2px;
   padding: 2px 8px;
-  margin: 0 6px;
+  margin: 0 4px;
   font-size: 0.75rem;
-  width: 48px;
+  width: 56px;
 }
 }
