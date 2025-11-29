@@ -196,8 +196,8 @@ background: linear-gradient(135deg, #781216, #e0573c);
 
 @media(max-width: 569px){
   .type{
-  gap: 2px;
-  padding: 2px 8px;
+  gap: 0px;
+  padding: 2px 5px;
   margin: 0 4px;
   font-size: 0.75rem;
   width: 56px;
