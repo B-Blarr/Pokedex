@@ -122,6 +122,11 @@ h3 {
   font-size: 19px;
 }
 
+.id-sign{
+    font-size: 19px;
+    color: white;
+  }
+
 .image-preview {
   max-width: 210px;
   display: block;
@@ -208,6 +213,8 @@ dialog header span {
   font-size: 24px;
   color: white;
 }
+
+
 
 h2 {
   color: white;
@@ -518,6 +525,10 @@ text-align: center;
     font-size: 17px;
   }
 
+  .id-sign{
+    font-size: 17px;
+  }
+
   header span {
     font-size: 17px;
   }
@@ -580,16 +591,6 @@ text-align: center;
   #dialog-type div {
     padding: 6px 0px;
     font-size: 0.95rem;
-  }
-
-  #dialog-type {
-    /* display: flex;
-  align-items: center; */
-  }
-
-  #dialog-type div {
-    /* padding: 4px 0px;
-  font-size: 0.85rem; */
   }
 
   .dialog-footer {
@@ -728,16 +729,22 @@ text-align: center;
   .pokemon-entry header {
     min-height: 28px;
     padding: 2px 12px;
+    padding-left: 6px;
+  }
+
+  .id-sign{
+    display: none;
   }
 
   h3 {
     font-size: 16px;
     width: 100%;
-    text-align: center;
+    text-align: end;
   }
 
   header span {
-    display: none;
+    margin-top: 2px;
+    font-size: 14px;
   }
 
   #dialog-id {
