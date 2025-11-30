@@ -46,6 +46,7 @@ let allNames = [];
 async function init() {
   showLoadingSpinner();
   await loadPokemonInfos();
+  await waitForPokemonImages();
   hideLoadingSpinner();
 }
 
@@ -203,6 +204,7 @@ async function loadMorePokemon() {
     getType(id);
   }
   startId = limit;
+  await waitForPokemonImages();
   hideLoadingSpinner();
 }
 
@@ -243,5 +245,28 @@ inputFilter.addEventListener("input", function (event) {
     }
   }
 });
+
+function createImageLoadPromise(img) {
+  if (img.complete) {
+    return Promise.resolve();
+  }
+
+  return new Promise(function (resolve) {
+    img.addEventListener("load", resolve);
+    img.addEventListener("error", resolve);
+  });
+}
+
+async function waitForPokemonImages() {
+  const images = document.querySelectorAll(".pokemon-entry .image-preview");
+  const promises = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    promises.push(createImageLoadPromise(img));
+  }
+
+  await Promise.all(promises);
+}
 
 
