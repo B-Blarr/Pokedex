@@ -26,6 +26,10 @@ async function openDialog(newName, id, pokemonImage) {
   renderStats(id);
   renderEvoChain(id);
   fetchAbilities(id + 1);
+  preloadEvoForPokemon(id + 1);
+  preloadEvoForPokemon(id - 1);
+  preloadDialogImages(id + 1);
+  preloadDialogImages(id - 1);
 }
 
 async function addTypeColorToDialog(id) {
@@ -156,6 +160,7 @@ function showEvoArea() {
   document.getElementById("stats-area").style.display = "none";
   document.getElementById("shiny-area").style.display = "none";
   document.getElementById("evo-area").style.display = "flex";
+
 }
 
 async function renderDialogShiny(id) {
@@ -218,6 +223,57 @@ function getAllEvoNames(evoChain) {
   return names;
 }
 
+async function preloadEvoForPokemon(id) {
+  if (id < 1 || id > 1025) {
+    return;
+  }
+  const chain = await getEvoChainForPokemon(id);
+  const names = getAllEvoNames(chain);
+  preloadArtworks(names);
+}
+
+async function preloadArtworks(names) {
+  for (let i = 0; i < names.length; i++) {
+    const data = await getAndSavePokemon(names[i]);
+    if (!data) {
+      continue;
+    }
+    const url = data.sprites.other["official-artwork"].front_default;
+    if (!url) {
+      continue;
+    }
+    const img = new Image();
+    img.src = url;
+  }
+}
+
+function preloadImage(url) {
+  if (!url) {
+    return;
+  }
+
+  const img = new Image();
+  img.src = url;
+}
+
+async function preloadDialogImages(id) {
+  if (id < 1 || id > 1025) {
+    return;
+  }
+
+  const data = await getAndSavePokemon(id);
+  if (!data) {
+    return;
+  }
+
+  const normalUrl = data.sprites.other["official-artwork"].front_default;
+  const shinyUrl = data.sprites.other["official-artwork"].front_shiny;
+
+  preloadImage(normalUrl);
+  preloadImage(shinyUrl);
+}
+
+
 function collectNames(evoChain, names) {
   names.push(evoChain.species.name);
   if (!evoChain.evolves_to) {
@@ -242,24 +298,28 @@ async function loadEvoImage(pokeName, imgElement) {
 async function renderEvoChain(id) {
   const chain = await getEvoChainForPokemon(id);
   const names = getAllEvoNames(chain);
-  evoArea.innerHTML = "";
-  const imgElements = [];
+  setupEvoAreaClass(chain);
+  createEvoImages(names);
+}
 
+
+function setupEvoAreaClass(chain) {
   if (chain.species.name === "eevee") {
     evoArea.classList.add("evo-eevee");
   } else {
     evoArea.classList.remove("evo-eevee");
   }
+}
+
+function createEvoImages(names) {
+  evoArea.innerHTML = "";
+
   for (let i = 0; i < names.length; i++) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
     evoArea.appendChild(img);
-    // fillEvoSlot ist async → gibt ein Promise zurück
-    const task = loadEvoImage(names[i], img);
-    imgElements.push(task);
+    loadEvoImage(names[i], img);
   }
-  // Warten, bis ALLE fillEvoSlot-Aufgaben fertig sind
-  await Promise.all(imgElements);
 }
 
 function removeEvoAreaType() {

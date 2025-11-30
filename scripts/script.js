@@ -246,7 +246,7 @@ inputFilter.addEventListener("input", function (event) {
   }
 });
 
-function createImageLoadPromise(img) {
+function createImagePromise(img) {
   if (img.complete) {
     return Promise.resolve();
   }
@@ -257,16 +257,19 @@ function createImageLoadPromise(img) {
   });
 }
 
-async function waitForPokemonImages() {
-  const images = document.querySelectorAll(".pokemon-entry .image-preview");
+async function waitForImages(selector) {
+  const images = document.querySelectorAll(selector);
   const promises = [];
 
   for (let i = 0; i < images.length; i++) {
-    const img = images[i];
-    promises.push(createImageLoadPromise(img));
+    promises.push(createImagePromise(images[i]));
   }
 
   await Promise.all(promises);
+}
+
+function waitForPokemonImages() {
+  return waitForImages(".pokemon-entry .image-preview");
 }
 
 
