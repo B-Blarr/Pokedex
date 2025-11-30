@@ -70,6 +70,8 @@ background: linear-gradient(135deg, #781216, #e0573c);
   background: linear-gradient(135deg, #4d3d1d, #b59b63);
 }
 .rock::before {
+  width: 11px;
+  height: 11px;
   background: #e8d8a9;
 }
 

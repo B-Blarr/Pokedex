@@ -5,7 +5,7 @@ function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
             <span id="pokemon-id-${id}"><span class="id-sign">#</span> ${id}</span>
             <h3>${newName}</h3>
         </header>
-        <section id="pokemon-entry-image-${id}"><img loading="lazy" class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}"></section>
+        <section id="pokemon-entry-image-${id}"><img class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}"></section>
         <footer id="pokemon-entry-footer-${id}"></footer>
     </div>
         `;
