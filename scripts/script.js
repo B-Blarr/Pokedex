@@ -42,11 +42,13 @@ let savedImages = {};
 let savedEvoChain = {};
 let savedAbilities = {};
 let allNames = [];
+let allGermanNames = [];
 
 async function init() {
   showLoadingSpinner();
   await loadPokemonInfos();
   await waitForPokemonImages();
+//   await getAllGermanNames();
   hideLoadingSpinner();
 }
 
@@ -60,7 +62,7 @@ async function loadPokemonInfos() {
   }
   const templates = await Promise.all(pokemonLoadPromises);
   for (let i = 0; i < templates.length; i++) {
-    const id = i + 1; // IDs 1..maxLoads
+    const id = i + 1;
     refContainer.innerHTML += templates[i];
     getType(id);
   }
@@ -70,7 +72,6 @@ async function loadPokemonInfos() {
 async function loadPokemonEntry(id) {
   const pokemonImage = await getPokemonImage(id);
   const template = await fetchData(id, pokemonImage);
-//   await fetchData(id, pokemonImage);
   fetchAbilities(id);
   return template;
 }
@@ -96,13 +97,7 @@ async function fetchData(id, pokemonImage) {
     name = getGermanName(data, id);
     pokemonType = await getPokemonType(id);
   }
-    // refContainer.innerHTML += loadPokemonTemplate(newName, id, pokemonImage, pokemonType);
-    // return;
     return loadPokemonTemplate(name, id, pokemonImage, pokemonType);
-//   getGermanName(data, id);
-//   const pokemonType = await getPokemonType(id);
-
-//   getType(id);
 }
 
 async function loadJsonSafely(url) {
@@ -230,16 +225,20 @@ function hideLoadingSpinner() {
 inputFilter.addEventListener("input", function (event) {
   let filterWord = event.target.value.toLowerCase().trim();
   let pokemonEntry = document.querySelectorAll(".pokemon-entry");
+  const inputMessage = document.getElementById("input-message");
 
   for (let i = 0; i < pokemonEntry.length; i++) {
     let nameEntry = pokemonEntry[i].querySelector("h3");
     let pokemonName = nameEntry.textContent.toLowerCase();
-    if (filterWord.length < 3) {
+    if (filterWord.length < 3 && filterWord.length > 0) {
       pokemonEntry[i].style.display = "";
+      inputMessage.innerText = "Bitte gib mehr als 3 Buchstaben ein.";
     } else {
+        inputMessage.innerText = "";
       if (pokemonName.includes(filterWord)) {
         pokemonEntry[i].style.display = "";
       } else {
+        inputMessage.innerText = "Der Name wurde leider nicht gefunden.";
         pokemonEntry[i].style.display = "none";
       }
     }
@@ -272,4 +271,22 @@ function waitForPokemonImages() {
   return waitForImages(".pokemon-entry .image-preview");
 }
 
+// Unter 3 Buchstaben soll nichts passieren
+// 3 Buchstaben eingegeben => 3 Buchstaben vergleichen mit ALLEN Namen
+// Wenn übereinstimmen dann Namen anzeigen als Div unter Input
+// Beim Klicken Dialog mit entsprechdem Pokemon öffnen
 
+
+// async function getAllGermanNames() {
+//     for (let i = 1; i < 1026; i++) {
+//      const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}/`);
+//      const data = await response.json();
+//         for (let j = 0; j < data.names.length; j++) {
+//             if (data.names[j].language.name === "de") {
+//      allGermanNames.push(data.names[j].name);
+//      console.log(allGermanNames);       
+//         }  
+//      } 
+//     }
+// }
+    

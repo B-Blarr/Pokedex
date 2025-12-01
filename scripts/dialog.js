@@ -12,11 +12,13 @@ async function openDialog(newName, id, pokemonImage) {
   for (let i = 0; i < data.types.length; i++) {
     let pokemonType = data.types[i].type.name;
     addTypeColorToDialog(id);
-
     refDialogType.innerHTML += getGermanType(pokemonType);
   }
-
   dialogRef.showModal();
+  renderCompleteDialog(id);
+}
+
+async function renderCompleteDialog(id) {
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
   if (id <= 1) {
@@ -27,8 +29,11 @@ async function openDialog(newName, id, pokemonImage) {
   renderEvoChain(id);
   fetchAbilities(id + 1);
   preloadEvoForPokemon(id + 1);
+  preloadEvoForPokemon(id + 2);
+  preloadEvoForPokemon(id + 3);
   preloadEvoForPokemon(id - 1);
   preloadDialogImages(id + 1);
+  preloadDialogImages(id + 2);
   preloadDialogImages(id - 1);
 }
 
@@ -160,7 +165,6 @@ function showEvoArea() {
   document.getElementById("stats-area").style.display = "none";
   document.getElementById("shiny-area").style.display = "none";
   document.getElementById("evo-area").style.display = "flex";
-
 }
 
 async function renderDialogShiny(id) {
@@ -273,7 +277,6 @@ async function preloadDialogImages(id) {
   preloadImage(shinyUrl);
 }
 
-
 function collectNames(evoChain, names) {
   names.push(evoChain.species.name);
   if (!evoChain.evolves_to) {
@@ -301,7 +304,6 @@ async function renderEvoChain(id) {
   setupEvoAreaClass(chain);
   createEvoImages(names);
 }
-
 
 function setupEvoAreaClass(chain) {
   if (chain.species.name === "eevee") {
@@ -396,3 +398,4 @@ function getPercent(actualStat) {
   percent = Math.round(percent * 100);
   return percent;
 }
+

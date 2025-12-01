@@ -74,11 +74,26 @@ h1 {
   width: 350px;
 }
 
+.input-area{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 96px;
+  width: 280px;
+}
+
+#input-message{
+padding-top: 8px;
+padding-right: 24px;
+z-index: 1;
+height: 12px;
+color: red;
+}
+
 input {
   width: 210px;
   height: 32px;
   font-size: 16px;
-  margin-top: 78px;
 }
 
 #pokemon-listing {
@@ -189,15 +204,23 @@ a.impressum-link:hover {
   }
 
   .logo img {
-    width: 325px;
+    width: 320px;
   }
+
+#input-message{
+padding-right: 8px;
+font-size: 15px;
+}
 
   input {
     width: 160px;
     height: 28px;
     font-size: 16px;
-    margin-top: 64px;
   }
+
+  .input-area{
+  width: 260px;
+}
 
   #pokemon-listing {
     gap: 28px;
@@ -253,6 +276,16 @@ a.impressum-link:hover {
   input {
     height: 26px;
   }
+
+    .input-area{
+  width: 210px;
+}
+
+  #input-message{
+padding-right: 0px;
+font-size: 14px;
+padding-top: 5px;
+}
 
   #pokemon-listing {
     gap: 21px;
@@ -353,13 +386,16 @@ a.impressum-link:hover {
     padding: 2px 6px;
   }
 
-  input {
-    width: 160px;
-    height: 28px;
-    font-size: 16px;
-    margin-top: 0px;
-    margin-bottom: 8px;
-  }
+  .input-area{
+  margin-top: 10px;
+  width: 280px;
+}
+
+  #input-message{
+padding-right: 0px;
+font-size: 14px;
+padding-top: 8px;
+}
 
   main {
     padding: 0 12px;
