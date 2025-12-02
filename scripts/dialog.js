@@ -1,16 +1,16 @@
 async function openDialog(newName, id, pokemonImage) {
-  refDialogId = document.getElementById("dialog-id");
+  const refDialogId = document.getElementById("dialog-id");
   id = Number(id);
   refDialogId.innerText = "# " + id;
-  let refHeadline = document.getElementById("dialog-headline");
+  const refHeadline = document.getElementById("dialog-headline");
   refHeadline.innerText = newName;
-  let refDialogImage = document.getElementById("dialog-image");
+  const refDialogImage = document.getElementById("dialog-image");
   refDialogImage.src = pokemonImage;
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   refDialogType.innerHTML = "";
   setEvoAreaType(data);
   for (let i = 0; i < data.types.length; i++) {
-    let pokemonType = data.types[i].type.name;
+    const pokemonType = data.types[i].type.name;
     addTypeColorToDialog(id);
     refDialogType.innerHTML += getGermanType(pokemonType);
   }
@@ -75,28 +75,28 @@ async function renderDialogMain(id) {
 }
 
 async function renderPokemonHeight(id) {
-  let data = await getAndSavePokemon(id);
-  let refPokemonHeight = document.getElementById("pokemonHeight");
+  const data = await getAndSavePokemon(id);
+  const refPokemonHeight = document.getElementById("pokemonHeight");
   refPokemonHeight.innerText = (":  " + data.height / 10 + " m").replaceAll(".", ",");
 }
 
 async function renderPokemonWeight(id) {
-  let data = await getAndSavePokemon(id);
-  let refPokemonWeight = document.getElementById("pokemonWeight");
+  const data = await getAndSavePokemon(id);
+  const refPokemonWeight = document.getElementById("pokemonWeight");
   refPokemonWeight.innerText = (":  " + data.weight / 10 + " kg").replaceAll(".", ",");
 }
 
 async function fetchAbilities(id) {
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   if (!data) {
     return;
   }
   savedAbilities[id] = [];
 
   for (let i = 0; i < data.abilities.length; i++) {
-    let abilityUrl = data.abilities[i].ability.url;
-    let newResponse = await fetch(abilityUrl);
-    let newData = await newResponse.json();
+    const abilityUrl = data.abilities[i].ability.url;
+    const newResponse = await fetch(abilityUrl);
+    const newData = await newResponse.json();
 
     for (let j = 0; j < newData.names.length; j++) {
       if (newData.names[j].language.name === "de") {
@@ -348,7 +348,7 @@ async function renderStats(id) {
 
 function renderHp(data) {
   const refHp = document.getElementById("hp");
-  let actualStat = data.stats[0].base_stat;
+  const actualStat = data.stats[0].base_stat;
   const percent = getPercent(actualStat);
   refHp.style.width = percent + "%";
   refHp.title = "Kraftpunkte: " + actualStat;

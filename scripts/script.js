@@ -12,43 +12,20 @@ const shinyButton = document.getElementById("shiny-button");
 const evoButton = document.getElementById("evo-button");
 const inputFilter = document.getElementById("search-input");
 const evoArea = document.getElementById("evo-area");
-const POKEMON_TYPES = [
-  "grass",
-  "normal",
-  "fighting",
-  "flying",
-  "poison",
-  "ground",
-  "rock",
-  "bug",
-  "ghost",
-  "steel",
-  "fire",
-  "water",
-  "electric",
-  "psychic",
-  "ice",
-  "dragon",
-  "dark",
-  "fairy",
-  "stellar",
-  "unknown",
-];
-let newName = "";
-let refDialogId = 0;
-let maxStat = 220;
-let savedPokemon = {};
-let savedImages = {};
-let savedEvoChain = {};
-let savedAbilities = {};
-let allNames = [];
-let allGermanNames = [];
+const POKEMON_TYPES = ["grass","normal","fighting","flying","poison","ground","rock","bug","ghost",
+                       "steel","fire","water","electric","psychic","ice","dragon","dark","fairy","stellar","unknown",];
+// let refDialogId = 0;
+const maxStat = 220;
+const savedPokemon = {};
+const savedImages = {};
+const savedEvoChain = {};
+const savedAbilities = {};
+const allNames = [];
 
 async function init() {
   showLoadingSpinner();
   await loadPokemonInfos();
   await waitForPokemonImages();
-//   await getAllGermanNames();
   hideLoadingSpinner();
 }
 
@@ -77,27 +54,27 @@ async function loadPokemonEntry(id) {
 }
 
 async function getPokemonImage(id) {
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   if (!data) {
     return `../assets/img/faq.png`;
   }
-  let pokemonImage = data.sprites.other["official-artwork"].front_default;
+  const pokemonImage = data.sprites.other["official-artwork"].front_default;
   return pokemonImage;
 }
 
 async function fetchData(id, pokemonImage) {
   const data = await getAndSaveImage(id);
-    let name;
+  let name;
   let pokemonType;
 
   if (!data) {
-    newName = "Unbekannt";
+    const newName = "Unbekannt";
     const pokemonType = "unknown";
-  }else {
+  } else {
     name = getGermanName(data, id);
     pokemonType = await getPokemonType(id);
   }
-    return loadPokemonTemplate(name, id, pokemonImage, pokemonType);
+  return loadPokemonTemplate(name, id, pokemonImage, pokemonType);
 }
 
 async function loadJsonSafely(url) {
@@ -171,7 +148,7 @@ async function getAndSaveEvoChain(url) {
 
 async function getPokemonType(id) {
   let pokemonType = "";
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   if (!data) {
     return "unknown";
   }
@@ -186,7 +163,7 @@ async function loadMorePokemon() {
   const pokemonLoadPromises = [];
   const maxId = 1025;
   const limit = Math.min(startId + 15, maxId);
-   const firstId = loadedIds + 1;
+  const firstId = loadedIds + 1;
 
   for (let id = loadedIds + 1; id <= limit; id++) {
     loadedIds++;
@@ -222,28 +199,43 @@ function hideLoadingSpinner() {
   document.getElementById("loading-overlay").style.display = "none";
 }
 
-inputFilter.addEventListener("input", function (event) {
-  let filterWord = event.target.value.toLowerCase().trim();
-  let pokemonEntry = document.querySelectorAll(".pokemon-entry");
-  const inputMessage = document.getElementById("input-message");
+const inputMessage = document.getElementById("input-message");
 
+inputFilter.addEventListener("input", handleInputFilter);
+
+function handleInputFilter(event) {
+  const filterWord = event.target.value.toLowerCase().trim();
+  const hasMatch = filterPokemonEntries(filterWord);
+  updateInputMessage(filterWord, hasMatch);
+}
+
+function filterPokemonEntries(filterWord) {
+  const pokemonEntry = document.querySelectorAll(".pokemon-entry");
+  let hasMatch = false;
   for (let i = 0; i < pokemonEntry.length; i++) {
-    let nameEntry = pokemonEntry[i].querySelector("h3");
-    let pokemonName = nameEntry.textContent.toLowerCase();
+    const nameEntry = pokemonEntry[i].querySelector("h3");
+    const pokemonName = nameEntry.textContent.toLowerCase();
     if (filterWord.length < 3 && filterWord.length > 0) {
       pokemonEntry[i].style.display = "";
-      inputMessage.innerText = "Bitte gib mehr als 3 Buchstaben ein.";
+    } else if (pokemonName.includes(filterWord)) {
+      pokemonEntry[i].style.display = "";
+      hasMatch = true;
     } else {
-        inputMessage.innerText = "";
-      if (pokemonName.includes(filterWord)) {
-        pokemonEntry[i].style.display = "";
-      } else {
-        inputMessage.innerText = "Der Name wurde leider nicht gefunden.";
-        pokemonEntry[i].style.display = "none";
-      }
+      pokemonEntry[i].style.display = "none";
     }
   }
-});
+  return hasMatch;
+}
+
+function updateInputMessage(filterWord, hasMatch) {
+  if (filterWord.length < 3 && filterWord.length > 0) {
+    inputMessage.innerText = "Bitte gib mehr als 3 Buchstaben ein.";
+  } else if (!hasMatch && filterWord.length > 0) {
+    inputMessage.innerText = "Der Name wurde leider nicht gefunden.";
+  } else {
+    inputMessage.innerText = "";
+  }
+}
 
 function createImagePromise(img) {
   if (img.complete) {
@@ -270,23 +262,3 @@ async function waitForImages(selector) {
 function waitForPokemonImages() {
   return waitForImages(".pokemon-entry .image-preview");
 }
-
-// Unter 3 Buchstaben soll nichts passieren
-// 3 Buchstaben eingegeben => 3 Buchstaben vergleichen mit ALLEN Namen
-// Wenn übereinstimmen dann Namen anzeigen als Div unter Input
-// Beim Klicken Dialog mit entsprechdem Pokemon öffnen
-
-
-// async function getAllGermanNames() {
-//     for (let i = 1; i < 1026; i++) {
-//      const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}/`);
-//      const data = await response.json();
-//         for (let j = 0; j < data.names.length; j++) {
-//             if (data.names[j].language.name === "de") {
-//      allGermanNames.push(data.names[j].name);
-//      console.log(allGermanNames);       
-//         }  
-//      } 
-//     }
-// }
-    
