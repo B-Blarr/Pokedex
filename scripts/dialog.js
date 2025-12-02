@@ -1,12 +1,26 @@
 async function openDialog(newName, id, pokemonImage) {
+  const numericId = Number(id);
+  setDialogIdAndHeadline(newName, numericId);
+  setDialogImage(pokemonImage);
+  const data = await getAndSavePokemon(numericId);
+  prepareDialogTypeArea(data, numericId);
+  dialogRef.showModal();
+  renderCompleteDialog(numericId);
+}
+
+function setDialogIdAndHeadline(newName, id) {
   const refDialogId = document.getElementById("dialog-id");
-  id = Number(id);
   refDialogId.innerText = "# " + id;
   const refHeadline = document.getElementById("dialog-headline");
   refHeadline.innerText = newName;
+}
+
+function setDialogImage(pokemonImage) {
   const refDialogImage = document.getElementById("dialog-image");
   refDialogImage.src = pokemonImage;
-  const data = await getAndSavePokemon(id);
+}
+
+function prepareDialogTypeArea(data, id) {
   refDialogType.innerHTML = "";
   setEvoAreaType(data);
   for (let i = 0; i < data.types.length; i++) {
@@ -14,8 +28,6 @@ async function openDialog(newName, id, pokemonImage) {
     addTypeColorToDialog(id);
     refDialogType.innerHTML += getGermanType(pokemonType);
   }
-  dialogRef.showModal();
-  renderCompleteDialog(id);
 }
 
 async function renderCompleteDialog(id) {
@@ -28,13 +40,8 @@ async function renderCompleteDialog(id) {
   renderStats(id);
   renderEvoChain(id);
   fetchAbilities(id + 1);
-  preloadEvoForPokemon(id + 1);
-  preloadEvoForPokemon(id + 2);
-  preloadEvoForPokemon(id + 3);
-  preloadEvoForPokemon(id - 1);
+  preloadEvoPokemon(id + 1);
   preloadDialogImages(id + 1);
-  preloadDialogImages(id + 2);
-  preloadDialogImages(id - 1);
 }
 
 async function addTypeColorToDialog(id) {
@@ -92,7 +99,6 @@ async function fetchAbilities(id) {
     return;
   }
   savedAbilities[id] = [];
-
   for (let i = 0; i < data.abilities.length; i++) {
     const abilityUrl = data.abilities[i].ability.url;
     const newResponse = await fetch(abilityUrl);
@@ -110,12 +116,10 @@ async function fetchAbilities(id) {
 
 function renderAbilities(id) {
   refAbilities.innerHTML = "";
-
   if (!savedAbilities[id] || savedAbilities[id].length === 0) {
     refAbilities.innerHTML = "Unbekannt";
     return;
   }
-
   for (let i = 0; i < savedAbilities[id].length; i++) {
     newAbility = savedAbilities[id][i];
     refAbilities.innerHTML += renderAbilitiesTemplate(newAbility);
@@ -227,7 +231,7 @@ function getAllEvoNames(evoChain) {
   return names;
 }
 
-async function preloadEvoForPokemon(id) {
+async function preloadEvoPokemon(id) {
   if (id < 1 || id > 1025) {
     return;
   }
@@ -255,7 +259,6 @@ function preloadImage(url) {
   if (!url) {
     return;
   }
-
   const img = new Image();
   img.src = url;
 }
@@ -264,15 +267,12 @@ async function preloadDialogImages(id) {
   if (id < 1 || id > 1025) {
     return;
   }
-
   const data = await getAndSavePokemon(id);
   if (!data) {
     return;
   }
-
   const normalUrl = data.sprites.other["official-artwork"].front_default;
   const shinyUrl = data.sprites.other["official-artwork"].front_shiny;
-
   preloadImage(normalUrl);
   preloadImage(shinyUrl);
 }
@@ -315,7 +315,6 @@ function setupEvoAreaClass(chain) {
 
 function createEvoImages(names) {
   evoArea.innerHTML = "";
-
   for (let i = 0; i < names.length; i++) {
     const img = document.createElement("img");
     img.classList.add("evo-image");
@@ -398,4 +397,3 @@ function getPercent(actualStat) {
   percent = Math.round(percent * 100);
   return percent;
 }
-

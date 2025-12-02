@@ -12,9 +12,10 @@ const shinyButton = document.getElementById("shiny-button");
 const evoButton = document.getElementById("evo-button");
 const inputFilter = document.getElementById("search-input");
 const evoArea = document.getElementById("evo-area");
-const POKEMON_TYPES = ["grass","normal","fighting","flying","poison","ground","rock","bug","ghost",
-                       "steel","fire","water","electric","psychic","ice","dragon","dark","fairy","stellar","unknown",];
-// let refDialogId = 0;
+const inputMessage = document.getElementById("input-message");
+const POKEMON_TYPES = ["grass","normal","fighting","flying","poison","ground",
+                       "rock","bug","ghost","steel","fire","water","electric",
+                       "psychic","ice","dragon","dark","fairy","stellar","unknown",];
 const maxStat = 220;
 const savedPokemon = {};
 const savedImages = {};
@@ -32,7 +33,6 @@ async function init() {
 async function loadPokemonInfos() {
   const pokemonLoadPromises = [];
   const maxLoads = startId + 35;
-
   for (let id = 1; id <= maxLoads; id++) {
     loadedIds++;
     pokemonLoadPromises.push(loadPokemonEntry(id));
@@ -64,13 +64,10 @@ async function getPokemonImage(id) {
 
 async function fetchData(id, pokemonImage) {
   const data = await getAndSaveImage(id);
-  let name;
-  let pokemonType;
+  let name = "Unbekannt";
+  let pokemonType = "unknown";
 
-  if (!data) {
-    const newName = "Unbekannt";
-    const pokemonType = "unknown";
-  } else {
+  if (data) {
     name = getGermanName(data, id);
     pokemonType = await getPokemonType(id);
   }
@@ -160,25 +157,44 @@ async function getPokemonType(id) {
 
 async function loadMorePokemon() {
   showLoadingSpinner();
-  const pokemonLoadPromises = [];
   const maxId = 1025;
-  const limit = Math.min(startId + 15, maxId);
-  const firstId = loadedIds + 1;
+  const limit = getNextLimit(maxId);
+  const firstId = getFirstNewId();
+  const pokemonLoadPromises = createPokemonLoadPromises(firstId, limit);
+  const templates = await Promise.all(pokemonLoadPromises);
+  appendNewPokemon(templates, firstId);
+  startId = limit;
+  await waitForPokemonImages();
+  hideLoadingSpinner();
+}
 
-  for (let id = loadedIds + 1; id <= limit; id++) {
+function getNextLimit(maxId) {
+  const limit = Math.min(startId + 15, maxId);
+  return limit;
+}
+
+function getFirstNewId() {
+  const firstId = loadedIds + 1;
+  return firstId;
+}
+
+function createPokemonLoadPromises(firstId, limit) {
+  const pokemonLoadPromises = [];
+  for (let id = firstId; id <= limit; id++) {
     loadedIds++;
     pokemonLoadPromises.push(loadPokemonEntry(id));
   }
-  const templates = await Promise.all(pokemonLoadPromises);
+  return pokemonLoadPromises;
+}
+
+function appendNewPokemon(templates, firstId) {
   for (let i = 0; i < templates.length; i++) {
     const id = firstId + i;
     refContainer.innerHTML += templates[i];
     getType(id);
   }
-  startId = limit;
-  await waitForPokemonImages();
-  hideLoadingSpinner();
 }
+
 
 async function getType(id) {
   let pokemonType = "";
@@ -199,8 +215,6 @@ function hideLoadingSpinner() {
   document.getElementById("loading-overlay").style.display = "none";
 }
 
-const inputMessage = document.getElementById("input-message");
-
 inputFilter.addEventListener("input", handleInputFilter);
 
 function handleInputFilter(event) {
@@ -210,25 +224,29 @@ function handleInputFilter(event) {
 }
 
 function filterPokemonEntries(filterWord) {
-  const pokemonEntry = document.querySelectorAll(".pokemon-entry");
+  const pokemonEntries = document.querySelectorAll(".pokemon-entry");
   let hasMatch = false;
-  for (let i = 0; i < pokemonEntry.length; i++) {
-    const nameEntry = pokemonEntry[i].querySelector("h3");
+  for (let i = 0; i < pokemonEntries.length; i++) {
+    const nameEntry = pokemonEntries[i].querySelector("h3");
     const pokemonName = nameEntry.textContent.toLowerCase();
-    if (filterWord.length < 3 && filterWord.length > 0) {
-      pokemonEntry[i].style.display = "";
+    if (isFilterTooShort(filterWord)) {
+      pokemonEntries[i].style.display = "";
     } else if (pokemonName.includes(filterWord)) {
-      pokemonEntry[i].style.display = "";
+      pokemonEntries[i].style.display = "";
       hasMatch = true;
     } else {
-      pokemonEntry[i].style.display = "none";
+      pokemonEntries[i].style.display = "none";
     }
   }
   return hasMatch;
 }
 
+function isFilterTooShort(filterWord) {
+  return filterWord.length > 0 && filterWord.length < 3;
+}
+
 function updateInputMessage(filterWord, hasMatch) {
-  if (filterWord.length < 3 && filterWord.length > 0) {
+  if (isFilterTooShort(filterWord)) {
     inputMessage.innerText = "Bitte gib mehr als 3 Buchstaben ein.";
   } else if (!hasMatch && filterWord.length > 0) {
     inputMessage.innerText = "Der Name wurde leider nicht gefunden.";
@@ -241,7 +259,6 @@ function createImagePromise(img) {
   if (img.complete) {
     return Promise.resolve();
   }
-
   return new Promise(function (resolve) {
     img.addEventListener("load", resolve);
     img.addEventListener("error", resolve);
@@ -251,11 +268,9 @@ function createImagePromise(img) {
 async function waitForImages(selector) {
   const images = document.querySelectorAll(selector);
   const promises = [];
-
   for (let i = 0; i < images.length; i++) {
     promises.push(createImagePromise(images[i]));
   }
-
   await Promise.all(promises);
 }
 
