@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./styles/standard.css" />
     <link rel="stylesheet" href="./styles/style.css" />
     <link rel="stylesheet" href="./styles/types.css" />
-    <link rel="stylesheet" href="./styles/dialog.css">
+    <link rel="stylesheet" href="./styles/dialog.css" />
     <link rel="shortcut icon" href="./assets/img/favicon.png" type="image/png" />
     <script src="./scripts/script.js" defer></script>
     <script src="./scripts/template.js" defer></script>
@@ -22,12 +22,14 @@
       <header class="main-header">
         <div class="logo">
           <h1>Pokedex</h1>
-          <img src="assets/img/pokedex-logo.png" alt="Pokedex-Logo"/>
+          <img src="assets/img/pokedex-logo.png" alt="Pokedex-Logo" />
         </div>
         <div class="input-area">
-         <div id="filter-matches"></div>    
-        <input type="search" name="search-input" id="search-input" placeholder="Pokemon suchen..." />
-       <p id="input-message"></p>
+          <div class="input-button">
+          <input type="search" name="search-input" id="search-input" placeholder="Pokemon Name" />
+          <button class="search-button" onclick="handleInputFilter()">Suchen</button>
+          </div>
+          <p id="input-message"></p>
         </div>
       </header>
     </div>
@@ -40,7 +42,7 @@
       <footer class="main-footer">
         <button class="loadButton" onclick="loadMorePokemon()">Weitere Pokemon laden</button>
         <div class="impressum-wrapper">
-        <a class="impressum-link" href="./impressum.html">Impressum</a>
+          <a class="impressum-link" href="./impressum.html">Impressum</a>
         </div>
       </footer>
     </div>
@@ -131,9 +133,7 @@
               <div id="shiny-area">
                 <img id="shiny-image" src="" alt="Shiny-Pokemon" />
               </div>
-              <div id="evo-area">
-                
-              </div>
+              <div id="evo-area"></div>
             </article>
           </section>
           <div id="dialog-footer-button"></div>
@@ -142,7 +142,3 @@
     </dialog>
   </body>
 </html>
-
-
-
-

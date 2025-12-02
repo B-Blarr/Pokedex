@@ -74,15 +74,34 @@ h1 {
   width: 350px;
 }
 
-.input-area{
+.input-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 96px;
-  width: 280px;
+  width: 310px;
 }
 
-#filter-matches{
+.input-button {
+  display: flex;
+}
+
+.search-button {
+  height: 32px;
+  font-size: 16px;
+  color: black;
+  background-color: #ffcb05;
+  border-radius: 0 8px 8px 0;
+  border: none;
+}
+
+.search-button:hover {
+  transform: scale(1.05);
+  background-color: #e6b800;
+  cursor: pointer;
+}
+
+#filter-matches {
   position: absolute;
   top: 0;
   right: 0;
@@ -91,18 +110,21 @@ h1 {
   color: white;
 }
 
-#input-message{
-padding-top: 8px;
-padding-right: 24px;
-z-index: 1;
-height: 12px;
-color: red;
+#input-message {
+  padding-top: 8px;
+  padding-right: 24px;
+  z-index: 1;
+  height: 12px;
+  color: red;
 }
 
 input {
   width: 210px;
   height: 32px;
-  font-size: 16px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  padding-left: 8px;
 }
 
 #pokemon-listing {
@@ -216,10 +238,14 @@ a.impressum-link:hover {
     width: 320px;
   }
 
-#input-message{
-padding-right: 8px;
-font-size: 15px;
-}
+  #input-message {
+    padding-right: 8px;
+    font-size: 14px;
+  }
+
+  .search-button {
+    height: 28px;
+  }
 
   input {
     width: 160px;
@@ -227,9 +253,9 @@ font-size: 15px;
     font-size: 16px;
   }
 
-  .input-area{
-  width: 260px;
-}
+  .input-area {
+    width: 260px;
+  }
 
   #pokemon-listing {
     gap: 28px;
@@ -279,22 +305,31 @@ font-size: 15px;
   }
 
   .logo img {
-    width: 240px;
+    width: 170px;
   }
 
   input {
     height: 26px;
   }
 
-    .input-area{
-  width: 210px;
-}
+  .input-area {
+    width: 230px;
+  }
 
-  #input-message{
-padding-right: 0px;
-font-size: 14px;
-padding-top: 5px;
-}
+  .search-button {
+    height: 26px;
+    font-size: 14px;
+  }
+
+  .input-button {
+    display: flex;
+  }
+
+  #input-message {
+    padding-right: 0px;
+    font-size: 14px;
+    padding-top: 8px;
+  }
 
   #pokemon-listing {
     gap: 21px;
@@ -387,7 +422,7 @@ padding-top: 5px;
     height: 80px;
   }
 
-   h3 {
+  h3 {
     font-size: 15px;
   }
 
@@ -395,16 +430,16 @@ padding-top: 5px;
     padding: 2px 6px;
   }
 
-  .input-area{
-  margin-top: 10px;
-  width: 280px;
-}
+  .input-area {
+    margin-top: 10px;
+    width: 280px;
+  }
 
-  #input-message{
-padding-right: 0px;
-font-size: 14px;
-padding-top: 8px;
-}
+  #input-message {
+    padding-right: 0px;
+    font-size: 14px;
+    padding-top: 8px;
+  }
 
   main {
     padding: 0 12px;

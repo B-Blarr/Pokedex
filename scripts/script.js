@@ -13,6 +13,7 @@ const evoButton = document.getElementById("evo-button");
 const inputFilter = document.getElementById("search-input");
 const evoArea = document.getElementById("evo-area");
 const inputMessage = document.getElementById("input-message");
+const inputField = document.getElementById("search-input");
 const POKEMON_TYPES = ["grass","normal","fighting","flying","poison","ground",
                        "rock","bug","ghost","steel","fire","water","electric",
                        "psychic","ice","dragon","dark","fairy","stellar","unknown",];
@@ -215,10 +216,8 @@ function hideLoadingSpinner() {
   document.getElementById("loading-overlay").style.display = "none";
 }
 
-inputFilter.addEventListener("input", handleInputFilter);
-
-function handleInputFilter(event) {
-  const filterWord = event.target.value.toLowerCase().trim();
+function handleInputFilter() {
+  const filterWord = inputField.value.toLowerCase().trim();
   const hasMatch = filterPokemonEntries(filterWord);
   updateInputMessage(filterWord, hasMatch);
 }
@@ -234,6 +233,7 @@ function filterPokemonEntries(filterWord) {
     } else if (pokemonName.includes(filterWord)) {
       pokemonEntries[i].style.display = "";
       hasMatch = true;
+      inputField.value = "";
     } else {
       pokemonEntries[i].style.display = "none";
     }
