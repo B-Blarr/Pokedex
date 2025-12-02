@@ -1,14 +1,18 @@
 function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
   return `
     <div onclick="setActiveTab('main-button'); openDialog('${newName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
-        <header id="pokemon-entry-header-${id}">
-            <span id="pokemon-id-${id}"><span class="id-sign">#</span> ${id}</span>
-            <h3>${newName}</h3>
-        </header>
-        <section id="pokemon-entry-image-${id}"><img class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}"></section>
-        <footer id="pokemon-entry-footer-${id}"></footer>
+      <header id="pokemon-entry-header-${id}">
+        <span id="pokemon-id-${id}">
+          <span class="id-sign">#</span> ${id}
+        </span>
+        <h3>${newName}</h3>
+      </header>
+      <section id="pokemon-entry-image-${id}">
+        <img class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}">
+      </section>
+      <footer id="pokemon-entry-footer-${id}"></footer>
     </div>
-        `;
+  `;
 }
 
 function getGermanType(pokemonType) {
@@ -36,16 +40,17 @@ function getGermanType(pokemonType) {
 
 async function renderDialogButtonsTemplate(id) {
   const refDialogFooterButton = document.getElementById("dialog-footer-button");
-  refDialogFooterButton.innerHTML = `<button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon(${id})">
-              <img id="footer-previous-button" src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
-            </button>
-            <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon(${id})">
-              <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
-            </button>`;
+  refDialogFooterButton.innerHTML = `
+    <button class="button-arrow" aria-label="Vorheriges Pokemon" onclick="previousPokemon(${id})">
+      <img id="footer-previous-button" src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
+    </button>
+    <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon(${id})">
+      <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
+    </button>`;
 }
 
 function renderAbilitiesTemplate(newAbility) {
-        return `
-      <div class="ability">${newAbility}</div>
-    `;
-    }
+  return `
+    <div class="ability">${newAbility}</div>
+  `;
+}

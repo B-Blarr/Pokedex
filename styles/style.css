@@ -383,7 +383,7 @@ padding-top: 5px;
   }
 
   .logo img {
-    width: 350px;
+    width: 180px;
     height: 80px;
   }
 
@@ -408,10 +408,6 @@ padding-top: 8px;
 
   main {
     padding: 0 12px;
-  }
-
-  .logo img {
-    width: 180px;
   }
 
   .loadButton {

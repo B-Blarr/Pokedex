@@ -45,9 +45,9 @@ async function renderCompleteDialog(id) {
 }
 
 async function addTypeColorToDialog(id) {
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   for (let i = 0; i < data.types.length; i++) {
-    let pokemonType = data.types[i].type.name;
+    const pokemonType = data.types[i].type.name;
     refDialogImageSection.classList.add(pokemonType);
     break;
   }
@@ -55,7 +55,6 @@ async function addTypeColorToDialog(id) {
 
 function closeDialog(event) {
   if (event.target === dialogRef) {
-    let refDialogType = document.getElementById("dialog-type");
     refDialogType.innerHTML = "";
     refDialogImageSection.classList.remove(refDialogImageSection.classList);
     refAbilities.innerText = "";
@@ -127,8 +126,8 @@ function renderAbilities(id) {
 }
 
 async function renderBaseExperience(id) {
-  let data = await getAndSavePokemon(id);
-  let refPokemonBaseExperience = document.getElementById("base-experience");
+  const data = await getAndSavePokemon(id);
+  const refPokemonBaseExperience = document.getElementById("base-experience");
   refPokemonBaseExperience.innerText = data.base_experience;
 }
 
@@ -172,21 +171,21 @@ function showEvoArea() {
 }
 
 async function renderDialogShiny(id) {
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   if (!data) {
     refShinyImage.src = "../assets/img/faq.png";
     return `../assets/img/faq.png`;
   }
-  let shinyImage = data.sprites.other["official-artwork"].front_shiny;
+  const shinyImage = data.sprites.other["official-artwork"].front_shiny;
   refShinyImage.src = shinyImage;
 }
 
 async function nextPokemon(id) {
-  let nextId = id + 1;
+  const nextId = id + 1;
   refDialogImageSection.classList = "";
   if (!allNames[nextId - 1]) {
-    let data = await getAndSaveImage(nextId);
-    let pokemon = data.names;
+    const data = await getAndSaveImage(nextId);
+    const pokemon = data.names;
     for (let i = 0; i < pokemon.length; i++) {
       if (pokemon[i].language.name === "de") {
         newName = pokemon[i].name;
@@ -196,22 +195,22 @@ async function nextPokemon(id) {
     }
   }
   newName = allNames[nextId - 1];
-  let nextData = await getAndSavePokemon(nextId);
-  let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
+  const nextData = await getAndSavePokemon(nextId);
+  const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
   openDialog(newName, nextId, nextPokemonImage);
 }
 
 async function previousPokemon(id) {
-  let nextId = id - 1;
+  const nextId = id - 1;
   refDialogImageSection.classList.remove(refDialogImageSection.classList);
   newName = allNames[nextId - 1];
-  let nextData = await getAndSavePokemon(nextId);
-  let nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
+  const nextData = await getAndSavePokemon(nextId);
+  const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
   openDialog(newName, nextId, nextPokemonImage);
 }
 
 function setActiveTab(activeId) {
-  let buttons = document.querySelectorAll(".dialog-category-button");
+  const buttons = document.querySelectorAll(".dialog-category-button");
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].classList.remove("active");
   }
@@ -336,7 +335,7 @@ function setEvoAreaType(data) {
 }
 
 async function renderStats(id) {
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   renderHp(data);
   renderAttack(data);
   renderDefense(data);
@@ -355,14 +354,14 @@ function renderHp(data) {
 
 function renderAttack(data) {
   const refAttack = document.getElementById("attack");
-  let actualStat = data.stats[1].base_stat;
+  const actualStat = data.stats[1].base_stat;
   const percent = getPercent(actualStat);
   refAttack.style.width = percent + "%";
   refAttack.title = "Angriffspunkte: " + actualStat;
 }
 function renderDefense(data) {
   const refDefense = document.getElementById("defense");
-  let actualStat = data.stats[2].base_stat;
+  const actualStat = data.stats[2].base_stat;
   const percent = getPercent(actualStat);
   refDefense.style.width = percent + "%";
   refDefense.title = "Verteidigungspunkte: " + actualStat;
@@ -370,7 +369,7 @@ function renderDefense(data) {
 
 function renderSpecialAttack(data) {
   const refSpecialAttack = document.getElementById("special-attack");
-  let actualStat = data.stats[3].base_stat;
+  const actualStat = data.stats[3].base_stat;
   const percent = getPercent(actualStat);
   refSpecialAttack.style.width = percent + "%";
   refSpecialAttack.title = "Spezial-Attacke: " + actualStat + " Punkte";
@@ -378,7 +377,7 @@ function renderSpecialAttack(data) {
 
 function renderSpecialDefense(data) {
   const refSpecialDefense = document.getElementById("special-defense");
-  let actualStat = data.stats[4].base_stat;
+  const actualStat = data.stats[4].base_stat;
   const percent = getPercent(actualStat);
   refSpecialDefense.style.width = percent + "%";
   refSpecialDefense.title = "Spezial-Verteidigung: " + actualStat + " Punkte";
@@ -386,7 +385,7 @@ function renderSpecialDefense(data) {
 
 function renderSpeed(data) {
   const refSpeed = document.getElementById("speed");
-  let actualStat = data.stats[5].base_stat;
+  const actualStat = data.stats[5].base_stat;
   const percent = getPercent(actualStat);
   refSpeed.style.width = percent + "%";
   refSpeed.title = "Initiative: " + actualStat + " Punkte";

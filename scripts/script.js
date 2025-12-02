@@ -105,8 +105,8 @@ async function getAndSavePokemon(id) {
   if (savedPokemon[id]) {
     return savedPokemon[id];
   } else {
-    let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
-    let data = await loadJsonSafely(url);
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
+    const data = await loadJsonSafely(url);
     if (!data) {
       console.error(`Could not load pokemon data for id: ${id}`);
       return null;
@@ -121,8 +121,8 @@ async function getAndSaveImage(id) {
   if (savedImages[id]) {
     return savedImages[id];
   } else {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
-    let data = await loadJsonSafely(url);
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+    const data = await loadJsonSafely(url);
     if (!data) {
       console.error(`Could not load species data for id: ${id}`);
       return null;
@@ -136,8 +136,8 @@ async function getAndSaveEvoChain(url) {
   if (savedEvoChain[url]) {
     return savedEvoChain[url];
   } else {
-    let response = await fetch(url);
-    let data = await response.json();
+    const response = await fetch(url);
+    const data = await response.json();
     savedEvoChain[url] = data;
     return data;
   }
@@ -198,10 +198,10 @@ function appendNewPokemon(templates, firstId) {
 
 async function getType(id) {
   let pokemonType = "";
-  let data = await getAndSavePokemon(id);
+  const data = await getAndSavePokemon(id);
   for (let i = 0; i < data.types.length; i++) {
     pokemonType = data.types[i].type.name;
-    let germanType = document.getElementById(`pokemon-entry-footer-${id}`);
+    const germanType = document.getElementById(`pokemon-entry-footer-${id}`);
     germanType.innerHTML += getGermanType(pokemonType);
   }
   return pokemonType;
