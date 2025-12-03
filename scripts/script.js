@@ -10,7 +10,7 @@ const mainButton = document.getElementById("main-button");
 const statsButton = document.getElementById("stats-button");
 const shinyButton = document.getElementById("shiny-button");
 const evoButton = document.getElementById("evo-button");
-const inputFilter = document.getElementById("search-input");
+const inputFieldFilter = document.getElementById("search-input");
 const evoArea = document.getElementById("evo-area");
 const inputMessage = document.getElementById("input-message");
 const inputField = document.getElementById("search-input");
@@ -216,7 +216,11 @@ function hideLoadingSpinner() {
   document.getElementById("loading-overlay").style.display = "none";
 }
 
-function handleInputFilter() {
+
+
+
+
+function inputFilter() {
   const filterWord = inputField.value.toLowerCase().trim();
   const hasMatch = filterPokemonEntries(filterWord);
   updateInputMessage(filterWord, hasMatch);
@@ -254,6 +258,31 @@ function updateInputMessage(filterWord, hasMatch) {
     inputMessage.innerText = "";
   }
 }
+
+
+// function filter() {
+    
+// const refInput = document.getElementById("search-input");
+
+
+
+
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function createImagePromise(img) {
   if (img.complete) {

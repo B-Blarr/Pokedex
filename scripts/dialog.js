@@ -1,6 +1,6 @@
-async function openDialog(newName, id, pokemonImage) {
+async function openDialog(pokemonName, id, pokemonImage) {
   const numericId = Number(id);
-  setDialogIdAndHeadline(newName, numericId);
+  setDialogIdAndHeadline(pokemonName, numericId);
   setDialogImage(pokemonImage);
   const data = await getAndSavePokemon(numericId);
   prepareDialogTypeArea(data, numericId);
@@ -8,11 +8,11 @@ async function openDialog(newName, id, pokemonImage) {
   renderCompleteDialog(numericId);
 }
 
-function setDialogIdAndHeadline(newName, id) {
+function setDialogIdAndHeadline(pokemonName, id) {
   const refDialogId = document.getElementById("dialog-id");
   refDialogId.innerText = "# " + id;
   const refHeadline = document.getElementById("dialog-headline");
-  refHeadline.innerText = newName;
+  refHeadline.innerText = pokemonName;
 }
 
 function setDialogImage(pokemonImage) {
@@ -69,11 +69,11 @@ function closeDialog(event) {
 dialogRef.addEventListener("click", closeDialog);
 
 async function renderDialogInfos(id) {
-  renderDialogMain(id);
+  renderDialogBaseInfo(id);
   renderDialogShiny(id);
 }
 
-async function renderDialogMain(id) {
+async function renderDialogBaseInfo(id) {
   renderPokemonHeight(id);
   renderPokemonWeight(id);
   renderBaseExperience(id);
@@ -105,7 +105,7 @@ async function fetchAbilities(id) {
 
     for (let j = 0; j < newData.names.length; j++) {
       if (newData.names[j].language.name === "de") {
-        newAbility = newData.names[j].name;
+        const newAbility = newData.names[j].name;
         savedAbilities[id].push(newAbility);
         break;
       }
@@ -120,7 +120,7 @@ function renderAbilities(id) {
     return;
   }
   for (let i = 0; i < savedAbilities[id].length; i++) {
-    newAbility = savedAbilities[id][i];
+    const newAbility = savedAbilities[id][i];
     refAbilities.innerHTML += renderAbilitiesTemplate(newAbility);
   }
 }
@@ -188,25 +188,25 @@ async function nextPokemon(id) {
     const pokemon = data.names;
     for (let i = 0; i < pokemon.length; i++) {
       if (pokemon[i].language.name === "de") {
-        newName = pokemon[i].name;
-        allNames[nextId - 1] = newName;
+        pokemonName = pokemon[i].name;
+        allNames[nextId - 1] = pokemonName;
         break;
       }
     }
   }
-  newName = allNames[nextId - 1];
+  pokemonName = allNames[nextId - 1];
   const nextData = await getAndSavePokemon(nextId);
   const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
-  openDialog(newName, nextId, nextPokemonImage);
+  openDialog(pokemonName, nextId, nextPokemonImage);
 }
 
 async function previousPokemon(id) {
-  const nextId = id - 1;
+  const previousId = id - 1;
   refDialogImageSection.classList.remove(refDialogImageSection.classList);
-  newName = allNames[nextId - 1];
-  const nextData = await getAndSavePokemon(nextId);
+  pokemonName = allNames[previousId - 1];
+  const nextData = await getAndSavePokemon(previousId);
   const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
-  openDialog(newName, nextId, nextPokemonImage);
+  openDialog(pokemonName, previousId, nextPokemonImage);
 }
 
 function setActiveTab(activeId) {
@@ -226,7 +226,7 @@ async function getEvoChainForPokemon(id) {
 
 function getAllEvoNames(evoChain) {
   const names = [];
-  collectNames(evoChain, names);
+  collectEvoNames(evoChain, names);
   return names;
 }
 
@@ -234,12 +234,12 @@ async function preloadEvoPokemon(id) {
   if (id < 1 || id > 1025) {
     return;
   }
-  const chain = await getEvoChainForPokemon(id);
-  const names = getAllEvoNames(chain);
-  preloadArtworks(names);
+  const evoChain = await getEvoChainForPokemon(id);
+  const evoNames = getAllEvoNames(evoChain);
+  preloadArtworksByNames(evoNames);
 }
 
-async function preloadArtworks(names) {
+async function preloadArtworksByNames(names) {
   for (let i = 0; i < names.length; i++) {
     const data = await getAndSavePokemon(names[i]);
     if (!data) {
@@ -276,13 +276,13 @@ async function preloadDialogImages(id) {
   preloadImage(shinyUrl);
 }
 
-function collectNames(evoChain, names) {
+function collectEvoNames(evoChain, names) {
   names.push(evoChain.species.name);
   if (!evoChain.evolves_to) {
     return;
   }
   for (let i = 0; i < evoChain.evolves_to.length; i++) {
-    collectNames(evoChain.evolves_to[i], names);
+    collectEvoNames(evoChain.evolves_to[i], names);
   }
 }
 
@@ -298,13 +298,13 @@ async function loadEvoImage(pokeName, imgElement) {
 }
 
 async function renderEvoChain(id) {
-  const chain = await getEvoChainForPokemon(id);
-  const names = getAllEvoNames(chain);
-  setupEvoAreaClass(chain);
-  createEvoImages(names);
+  const evoChain = await getEvoChainForPokemon(id);
+  const evoNames = getAllEvoNames(evoChain);
+  setClassForEevee(evoChain);
+  createEvoImages(evoNames);
 }
 
-function setupEvoAreaClass(chain) {
+function setClassForEevee(chain) {
   if (chain.species.name === "eevee") {
     evoArea.classList.add("evo-eevee");
   } else {

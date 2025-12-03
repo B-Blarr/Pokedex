@@ -146,6 +146,7 @@ input {
   border-radius: 16px;
   background: var(--secondary-color);
   overflow: hidden;
+  cursor: pointer;
 }
 
 .pokemon-entry:hover {

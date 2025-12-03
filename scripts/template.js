@@ -1,14 +1,14 @@
-function loadPokemonTemplate(newName, id, pokemonImage, pokemonType) {
+function loadPokemonTemplate(pokemonName, id, pokemonImage, pokemonType) {
   return `
-    <div onclick="setActiveTab('main-button'); openDialog('${newName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
+    <div onclick="setActiveTab('main-button'); openDialog('${pokemonName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
       <header id="pokemon-entry-header-${id}">
         <span id="pokemon-id-${id}">
           <span class="id-sign">#</span> ${id}
         </span>
-        <h3>${newName}</h3>
+        <h3>${pokemonName}</h3>
       </header>
       <section id="pokemon-entry-image-${id}">
-        <img class="${pokemonType} image-preview" src="${pokemonImage}" alt="${newName}">
+        <img class="${pokemonType} image-preview" src="${pokemonImage}" alt="${pokemonName}">
       </section>
       <footer id="pokemon-entry-footer-${id}"></footer>
     </div>

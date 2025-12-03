@@ -1,4 +1,4 @@
-.type{
+.type {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -27,11 +27,11 @@
 }
 
 .fire {
-background: linear-gradient(135deg, #781216, #e0573c);
+  background: linear-gradient(135deg, #781216, #e0573c);
 }
 
 .fire::before {
- background: #ffe0cc;
+  background: #ffe0cc;
 }
 
 .water {
@@ -141,7 +141,7 @@ background: linear-gradient(135deg, #781216, #e0573c);
 
 .fighting {
   /* background: linear-gradient(135deg, #702d1f, #b64936); */
-   background: linear-gradient(135deg, #6a2d1b, #a85a32);
+  background: linear-gradient(135deg, #6a2d1b, #a85a32);
 }
 
 .fighting::before {
@@ -174,34 +174,33 @@ background: linear-gradient(135deg, #781216, #e0573c);
 }
 
 .unknown {
-    background: linear-gradient(135deg, #7c7570, #bdb5ac);
+  background: linear-gradient(135deg, #7c7570, #bdb5ac);
 }
 
 .unknown::before {
   background: #e8e4df;
 }
 
-@media(max-width:821px){
+@media (max-width: 821px) {
+  .type {
+    gap: 4px;
+    padding: 4px 10px;
+    margin: 0 6px;
+    font-size: 0.75rem;
+    width: 64px;
+  }
 
-  .type{
-  gap: 4px;
-  padding: 4px 10px;
-  margin: 0 6px;
-  font-size: 0.75rem;
-  width: 64px;
+  .type::before {
+    content: none;
+  }
 }
 
-.type::before {
-  content: none;
-}
-}
-
-@media(max-width: 569px){
-  .type{
-  gap: 0px;
-  padding: 2px 5px;
-  margin: 0 4px;
-  font-size: 0.75rem;
-  width: 56px;
-}
+@media (max-width: 569px) {
+  .type {
+    gap: 0px;
+    padding: 2px 5px;
+    margin: 0 4px;
+    font-size: 0.75rem;
+    width: 56px;
+  }
 }

@@ -21,7 +21,7 @@ header {
   height: 120px;
 
   background: var(--secondary-color);
-  color: #FFCB05;
+  color: #ffcb05;
   font-size: 32px;
   padding: 0 40px;
 }
@@ -47,16 +47,15 @@ footer {
   background: var(--secondary-color);
 }
 
-.logo img{
+.logo img {
   width: 350px;
 }
 
-h1{
-    font-size: 42px;
+h1 {
+  font-size: 42px;
 }
 
-.contact{
+.contact {
   font-size: 21px;
-text-align: center;
-
+  text-align: center;
 }
