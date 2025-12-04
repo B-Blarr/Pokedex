@@ -292,6 +292,12 @@ a.impressum-link:hover {
   }
 }
 
+@media (max-width: 650px) {
+.logo img {
+    width: 240px;
+  }
+}
+
 @media (max-width: 569px) {
   .main-header {
     padding: 0 18px;
