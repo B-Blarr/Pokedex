@@ -137,7 +137,6 @@ input {
 }
 
 /* Einzelne Pokemon */
-
 .pokemon-entry {
   color: white;
   min-width: 210px;
@@ -147,11 +146,12 @@ input {
   background: var(--secondary-color);
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 .pokemon-entry:hover {
   transform: scale(1.06) translateY(-4px);
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.15));
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
 }
 
 .pokemon-entry header {

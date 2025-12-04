@@ -10,7 +10,6 @@ const mainButton = document.getElementById("main-button");
 const statsButton = document.getElementById("stats-button");
 const shinyButton = document.getElementById("shiny-button");
 const evoButton = document.getElementById("evo-button");
-const inputFieldFilter = document.getElementById("search-input");
 const evoArea = document.getElementById("evo-area");
 const inputMessage = document.getElementById("input-message");
 const inputField = document.getElementById("search-input");
@@ -107,14 +106,14 @@ async function getAndSavePokemon(id) {
     return savedPokemon[id];
   } else {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
-    const data = await loadJsonSafely(url);
-    if (!data) {
+    const pokemonData = await loadJsonSafely(url);
+    if (!pokemonData) {
       console.error(`Could not load pokemon data for id: ${id}`);
       return null;
     }
-    savedPokemon[data.id] = data;
-    savedPokemon[data.name] = data;
-    return data;
+    savedPokemon[pokemonData.id] = pokemonData;
+    savedPokemon[pokemonData.name] = pokemonData;
+    return pokemonData;
   }
 }
 
@@ -123,13 +122,13 @@ async function getAndSaveImage(id) {
     return savedImages[id];
   } else {
     const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
-    const data = await loadJsonSafely(url);
-    if (!data) {
+    const speciesData = await loadJsonSafely(url);
+    if (!speciesData) {
       console.error(`Could not load species data for id: ${id}`);
       return null;
     }
-    savedImages[id] = data;
-    return data;
+    savedImages[id] = speciesData;
+    return speciesData;
   }
 }
 
@@ -138,20 +137,20 @@ async function getAndSaveEvoChain(url) {
     return savedEvoChain[url];
   } else {
     const response = await fetch(url);
-    const data = await response.json();
-    savedEvoChain[url] = data;
-    return data;
+    const evoChainData = await response.json();
+    savedEvoChain[url] = evoChainData;
+    return evoChainData;
   }
 }
 
 async function getPokemonType(id) {
   let pokemonType = "";
-  const data = await getAndSavePokemon(id);
-  if (!data) {
+  const typeData = await getAndSavePokemon(id);
+  if (!typeData) {
     return "unknown";
   }
-  for (let i = 0; i < data.types.length; i++) {
-    pokemonType = data.types[i].type.name;
+  for (let i = 0; i < typeData.types.length; i++) {
+    pokemonType = typeData.types[i].type.name;
     return pokemonType;
   }
 }
@@ -196,7 +195,6 @@ function appendNewPokemon(templates, firstId) {
   }
 }
 
-
 async function getType(id) {
   let pokemonType = "";
   const data = await getAndSavePokemon(id);
@@ -216,10 +214,6 @@ function hideLoadingSpinner() {
   document.getElementById("loading-overlay").style.display = "none";
 }
 
-
-
-
-
 function inputFilter() {
   const filterWord = inputField.value.toLowerCase().trim();
   const hasMatch = filterPokemonEntries(filterWord);
@@ -237,7 +231,6 @@ function filterPokemonEntries(filterWord) {
     } else if (pokemonName.includes(filterWord)) {
       pokemonEntries[i].style.display = "";
       hasMatch = true;
-      inputField.value = "";
     } else {
       pokemonEntries[i].style.display = "none";
     }
@@ -258,31 +251,6 @@ function updateInputMessage(filterWord, hasMatch) {
     inputMessage.innerText = "";
   }
 }
-
-
-// function filter() {
-    
-// const refInput = document.getElementById("search-input");
-
-
-
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function createImagePromise(img) {
   if (img.complete) {
