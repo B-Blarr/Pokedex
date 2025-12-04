@@ -1,6 +1,6 @@
 function loadPokemonTemplate(pokemonName, id, pokemonImage, pokemonType) {
   return `
-    <div onclick="setActiveTab('main-button'); openDialog('${pokemonName}', '${id}', '${pokemonImage}')" class="pokemon-entry">
+    <div onclick="setActiveTab('main-button'); openDialog('${pokemonName}', '${id}', '${pokemonImage}')" class="pokemon-entry" data-id="${id}">
       <header id="pokemon-entry-header-${id}">
         <span id="pokemon-id-${id}">
           <span class="id-sign">#</span> ${id}
@@ -45,9 +45,10 @@ async function renderDialogButtonsTemplate(id) {
       <img id="footer-previous-button" src="./assets/icons/pikachu-arrow-left.png" alt="backwards arrow" />
     </button>
     <button class="button-arrow" aria-label="Nächstes Pokemon" onclick="nextPokemon(${id})">
-      <img src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
+      <img id="footer-next-button" src="./assets/icons/pikachu-arrow-right.png" alt="forward arrow" />
     </button>`;
 }
+
 
 function renderAbilitiesTemplate(newAbility) {
   return `

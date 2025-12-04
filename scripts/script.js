@@ -22,6 +22,7 @@ const savedImages = {};
 const savedEvoChain = {};
 const savedAbilities = {};
 const allNames = [];
+let filteredIds = [];
 
 async function init() {
   showLoadingSpinner();
@@ -214,28 +215,48 @@ function hideLoadingSpinner() {
   document.getElementById("loading-overlay").style.display = "none";
 }
 
+function showAllEntries(entries) {
+  for (let i = 0; i < entries.length; i++) {
+    entries[i].style.display = "";
+  }
+}
+
+function filterEntries(entries, filterWord) {
+  const matchingIds = [];
+  for (let i = 0; i < entries.length; i++) {
+    const pokemonName = entries[i].querySelector("h3").textContent.toLowerCase();
+    const id = Number(entries[i].dataset.id);
+    if (pokemonName.includes(filterWord)) {
+      entries[i].style.display = "";
+      matchingIds.push(id);
+    } else {
+      entries[i].style.display = "none";
+    }
+  }
+  return { matchingIds: matchingIds, hasMatch: matchingIds.length > 0 };
+}
+
+function filterPokemonEntries(filterWord) {
+  const entries = document.querySelectorAll(".pokemon-entry");
+  if (filterWord.length === 0) {
+    showAllEntries(entries);
+    filteredIds = [];
+    return false;
+  }
+  if (isFilterTooShort(filterWord)) {
+    showAllEntries(entries);
+    filteredIds = [];
+    return false;
+  }
+  const result = filterEntries(entries, filterWord);
+  filteredIds = result.matchingIds;
+  return result.hasMatch;
+}
+
 function inputFilter() {
   const filterWord = inputField.value.toLowerCase().trim();
   const hasMatch = filterPokemonEntries(filterWord);
   updateInputMessage(filterWord, hasMatch);
-}
-
-function filterPokemonEntries(filterWord) {
-  const pokemonEntries = document.querySelectorAll(".pokemon-entry");
-  let hasMatch = false;
-  for (let i = 0; i < pokemonEntries.length; i++) {
-    const nameEntry = pokemonEntries[i].querySelector("h3");
-    const pokemonName = nameEntry.textContent.toLowerCase();
-    if (isFilterTooShort(filterWord)) {
-      pokemonEntries[i].style.display = "";
-    } else if (pokemonName.includes(filterWord)) {
-      pokemonEntries[i].style.display = "";
-      hasMatch = true;
-    } else {
-      pokemonEntries[i].style.display = "none";
-    }
-  }
-  return hasMatch;
 }
 
 function isFilterTooShort(filterWord) {

@@ -33,16 +33,14 @@ function prepareDialogTypeArea(data, id) {
 async function renderCompleteDialog(id) {
   renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
-  if (id <= 1) {
-    const previousButton = document.getElementById("footer-previous-button");
-    previousButton.style.display = "none";
-  }
+  updateNavButtonsVisibility(id);
   renderStats(id);
   renderEvoChain(id);
   fetchAbilities(id + 1);
   preloadEvoPokemon(id + 1);
   preloadDialogImages(id + 1);
 }
+
 
 async function addTypeColorToDialog(id) {
   const data = await getAndSavePokemon(id);
@@ -181,32 +179,75 @@ async function renderDialogShiny(id) {
 }
 
 async function nextPokemon(id) {
-  const nextId = id + 1;
+  const nextId = getNextDialogId(id);
+  if (!nextId) {
+    return;
+  }
   refDialogImageSection.classList = "";
-  if (!allNames[nextId - 1]) {
-    const data = await getAndSaveImage(nextId);
-    const pokemon = data.names;
-    for (let i = 0; i < pokemon.length; i++) {
-      if (pokemon[i].language.name === "de") {
-        pokemonName = pokemon[i].name;
-        allNames[nextId - 1] = pokemonName;
+  const pokemonNameForDialog = await ensurePokemonNameLoaded(nextId);
+  const nextData = await getAndSavePokemon(nextId);
+  const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
+  openDialog(pokemonNameForDialog, nextId, nextPokemonImage);
+}
+
+function getNextDialogId(id) {
+  if (filteredIds.length === 0) {
+    return id + 1;
+  }
+  const index = filteredIds.indexOf(id);
+  if (index === -1 || index === filteredIds.length - 1) {
+    return null;
+  }
+  return filteredIds[index + 1];
+}
+
+function getPreviousDialogId(id) {
+  if (filteredIds.length === 0) {
+    if (id <= 1) {
+      return null;
+    }
+    return id - 1;
+  }
+  const index = filteredIds.indexOf(id);
+  if (index <= 0) {
+    return null;
+  }
+  return filteredIds[index - 1];
+}
+
+async function ensurePokemonNameLoaded(id) {
+  if (!allNames[id - 1]) {
+    const speciesData = await getAndSaveImage(id);
+    const names = speciesData.names;
+    for (let i = 0; i < names.length; i++) {
+      if (names[i].language.name === "de") {
+        allNames[id - 1] = names[i].name;
         break;
       }
     }
   }
-  pokemonName = allNames[nextId - 1];
-  const nextData = await getAndSavePokemon(nextId);
-  const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
-  openDialog(pokemonName, nextId, nextPokemonImage);
+  return allNames[id - 1];
 }
 
 async function previousPokemon(id) {
-  const previousId = id - 1;
-  refDialogImageSection.classList.remove(refDialogImageSection.classList);
-  pokemonName = allNames[previousId - 1];
-  const nextData = await getAndSavePokemon(previousId);
-  const nextPokemonImage = nextData.sprites.other["official-artwork"].front_default;
-  openDialog(pokemonName, previousId, nextPokemonImage);
+  const previousId = getPreviousDialogId(id);
+  if (!previousId) {
+    return;
+  }
+  refDialogImageSection.classList = "";
+  const pokemonNameForDialog = await ensurePokemonNameLoaded(previousId);
+  const previousData = await getAndSavePokemon(previousId);
+  const previousPokemonImage = previousData.sprites.other["official-artwork"].front_default;
+  openDialog(pokemonNameForDialog, previousId, previousPokemonImage);
+}
+
+function updateNavButtonsVisibility(id) {
+  let previousId = getPreviousDialogId(id);
+  let nextId = getNextDialogId(id);
+  const previousButton = document.getElementById("footer-previous-button");
+  const nextButton = document.getElementById("footer-next-button");
+  previousButton.style.display = previousId ? "block" : "none";
+  nextButton.style.display = nextId ? "block" : "none";
 }
 
 function setActiveTab(activeId) {
