@@ -157,6 +157,11 @@ async function getPokemonType(id) {
 }
 
 async function loadMorePokemon() {
+  const filterWord = inputField.value.toLowerCase().trim();
+  if (filterWord.length > 0) {
+    resetSearchView();
+    return;
+  }
   showLoadingSpinner();
   const maxId = 1025;
   const limit = getNextLimit(maxId);
@@ -168,6 +173,15 @@ async function loadMorePokemon() {
   await waitForPokemonImages();
   hideLoadingSpinner();
 }
+
+function resetSearchView() {
+  inputField.value = "";
+  inputMessage.innerText = "";
+  filteredIds = [];
+  const entries = document.querySelectorAll(".pokemon-entry");
+  showAllEntries(entries);
+}
+
 
 function getNextLimit(maxId) {
   const limit = Math.min(startId + 15, maxId);
