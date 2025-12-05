@@ -273,6 +273,17 @@ function updateInputMessage(filterWord, hasMatch) {
   }
 }
 
+function handleSearchClear() {
+  const filterWord = inputField.value.toLowerCase().trim();
+  if (filterWord.length !== 0) {
+    return;
+  }
+  inputFilter();
+}
+
+inputField.addEventListener("input", handleSearchClear);
+
+
 function createImagePromise(img) {
   if (img.complete) {
     return Promise.resolve();
