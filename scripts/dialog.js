@@ -5,7 +5,7 @@ async function openDialog(pokemonName, id, pokemonImage) {
   const data = await getAndSavePokemon(numericId);
   prepareDialogTypeArea(data, numericId);
   dialogRef.showModal();
-  renderCompleteDialog(numericId);
+  await renderCompleteDialog(numericId);
 }
 
 function setDialogIdAndHeadline(pokemonName, id) {
@@ -31,11 +31,12 @@ function prepareDialogTypeArea(data, id) {
 }
 
 async function renderCompleteDialog(id) {
-  renderDialogInfos(id);
+  await renderDialogInfos(id);
   renderDialogButtonsTemplate(id);
   updateNavButtonsVisibility(id);
   renderStats(id);
   renderEvoChain(id);
+  // fetchAbilities(id); 
   fetchAbilities(id + 1);
   preloadEvoPokemon(id + 1);
   preloadDialogImages(id + 1);
@@ -58,6 +59,7 @@ function closeDialog(event) {
     refAbilities.innerText = "";
     refShinyImage.innerText = "";
     dialogRef.close();
+    setActiveTab("main-button");
     document.getElementById("main-area").style.display = "block";
     document.getElementById("stats-area").style.display = "none";
     document.getElementById("shiny-area").style.display = "none";
@@ -67,14 +69,15 @@ function closeDialog(event) {
 dialogRef.addEventListener("click", closeDialog);
 
 async function renderDialogInfos(id) {
-  renderDialogBaseInfo(id);
-  renderDialogShiny(id);
+  await renderDialogBaseInfo(id);
+  await renderDialogShiny(id);
 }
 
 async function renderDialogBaseInfo(id) {
-  renderPokemonHeight(id);
-  renderPokemonWeight(id);
-  renderBaseExperience(id);
+   await renderPokemonHeight(id);
+  await renderPokemonWeight(id);
+  await renderBaseExperience(id);
+  await fetchAbilities(id);
   renderAbilities(id);
 }
 
@@ -91,6 +94,9 @@ async function renderPokemonWeight(id) {
 }
 
 async function fetchAbilities(id) {
+  if (savedAbilities[id] && savedAbilities[id].length > 0) {
+    return;
+  }
   const data = await getAndSavePokemon(id);
   if (!data) {
     return;

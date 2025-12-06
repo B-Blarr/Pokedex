@@ -13,6 +13,7 @@ const evoButton = document.getElementById("evo-button");
 const evoArea = document.getElementById("evo-area");
 const inputMessage = document.getElementById("input-message");
 const inputField = document.getElementById("search-input");
+const searchResultsList = document.getElementById("search-results");
 const POKEMON_TYPES = ["grass","normal","fighting","flying","poison","ground",
                        "rock","bug","ghost","steel","fire","water","electric",
                        "psychic","ice","dragon","dark","fairy","stellar","unknown",];
@@ -251,21 +252,22 @@ function filterEntries(entries, filterWord) {
 }
 
 function filterPokemonEntries(filterWord) {
-  const entries = document.querySelectorAll(".pokemon-entry");
   if (filterWord.length === 0) {
-    showAllEntries(entries);
+    clearSearchResults();
     filteredIds = [];
     return false;
   }
   if (isFilterTooShort(filterWord)) {
-    showAllEntries(entries);
+    clearSearchResults();
     filteredIds = [];
     return false;
   }
-  const result = filterEntries(entries, filterWord);
-  filteredIds = result.matchingIds;
-  return result.hasMatch;
+  const matchingIds = getMatchingIdsFromNameData(filterWord);
+  renderSearchResults(matchingIds);
+  filteredIds = matchingIds;
+  return matchingIds.length > 0;
 }
+
 
 function inputFilter() {
   const filterWord = inputField.value.toLowerCase().trim();
@@ -278,14 +280,64 @@ function isFilterTooShort(filterWord) {
 }
 
 function updateInputMessage(filterWord, hasMatch) {
-  if (isFilterTooShort(filterWord)) {
-    inputMessage.innerText = "Bitte gib mehr als 3 Buchstaben ein.";
-  } else if (!hasMatch && filterWord.length > 0) {
-    inputMessage.innerText = "Der Name wurde leider nicht gefunden.";
-  } else {
+  if (filterWord.length === 0) {
     inputMessage.innerText = "";
+    return;
   }
+  if (isFilterTooShort(filterWord)) {
+    inputMessage.innerText = "Bitte gib mindestens 3 Buchstaben ein.";
+    return;
+  }
+  inputMessage.innerText = hasMatch ? "" : "Der Name wurde leider nicht gefunden.";
 }
+
+async function openDialogFromSearchId(id) {
+  const pokemonData = await getAndSavePokemon(id);
+  if (!pokemonData) {
+    return;
+  }
+  const pokemonImage = pokemonData.sprites.other["official-artwork"].front_default;
+  const pokemonName = germanPokemonNames[id - 1];
+  openDialog(pokemonName, id, pokemonImage);
+}
+
+function handleSearchResultClick(event) {
+  const target = event.target;
+  if (target.tagName !== "LI") {
+    return;
+  }
+  const id = Number(target.dataset.id);
+  openDialogFromSearchId(id);
+}
+
+searchResultsList.addEventListener("click", handleSearchResultClick);
+
+
+function clearSearchResults() {
+  searchResultsList.innerHTML = "";
+}
+
+function getMatchingIdsFromNameData(filterWord) {
+  const matchingIds = [];
+  for (let i = 0; i < germanPokemonNames.length; i++) {
+    const name = germanPokemonNames[i].toLowerCase();
+    if (name.includes(filterWord)) {
+      matchingIds.push(i + 1);
+    }
+  }
+  return matchingIds;
+}
+
+function renderSearchResults(matchingIds) {
+  let html = "";
+  for (let i = 0; i < matchingIds.length; i++) {
+    const id = matchingIds[i];
+    const name = germanPokemonNames[id - 1];
+    html += `<li data-id="${id}">${name}</li>`;
+  }
+  searchResultsList.innerHTML = html;
+}
+
 
 function handleSearchClear() {
   const filterWord = inputField.value.toLowerCase().trim();

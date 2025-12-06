@@ -3,7 +3,7 @@
   scroll-behavior: smooth;
   box-sizing: border-box;
   text-decoration: none;
-  position: relative;
+  /* position: relative; */
   object-fit: cover;
   font-family: "Roboto";
 }

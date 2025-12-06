@@ -76,10 +76,13 @@ h1 {
 
 .input-area {
   display: flex;
+  position: relative;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   margin-top: 96px;
   width: 310px;
+  max-width: 310px;
+  z-index: 10;
 }
 
 .input-button {
@@ -225,6 +228,42 @@ a.impressum-link:hover {
 .impressum-main {
   text-align: center;
 }
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+
+  max-height: 260px;
+  overflow-y: auto;
+
+  background: var(--secondary-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+.search-results li {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.search-results li:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-results:empty {
+  display: none;
+}
+
+
 
 @media (max-width: 821px) {
   .main-header {
