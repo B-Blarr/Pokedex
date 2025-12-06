@@ -201,7 +201,10 @@ function getNextDialogId(id) {
     return id + 1;
   }
   const index = filteredIds.indexOf(id);
-  if (index === -1 || index === filteredIds.length - 1) {
+  if (index === -1) {
+    return id + 1;
+  }
+  if (index === filteredIds.length - 1) {
     return null;
   }
   return filteredIds[index + 1];
@@ -209,17 +212,18 @@ function getNextDialogId(id) {
 
 function getPreviousDialogId(id) {
   if (filteredIds.length === 0) {
-    if (id <= 1) {
-      return null;
-    }
-    return id - 1;
+    return id <= 1 ? null : id - 1;
   }
   const index = filteredIds.indexOf(id);
-  if (index <= 0) {
+  if (index === -1) {
+    return id <= 1 ? null : id - 1;
+  }
+  if (index === 0) {
     return null;
   }
   return filteredIds[index - 1];
 }
+
 
 async function ensurePokemonNameLoaded(id) {
   if (!allNames[id - 1]) {
