@@ -338,17 +338,7 @@ function renderSearchResults(matchingIds) {
   searchResultsList.innerHTML = html;
 }
 
-
-function handleSearchClear() {
-  const filterWord = inputField.value.toLowerCase().trim();
-  if (filterWord.length !== 0) {
-    return;
-  }
-  inputFilter();
-}
-
-inputField.addEventListener("input", handleSearchClear);
-
+inputField.addEventListener("input", inputFilter);
 
 function createImagePromise(img) {
   if (img.complete) {
@@ -372,3 +362,4 @@ async function waitForImages(selector) {
 function waitForPokemonImages() {
   return waitForImages(".pokemon-entry .image-preview");
 }
+
